@@ -1,0 +1,13 @@
+.blueActionBtn {
+  padding: 8px 12px;
+  border-radius: 8px;
+  transition: background-color 0.2s ease;
+  font-size: 16px;
+  border: none;
+  background-color: var(--font-color-brand, #1975FF);
+  cursor: pointer;
+
+  &:hover {
+    background-color: var(--action-button-hover);
+  }
+}
