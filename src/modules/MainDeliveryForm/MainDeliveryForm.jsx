@@ -55,6 +55,7 @@ const MainDeliveryForm = () => {
     ),
     size,
   }));
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!fromCity || !toCity || !packageSize) {
