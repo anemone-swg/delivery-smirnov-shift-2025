@@ -1,0 +1,17 @@
+:root {
+  --bg-color: var(--background-color-primary);
+  --bg-color-secondary: var(--background-color-secondary);
+  --font-color: var(--font-color-primary);
+  --scrollbar-thumb: var(--scrollbar-thumb-light);
+  --scrollbar-thumb-hover: var(--scrollbar-thumb-light-hover);
+  --type-card-shadow: var(--type-card-shadow-light);
+}
+
+[data-theme="dark"] {
+  --bg-color: var(--background-color-dark-primary);
+  --bg-color-secondary: var(--background-color-dark-secondary);
+  --font-color: var(--font-color-invert);
+  --scrollbar-thumb: var(--scrollbar-thumb-dark);
+  --scrollbar-thumb-hover: var(--scrollbar-thumb-dark-hover);
+  --type-card-shadow: var(--type-card-shadow-dark);
+}

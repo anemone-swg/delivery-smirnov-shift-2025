@@ -1,0 +1,44 @@
+body {
+  background-color: var(--bg-color);
+}
+
+.checkoutBlock {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  padding: 50px 20%;
+
+  &__header {
+    font-size: 1.5rem;
+    margin: 0 0 15px 0;
+    font-weight: bold;
+    user-select: none;
+  }
+
+  &__stepInfo {
+    font-size: 1rem;
+    margin-bottom: 5px;
+    user-select: none;
+  }
+
+  &__progressBar {
+    width: 50%;
+    height: 8px;
+    background-color: var(--bg-color-secondary);
+    border-radius: 5px;
+    overflow: hidden;
+  }
+
+  &__progressFill {
+    height: 100%;
+    background-color: var(--progress-fill);
+  }
+
+  &__options {
+    margin-top: 30px;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+}

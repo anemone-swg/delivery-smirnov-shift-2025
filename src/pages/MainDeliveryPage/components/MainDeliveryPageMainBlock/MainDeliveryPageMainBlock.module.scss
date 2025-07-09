@@ -1,0 +1,11 @@
+body {
+  background-color: var(--bg-color-secondary);
+}
+
+.mainBlock {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  background: var(--bg-color-secondary);
+  padding: 50px 20%;
+}
