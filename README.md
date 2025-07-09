@@ -8,5 +8,6 @@ React, Axios, Vite, Eslint, Prettier
 
 ## Запуск:
 
-1. Ввести в консоли: npm run dev
-2. Открыть http://localhost:5173 в браузере
+1. Ввести в консоли: npm i
+2. Ввести в консоли: npm run dev
+3. Открыть http://localhost:5173 в браузере
