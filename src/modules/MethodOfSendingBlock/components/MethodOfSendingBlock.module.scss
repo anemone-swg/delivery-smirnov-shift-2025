@@ -1,0 +1,21 @@
+@use "@/styles/mixins" as *;
+
+body {
+  background-color: var(--bg-color);
+}
+
+.checkoutBlock {
+  @include checkoutBlock;
+
+  &__header {
+    @include checkoutBlock__header;
+  }
+
+  &__options {
+    margin-top: 30px;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+}

@@ -1,0 +1,17 @@
+@use "@/styles/mixins" as *;
+
+.checkoutBlock {
+  @include checkoutBlock;
+
+  &__header {
+    @include checkoutBlock__header;
+  }
+
+  &__form {
+    @include checkoutBlock__form;
+  }
+
+  &__buttons {
+    @include checkoutBlock__buttons;
+  }
+}

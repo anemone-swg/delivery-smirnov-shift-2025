@@ -2,7 +2,7 @@ import React from "react";
 import styles from "./DeliveryTypeCard.module.scss";
 import { FaTrainSubway } from "react-icons/fa6";
 import { FaPlane } from "react-icons/fa";
-import getWorkingDaysText from "../helpers/getWorkingDaysText.js";
+import getWorkingDaysText from "@/helpers/getWorkingDaysText.js";
 import { useNavigate } from "react-router-dom";
 import { useDelivery } from "@/context/DeliveryContext.jsx";
 import PATHS from "@/constants/paths.js";

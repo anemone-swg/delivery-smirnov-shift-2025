@@ -2,6 +2,8 @@ import React, { useEffect } from "react";
 import { useDelivery } from "@/context/DeliveryContext.jsx";
 import { useNavigate } from "react-router-dom";
 import PATHS from "@/constants/paths.js";
+import { Navbar } from "@/modules/Navbar";
+import { RecipientBlock } from "@/modules/RecipientBlock";
 
 const CheckoutRecipientPage = () => {
   const { selectedOption } = useDelivery();
@@ -14,11 +16,10 @@ const CheckoutRecipientPage = () => {
   }, [selectedOption]);
 
   return (
-    <div>
-      <h2>Введите данные получателя</h2>
-      <p>Вы выбрали:</p>
-      <pre>{JSON.stringify(selectedOption, null, 2)}</pre>
-    </div>
+    <>
+      <Navbar />
+      <RecipientBlock />
+    </>
   );
 };
 
