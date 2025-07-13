@@ -3,24 +3,24 @@ import { useDelivery } from "@/context/DeliveryContext.jsx";
 import { useNavigate } from "react-router-dom";
 import PATHS from "@/constants/paths.js";
 import { Navbar } from "@/modules/Navbar";
-import { ApplicationBlock } from "@/modules/ApplicationBlock";
+import { RecipientBlock } from "@/modules/RecipientBlock";
 
-const CheckoutSendingApplicationPage = () => {
-  const { isConfirmed } = useDelivery();
+const CheckoutRecipientPage = () => {
+  const { selectedOption } = useDelivery();
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!isConfirmed) {
-      navigate(PATHS.CHECKOUT_VERIFICATION);
+    if (!selectedOption) {
+      navigate(PATHS.CHECKOUT_METHOD);
     }
-  }, [isConfirmed]);
+  }, [selectedOption]);
 
   return (
     <>
       <Navbar />
-      <ApplicationBlock />
+      <RecipientBlock />
     </>
   );
 };
 
-export default CheckoutSendingApplicationPage;
+export default CheckoutRecipientPage;

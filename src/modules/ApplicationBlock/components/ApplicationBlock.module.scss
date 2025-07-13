@@ -1,0 +1,32 @@
+@use "@/styles/mixins" as *;
+
+.checkoutBlock {
+  @include checkoutBlock;
+
+  &__header {
+    @include checkoutBlock__header;
+  }
+
+  &__form {
+    @include checkoutBlock__form;
+    width: max-content;
+    border: 1px solid var(--border-light);
+    border-radius: 15px;
+    padding: 10px;
+  }
+
+  &__buttons {
+    @include checkoutBlock__buttons;
+  }
+
+  &__info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    span:first-of-type {
+      font-weight: 300;
+    }
+  }
+
+}

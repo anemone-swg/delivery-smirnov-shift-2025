@@ -8,14 +8,16 @@ import { postDeliveryCalc } from "../api/postDeliveryCalc.js";
 import { useNavigate } from "react-router-dom";
 import PATHS from "@/constants/paths.js";
 import { toast } from "react-toastify";
-import { getDeliveryPoints } from "@/modules/MainDeliveryForm/api/getDeliveryPoints.js";
-import { getDeliveryPackageTypes } from "@/modules/MainDeliveryForm/api/getDeliveryPackageTypes.js";
+import { getDeliveryPoints } from "../api/getDeliveryPoints.js";
+import { getDeliveryPackageTypes } from "../api/getDeliveryPackageTypes.js";
 import { useQuery } from "@tanstack/react-query";
+import { useDelivery } from "@/context/DeliveryContext.jsx";
 
 const MainDeliveryForm = () => {
   const [fromCity, setFromCity] = useState("");
   const [toCity, setToCity] = useState("");
   const [packageSize, setPackageSize] = useState("");
+  const { setDeliveryForm } = useDelivery();
   const navigate = useNavigate();
 
   const { data: cities = [] } = useQuery({
@@ -87,7 +89,7 @@ const MainDeliveryForm = () => {
     };
 
     postDeliveryCalc(data).then((res) => {
-      localStorage.setItem("deliveryResult", JSON.stringify(res));
+      setDeliveryForm(res);
       navigate(PATHS.CHECKOUT_METHOD);
     });
   };

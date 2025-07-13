@@ -1,0 +1,64 @@
+@use "@/styles/mixins" as *;
+
+.checkoutBlock {
+  @include checkoutBlock;
+
+  &__header {
+    @include checkoutBlock__header;
+  }
+
+  &__form {
+    @include checkoutBlock__form;
+  }
+
+  &__buttons {
+    @include checkoutBlock__buttons;
+  }
+
+  &__checkboxLabel {
+    display: flex;
+    gap: 8px;
+    cursor: pointer;
+  }
+
+  &__labelText {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    user-select: none;
+  }
+
+  &__tooltipIcon {
+    display: inline-block;
+    background-color: var(--bg-color-secondary);
+    border-radius: 50%;
+    width: 16px;
+    height: 16px;
+    line-height: 16px;
+    text-align: center;
+    cursor: pointer;
+  }
+
+  &__tooltipText {
+    visibility: hidden;
+    opacity: 0;
+    width: 240px;
+    background-color: var(--bg-color-secondary);
+    text-align: left;
+    border-radius: 6px;
+    padding: 10px;
+    position: absolute;
+    top: 22px;
+    left: 0;
+    z-index: 1;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    transition: opacity 0.2s ease;
+  }
+
+  &__tooltipIcon:hover + &__tooltipText,
+  &__tooltipIcon:focus + &__tooltipText {
+    visibility: visible;
+    opacity: 1;
+  }
+}
