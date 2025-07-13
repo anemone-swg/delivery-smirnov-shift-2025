@@ -4,7 +4,11 @@ import { ProgressBar } from "@/ui/ProgressBar/index.js";
 import { useDelivery } from "@/context/DeliveryContext.jsx";
 import { useNavigate } from "react-router-dom";
 import PATHS from "@/constants/paths.js";
-import { toast } from "react-toastify";
+import {
+  hasMixedAlphabetsOfFullForm,
+  validateField,
+  validatePhone,
+} from "@/helpers/validateFullNameForms.js";
 
 const SenderBlock = () => {
   const { senderData, setSenderData } = useDelivery();
@@ -23,11 +27,20 @@ const SenderBlock = () => {
   };
 
   const handleContinue = () => {
-    const { lastName, firstName, phone } = formState;
-    if (!lastName.trim() || !firstName.trim() || !phone.trim()) {
-      toast.warning("Не все поля заполнены.");
+    const { lastName, firstName, middleName, phone } = formState;
+
+    if (
+      !validateField(lastName, 1, 60, true) ||
+      !validateField(firstName, 1, 60, false) ||
+      !validateField(middleName, 1, 60, false, false)
+    ) {
       return;
     }
+
+    if (!hasMixedAlphabetsOfFullForm(lastName, firstName, middleName)) return;
+
+    if (!validatePhone(phone)) return;
+
     setSenderData(formState);
     navigate(PATHS.CHECKOUT_RECEPTION);
   };
@@ -40,6 +53,7 @@ const SenderBlock = () => {
       <div className={styles.checkoutBlock__form}>
         <input
           className="formInput"
+          maxLength={60}
           type="text"
           name="lastName"
           placeholder="Фамилия"
@@ -48,6 +62,7 @@ const SenderBlock = () => {
         />
         <input
           className="formInput"
+          maxLength={60}
           type="text"
           name="firstName"
           placeholder="Имя"
@@ -56,6 +71,7 @@ const SenderBlock = () => {
         />
         <input
           className="formInput"
+          maxLength={60}
           type="text"
           name="middleName"
           placeholder="Отчество (при наличии)"
@@ -64,6 +80,7 @@ const SenderBlock = () => {
         />
         <input
           className="formInput"
+          maxLength={14}
           type="tel"
           name="phone"
           pattern="^\+7\d{10}$"

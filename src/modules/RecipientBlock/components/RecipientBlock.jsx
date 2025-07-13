@@ -3,8 +3,12 @@ import { useNavigate } from "react-router-dom";
 import styles from "./RecipientBlock.module.scss";
 import { ProgressBar } from "@/ui/ProgressBar";
 import { useDelivery } from "@/context/DeliveryContext";
+import {
+  hasMixedAlphabetsOfFullForm,
+  validateField,
+  validatePhone,
+} from "@/helpers/validateFullNameForms.js";
 import PATHS from "@/constants/paths.js";
-import { toast } from "react-toastify";
 
 const RecipientBlock = () => {
   const { recipientData, setRecipientData } = useDelivery();
@@ -23,11 +27,20 @@ const RecipientBlock = () => {
   };
 
   const handleContinue = () => {
-    const { lastName, firstName, phone } = formState;
-    if (!lastName.trim() || !firstName.trim() || !phone.trim()) {
-      toast.warning("Не все поля заполнены.");
+    const { lastName, firstName, middleName, phone } = formState;
+
+    if (
+      !validateField(lastName, 1, 60, true) ||
+      !validateField(firstName, 1, 60, false) ||
+      !validateField(middleName, 1, 60, false, false)
+    ) {
       return;
     }
+
+    if (!hasMixedAlphabetsOfFullForm(lastName, firstName, middleName)) return;
+
+    if (!validatePhone(phone)) return;
+
     setRecipientData(formState);
     navigate(PATHS.CHECKOUT_SENDER);
   };
@@ -40,6 +53,7 @@ const RecipientBlock = () => {
       <div className={styles.checkoutBlock__form}>
         <input
           className="formInput"
+          maxLength={60}
           type="text"
           name="lastName"
           placeholder="Фамилия"
@@ -49,6 +63,7 @@ const RecipientBlock = () => {
         <input
           className="formInput"
           type="text"
+          maxLength={60}
           name="firstName"
           placeholder="Имя"
           value={formState.firstName}
@@ -57,6 +72,7 @@ const RecipientBlock = () => {
         <input
           className="formInput"
           type="text"
+          maxLength={60}
           name="middleName"
           placeholder="Отчество (при наличии)"
           value={formState.middleName}
@@ -64,6 +80,7 @@ const RecipientBlock = () => {
         />
         <input
           className="formInput"
+          maxLength={14}
           type="tel"
           name="phone"
           pattern="^\+7\d{10}$"

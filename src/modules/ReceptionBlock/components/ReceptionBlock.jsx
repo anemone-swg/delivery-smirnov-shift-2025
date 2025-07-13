@@ -40,6 +40,7 @@ const ReceptionBlock = () => {
       <div className={styles.checkoutBlock__form}>
         <input
           className="formInput"
+          maxLength={100}
           type="text"
           name="street"
           placeholder="Улица"
@@ -48,6 +49,7 @@ const ReceptionBlock = () => {
         />
         <input
           className="formInput"
+          maxLength={100}
           type="text"
           name="houseNumber"
           placeholder="Номер дома"
@@ -56,6 +58,7 @@ const ReceptionBlock = () => {
         />
         <input
           className="formInput"
+          maxLength={100}
           type="text"
           name="apartmentNumber"
           placeholder="Номер квартиры"
@@ -64,6 +67,7 @@ const ReceptionBlock = () => {
         />
         <input
           className="formInput"
+          maxLength={300}
           type="text"
           name="note"
           placeholder="Заметка для курьера"
