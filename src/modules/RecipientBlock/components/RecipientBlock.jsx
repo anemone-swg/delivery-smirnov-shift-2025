@@ -4,8 +4,8 @@ import styles from "./RecipientBlock.module.scss";
 import { ProgressBar } from "@/ui/ProgressBar";
 import { useDelivery } from "@/context/DeliveryContext";
 import {
-  hasMixedAlphabetsOfFullForm,
-  validateField,
+  hasMixedAlphabetsOfFullNameForm,
+  validateFullNameField,
   validatePhone,
 } from "@/helpers/validateFullNameForms.js";
 import PATHS from "@/constants/paths.js";
@@ -30,14 +30,15 @@ const RecipientBlock = () => {
     const { lastName, firstName, middleName, phone } = formState;
 
     if (
-      !validateField(lastName, 1, 60, true) ||
-      !validateField(firstName, 1, 60, false) ||
-      !validateField(middleName, 1, 60, false, false)
+      !validateFullNameField(lastName, 1, 60, true) ||
+      !validateFullNameField(firstName, 1, 60, false) ||
+      !validateFullNameField(middleName, 1, 60, false, false)
     ) {
       return;
     }
 
-    if (!hasMixedAlphabetsOfFullForm(lastName, firstName, middleName)) return;
+    if (!hasMixedAlphabetsOfFullNameForm(lastName, firstName, middleName))
+      return;
 
     if (!validatePhone(phone)) return;
 

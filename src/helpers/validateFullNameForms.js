@@ -4,13 +4,13 @@ const specialChars = "`‘\\-";
 const cyrillic = /[а-яё]/i;
 const latin = /[a-z]/i;
 
-export const hasMixedAlphabets = (str) => {
+const hasMixedAlphabets = (str) => {
   const hasCyr = cyrillic.test(str);
   const hasLat = latin.test(str);
   return !(hasCyr && hasLat);
 };
 
-export const hasMixedAlphabetsOfFullForm = (
+export const hasMixedAlphabetsOfFullNameForm = (
   lastName,
   firstName,
   middleName,
@@ -25,7 +25,7 @@ export const hasMixedAlphabetsOfFullForm = (
   return true;
 };
 
-export const validateField = (
+export const validateFullNameField = (
   value,
   min,
   max,

@@ -5,8 +5,8 @@ import { useDelivery } from "@/context/DeliveryContext.jsx";
 import { useNavigate } from "react-router-dom";
 import PATHS from "@/constants/paths.js";
 import {
-  hasMixedAlphabetsOfFullForm,
-  validateField,
+  hasMixedAlphabetsOfFullNameForm,
+  validateFullNameField,
   validatePhone,
 } from "@/helpers/validateFullNameForms.js";
 
@@ -30,14 +30,15 @@ const SenderBlock = () => {
     const { lastName, firstName, middleName, phone } = formState;
 
     if (
-      !validateField(lastName, 1, 60, true) ||
-      !validateField(firstName, 1, 60, false) ||
-      !validateField(middleName, 1, 60, false, false)
+      !validateFullNameField(lastName, 1, 60, true) ||
+      !validateFullNameField(firstName, 1, 60, false) ||
+      !validateFullNameField(middleName, 1, 60, false, false)
     ) {
       return;
     }
 
-    if (!hasMixedAlphabetsOfFullForm(lastName, firstName, middleName)) return;
+    if (!hasMixedAlphabetsOfFullNameForm(lastName, firstName, middleName))
+      return;
 
     if (!validatePhone(phone)) return;
 

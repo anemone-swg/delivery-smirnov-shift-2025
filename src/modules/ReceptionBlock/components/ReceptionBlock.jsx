@@ -4,7 +4,10 @@ import { useNavigate } from "react-router-dom";
 import PATHS from "@/constants/paths.js";
 import styles from "./ReceptionBlock.module.scss";
 import { ProgressBar } from "@/ui/ProgressBar";
-import { toast } from "react-toastify";
+import {
+  hasMixedAlphabetsOfAddressForm,
+  validateAddressField,
+} from "@/helpers/validateAdressForms.js";
 
 const ReceptionBlock = () => {
   const { receptionData, setReceptionData } = useDelivery();
@@ -23,11 +26,19 @@ const ReceptionBlock = () => {
   };
 
   const handleContinue = () => {
-    const { street, houseNumber } = formState;
-    if (!street.trim() || !houseNumber.trim()) {
-      toast.warning("Не все поля заполнены.");
+    const { street, houseNumber, apartmentNumber, note } = formState;
+    if (
+      !validateAddressField(street, 1, 100, true) ||
+      !validateAddressField(houseNumber, 1, 100, true) ||
+      !validateAddressField(apartmentNumber, 0, 100, false) ||
+      !validateAddressField(note, 1, 300, false, true)
+    ) {
       return;
     }
+
+    if (!hasMixedAlphabetsOfAddressForm(street, houseNumber, apartmentNumber))
+      return;
+
     setReceptionData(formState);
     navigate(PATHS.CHECKOUT_DELIVERY);
   };
