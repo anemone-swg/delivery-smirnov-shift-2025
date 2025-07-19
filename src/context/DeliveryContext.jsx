@@ -13,6 +13,9 @@ export const DeliveryProvider = ({ children }) => {
   };
 
   const resetDeliveryData = () => {
+    setPackageType(null);
+    setFromCity(null);
+    setToCity(null);
     setDeliveryForm(null);
     setSelectedOption(null);
     setRecipientData({
@@ -35,11 +38,14 @@ export const DeliveryProvider = ({ children }) => {
       note: "",
       leaveAtDoor: false,
     });
-    setPaymentData("sender");
-    setIsConfirmed(false);
+    setPaymentData("SENDER");
+    setDeliveryOrder(null);
   };
 
   const initialData = loadData() || {
+    packageType: null,
+    fromCity: null,
+    toCity: null,
     deliveryForm: null,
     selectedOption: null,
     recipientData: {
@@ -67,10 +73,13 @@ export const DeliveryProvider = ({ children }) => {
       note: "",
       leaveAtDoor: false,
     },
-    paymentData: "sender",
-    isConfirmed: false,
+    paymentData: "SENDER",
+    deliveryOrder: "",
   };
 
+  const [packageType, setPackageType] = useState(initialData.packageType);
+  const [fromCity, setFromCity] = useState(initialData.fromCity);
+  const [toCity, setToCity] = useState(initialData.toCity);
   const [deliveryForm, setDeliveryForm] = useState(initialData.deliveryForm);
   const [selectedOption, setSelectedOption] = useState(
     initialData.selectedOption,
@@ -80,10 +89,13 @@ export const DeliveryProvider = ({ children }) => {
   const [receptionData, setReceptionData] = useState(initialData.receptionData);
   const [deliveryData, setDeliveryData] = useState(initialData.deliveryData);
   const [paymentData, setPaymentData] = useState(initialData.paymentData);
-  const [isConfirmed, setIsConfirmed] = useState(initialData.isConfirmed);
+  const [deliveryOrder, setDeliveryOrder] = useState(initialData.deliveryOrder);
 
   useEffect(() => {
     const dataToStore = {
+      packageType,
+      fromCity,
+      toCity,
       deliveryForm,
       selectedOption,
       recipientData,
@@ -91,7 +103,7 @@ export const DeliveryProvider = ({ children }) => {
       receptionData,
       deliveryData,
       paymentData,
-      isConfirmed,
+      deliveryOrder,
     };
     try {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(dataToStore));
@@ -99,6 +111,9 @@ export const DeliveryProvider = ({ children }) => {
       console.warn("Ошибка сохранения данных в localStorage", error);
     }
   }, [
+    packageType,
+    fromCity,
+    toCity,
     deliveryForm,
     selectedOption,
     recipientData,
@@ -106,12 +121,18 @@ export const DeliveryProvider = ({ children }) => {
     receptionData,
     deliveryData,
     paymentData,
-    isConfirmed,
+    deliveryOrder,
   ]);
 
   return (
     <DeliveryContext.Provider
       value={{
+        packageType,
+        setPackageType,
+        fromCity,
+        setFromCity,
+        toCity,
+        setToCity,
         deliveryForm,
         setDeliveryForm,
         selectedOption,
@@ -126,8 +147,8 @@ export const DeliveryProvider = ({ children }) => {
         setDeliveryData,
         paymentData,
         setPaymentData,
-        isConfirmed,
-        setIsConfirmed,
+        deliveryOrder,
+        setDeliveryOrder,
         resetDeliveryData,
       }}
     >

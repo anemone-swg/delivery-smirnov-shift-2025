@@ -22,7 +22,7 @@ const ApplicationBlock = () => {
     <div className={styles.checkoutBlock}>
       <p className={styles.checkoutBlock__header}>Заявка отправлена</p>
       <p>
-        {paymentData === "sender"
+        {paymentData === "SENDER"
           ? "Вы можете оплатить ваш заказ в разделе профиль"
           : "Получатель оплатит заказ"}
       </p>
@@ -39,10 +39,12 @@ const ApplicationBlock = () => {
         <div className={styles.checkoutBlock__info}>
           <span>Адрес доставки</span>
           <span>
-            ул. {deliveryData.street}, д. {deliveryData.houseNumber}
-            {deliveryData.apartmentNumber
-              ? `, кв. ${deliveryData.apartmentNumber}`
-              : ""}
+            {/*ул. {deliveryData.street}, д. {deliveryData.houseNumber}*/}
+            {/*{deliveryData.apartmentNumber*/}
+            {/*  ? `, кв. ${deliveryData.apartmentNumber}`*/}
+            {/*  : ""}*/}
+            {deliveryData.street} {deliveryData.houseNumber},{" "}
+            {deliveryData.apartmentNumber}
           </span>
         </div>
         <div className={styles.checkoutBlock__info}>

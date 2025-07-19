@@ -6,14 +6,14 @@ import { Navbar } from "@/modules/Navbar";
 import { ApplicationBlock } from "@/modules/ApplicationBlock";
 
 const CheckoutSendingApplicationPage = () => {
-  const { isConfirmed } = useDelivery();
+  const { deliveryOrder } = useDelivery();
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!isConfirmed) {
+    if (!deliveryOrder) {
       navigate(PATHS.CHECKOUT_VERIFICATION);
     }
-  }, [isConfirmed]);
+  }, [deliveryOrder]);
 
   return (
     <>

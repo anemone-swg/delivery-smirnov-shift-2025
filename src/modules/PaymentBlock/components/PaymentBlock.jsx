@@ -25,8 +25,8 @@ const PaymentBlock = () => {
           <input
             type="radio"
             name="payer"
-            value="recipient"
-            checked={selectedPayer === "recipient"}
+            value="RECEIVER"
+            checked={selectedPayer === "RECEIVER"}
             onChange={(e) => setSelectedPayer(e.target.value)}
           />
           Получатель
@@ -36,8 +36,8 @@ const PaymentBlock = () => {
           <input
             type="radio"
             name="payer"
-            value="sender"
-            checked={selectedPayer === "sender"}
+            value="SENDER"
+            checked={selectedPayer === "SENDER"}
             onChange={(e) => setSelectedPayer(e.target.value)}
           />
           Отправитель

@@ -14,10 +14,11 @@ import { useQuery } from "@tanstack/react-query";
 import { useDelivery } from "@/context/DeliveryContext.jsx";
 
 const MainDeliveryForm = () => {
-  const [fromCity, setFromCity] = useState("");
-  const [toCity, setToCity] = useState("");
+  const [fromCityForm, setFromCityForm] = useState("");
+  const [toCityForm, setToCityForm] = useState("");
   const [packageSize, setPackageSize] = useState("");
-  const { setDeliveryForm } = useDelivery();
+  const { setPackageType, setDeliveryForm, setToCity, setFromCity } =
+    useDelivery();
   const navigate = useNavigate();
 
   const { data: cities = [] } = useQuery({
@@ -67,7 +68,7 @@ const MainDeliveryForm = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    if (!fromCity || !toCity || !packageSize) {
+    if (!fromCityForm || !toCityForm || !packageSize) {
       toast.warning("Не все поля заполнены.");
       return;
     }
@@ -79,16 +80,19 @@ const MainDeliveryForm = () => {
         weight: packageSize.weight,
       },
       senderPoint: {
-        latitude: fromCity.latitude,
-        longitude: fromCity.longitude,
+        latitude: fromCityForm.latitude,
+        longitude: fromCityForm.longitude,
       },
       receiverPoint: {
-        latitude: toCity.latitude,
-        longitude: toCity.longitude,
+        latitude: toCityForm.latitude,
+        longitude: toCityForm.longitude,
       },
     };
 
     postDeliveryCalc(data).then((res) => {
+      setToCity(toCityForm);
+      setFromCity(fromCityForm);
+      setPackageType(packageSize);
       setDeliveryForm(res);
       navigate(PATHS.CHECKOUT_METHOD);
     });
@@ -103,7 +107,9 @@ const MainDeliveryForm = () => {
             <span>Город отправки:</span>
             <Select
               options={departureCitiesOptions}
-              onChange={(selectedOption) => setFromCity(selectedOption.city)}
+              onChange={(selectedOption) =>
+                setFromCityForm(selectedOption.city)
+              }
               placeholder="Выберите город"
               classNamePrefix="customSelect"
               isSearchable={false}
@@ -115,7 +121,7 @@ const MainDeliveryForm = () => {
             <span>Город назначения:</span>
             <Select
               options={destinationCitiesOptions}
-              onChange={(selectedOption) => setToCity(selectedOption.city)}
+              onChange={(selectedOption) => setToCityForm(selectedOption.city)}
               placeholder="Выберите город"
               classNamePrefix="customSelect"
               isSearchable={false}

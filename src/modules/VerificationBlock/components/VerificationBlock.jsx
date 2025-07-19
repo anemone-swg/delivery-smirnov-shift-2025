@@ -9,16 +9,61 @@ import getWorkingDaysText from "@/helpers/getWorkingDaysText.js";
 const VerificationBlock = () => {
   const navigate = useNavigate();
   const {
+    packageType,
+    fromCity,
+    toCity,
     recipientData,
     senderData,
     receptionData,
     deliveryData,
     selectedOption,
-    setIsConfirmed,
+    setDeliveryOrder,
+    paymentData,
   } = useDelivery();
 
   const handleContinue = () => {
-    setIsConfirmed(true);
+    const data = {
+      packageId: packageType.id,
+      optionType: selectedOption.type,
+      senderPointId: fromCity.id,
+      senderAddress: {
+        street: receptionData.street,
+        house: receptionData.houseNumber,
+        apartment: receptionData.apartmentNumber,
+        comment: receptionData.note,
+      },
+      sender: {
+        firstname: senderData.firstName,
+        lastname: senderData.lastName,
+        middlename: senderData.middleName,
+        phone: senderData.phone,
+      },
+      receiverPointId: toCity.id,
+      receiverAddress: {
+        street: deliveryData.street,
+        house: deliveryData.houseNumber,
+        apartment: deliveryData.apartmentNumber,
+        comment: deliveryData.note,
+        isNonContact: deliveryData.leaveAtDoor,
+      },
+      receiver: {
+        firstname: recipientData.firstName,
+        lastname: recipientData.lastName,
+        middlename: recipientData.middleName,
+        phone: recipientData.phone,
+      },
+      payer: paymentData,
+    };
+
+    // console.log(data);
+
+    // postDeliveryOrder(data).then((res) => {
+    //   setDeliveryOrder(res);
+    //   // console.log(deliveryOrder);
+    //   navigate(PATHS.CHECKOUT_SENDING);
+    // });
+
+    setDeliveryOrder(data);
     navigate(PATHS.CHECKOUT_SENDING);
   };
 
@@ -63,10 +108,11 @@ const VerificationBlock = () => {
           <div className={styles.checkoutBlock__sectionInfo}>
             <p>Адрес</p>
             <p>
-              ул. {receptionData.street}, д. {receptionData.houseNumber}
-              {receptionData.apartmentNumber
-                ? `, кв. ${receptionData.apartmentNumber}`
-                : ""}
+              {receptionData.street} {receptionData.houseNumber},{" "}
+              {receptionData.apartmentNumber}
+              {/*{receptionData.apartmentNumber*/}
+              {/*  ? `, кв. ${receptionData.apartmentNumber}`*/}
+              {/*  : ""}*/}
             </p>
           </div>
           <div className={styles.checkoutBlock__sectionInfo}>
@@ -80,10 +126,11 @@ const VerificationBlock = () => {
           <div className={styles.checkoutBlock__sectionInfo}>
             <p>Адрес</p>
             <p>
-              ул. {deliveryData.street}, д. {deliveryData.houseNumber}
-              {deliveryData.apartmentNumber
-                ? `, кв. ${deliveryData.apartmentNumber}`
-                : ""}
+              {deliveryData.street} {deliveryData.houseNumber},{" "}
+              {deliveryData.apartmentNumber}
+              {/*{deliveryData.apartmentNumber*/}
+              {/*  ? `, кв. ${deliveryData.apartmentNumber}`*/}
+              {/*  : ""}*/}
             </p>
           </div>
           <div className={styles.checkoutBlock__sectionInfo}>
