@@ -96,7 +96,7 @@ const RecipientBlock = () => {
         <button
           className="whiteActionBtn"
           type="button"
-          onClick={() => navigate(-1)}
+          onClick={() => navigate(PATHS.CHECKOUT_METHOD)}
         >
           Назад
         </button>

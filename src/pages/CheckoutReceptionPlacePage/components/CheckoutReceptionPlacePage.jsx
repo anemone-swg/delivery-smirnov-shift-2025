@@ -6,14 +6,14 @@ import { Navbar } from "@/modules/Navbar";
 import { ReceptionBlock } from "@/modules/ReceptionBlock";
 
 const CheckoutReceptionPlacePage = () => {
-  const { setSenderData } = useDelivery();
+  const { senderData } = useDelivery();
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!setSenderData) {
+    if (!senderData?.lastName) {
       navigate(PATHS.CHECKOUT_SENDER);
     }
-  }, [setSenderData]);
+  }, [senderData]);
 
   return (
     <>

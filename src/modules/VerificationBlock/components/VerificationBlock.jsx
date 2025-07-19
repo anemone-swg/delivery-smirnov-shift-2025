@@ -52,7 +52,7 @@ const VerificationBlock = () => {
         middlename: recipientData.middleName,
         phone: recipientData.phone,
       },
-      payer: paymentData,
+      payer: paymentData.value,
     };
 
     // console.log(data);
@@ -153,7 +153,7 @@ const VerificationBlock = () => {
         <button
           className="whiteActionBtn"
           type="button"
-          onClick={() => navigate(-1)}
+          onClick={() => navigate(PATHS.CHECKOUT_PAYMENT)}
         >
           Назад
         </button>

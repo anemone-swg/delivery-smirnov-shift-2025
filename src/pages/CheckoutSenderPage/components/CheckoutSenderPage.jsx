@@ -6,14 +6,14 @@ import { useDelivery } from "@/context/DeliveryContext.jsx";
 import { SenderBlock } from "@/modules/SenderBlock";
 
 const CheckoutSenderPage = () => {
-  const { setRecipientData } = useDelivery();
+  const { recipientData } = useDelivery();
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!setRecipientData) {
+    if (!recipientData?.lastName) {
       navigate(PATHS.CHECKOUT_RECIPIENT);
     }
-  }, [setRecipientData]);
+  }, [recipientData]);
 
   return (
     <>

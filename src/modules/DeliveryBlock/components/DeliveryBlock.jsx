@@ -108,7 +108,7 @@ const DeliveryBlock = () => {
         <button
           className="whiteActionBtn"
           type="button"
-          onClick={() => navigate(-1)}
+          onClick={() => navigate(PATHS.CHECKOUT_RECEPTION)}
         >
           Назад
         </button>

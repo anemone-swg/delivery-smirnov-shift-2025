@@ -6,14 +6,14 @@ import PATHS from "@/constants/paths.js";
 import { useDelivery } from "@/context/DeliveryContext.jsx";
 
 const CheckoutMethodOfSendingPage = () => {
-  const { setDeliveryForm } = useDelivery();
+  const { deliveryForm } = useDelivery();
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!setDeliveryForm) {
-      navigate(PATHS.CHECKOUT_METHOD);
+    if (!deliveryForm) {
+      navigate(PATHS.MAIN);
     }
-  }, [setDeliveryForm]);
+  }, [deliveryForm]);
 
   return (
     <>

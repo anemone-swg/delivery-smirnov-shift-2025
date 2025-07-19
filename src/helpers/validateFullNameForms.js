@@ -34,6 +34,11 @@ export const validateFullNameField = (
 ) => {
   if (!value && !required) return true;
 
+  if (!value && required) {
+    toast.warning("Не заполнены обязательные поля.");
+    return false;
+  }
+
   if (value.length < min || value.length > max) {
     toast.warning("Некорректный формат.");
     return false;

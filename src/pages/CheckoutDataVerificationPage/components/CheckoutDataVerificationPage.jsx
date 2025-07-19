@@ -1,19 +1,23 @@
 import React, { useEffect } from "react";
 import { useDelivery } from "@/context/DeliveryContext.jsx";
 import { useNavigate } from "react-router-dom";
-import PATHS from "@/constants/paths.js";
 import { Navbar } from "@/modules/Navbar";
 import { VerificationBlock } from "@/modules/VerificationBlock";
+import PATHS from "@/constants/paths.js";
 
 const CheckoutDataVerificationPage = () => {
-  const { deliveryData } = useDelivery();
+  const { paymentData } = useDelivery();
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!deliveryData.street) {
+    if (paymentData?.isCompleted === false) {
       navigate(PATHS.CHECKOUT_PAYMENT);
     }
-  }, [deliveryData]);
+  }, [paymentData]);
+
+  if (!paymentData || paymentData.isCompleted === false) {
+    return <div>Загрузка...</div>;
+  }
 
   return (
     <>

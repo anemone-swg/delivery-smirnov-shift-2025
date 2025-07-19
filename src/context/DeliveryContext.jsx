@@ -38,7 +38,10 @@ export const DeliveryProvider = ({ children }) => {
       note: "",
       leaveAtDoor: false,
     });
-    setPaymentData("SENDER");
+    setPaymentData({
+      value: "SENDER",
+      isCompleted: false,
+    });
     setDeliveryOrder(null);
   };
 
@@ -73,8 +76,11 @@ export const DeliveryProvider = ({ children }) => {
       note: "",
       leaveAtDoor: false,
     },
-    paymentData: "SENDER",
-    deliveryOrder: "",
+    paymentData: {
+      value: "SENDER",
+      isCompleted: false,
+    },
+    deliveryOrder: null,
   };
 
   const [packageType, setPackageType] = useState(initialData.packageType);

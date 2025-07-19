@@ -6,14 +6,14 @@ import { Navbar } from "@/modules/Navbar";
 import { PaymentBlock } from "@/modules/PaymentBlock";
 
 const CheckoutPaymentPage = () => {
-  const { setDeliveryData } = useDelivery();
+  const { deliveryData } = useDelivery();
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!setDeliveryData) {
+    if (!deliveryData?.street) {
       navigate(PATHS.CHECKOUT_DELIVERY);
     }
-  }, [setDeliveryData]);
+  }, [deliveryData]);
 
   return (
     <>

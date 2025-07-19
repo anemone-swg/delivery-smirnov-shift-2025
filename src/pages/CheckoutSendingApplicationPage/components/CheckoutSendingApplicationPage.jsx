@@ -15,6 +15,10 @@ const CheckoutSendingApplicationPage = () => {
     }
   }, [deliveryOrder]);
 
+  if (!deliveryOrder) {
+    return <div>Загрузка...</div>;
+  }
+
   return (
     <>
       <Navbar />

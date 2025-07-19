@@ -96,7 +96,7 @@ const SenderBlock = () => {
         <button
           className="whiteActionBtn"
           type="button"
-          onClick={() => navigate(-1)}
+          onClick={() => navigate(PATHS.CHECKOUT_RECIPIENT)}
         >
           Назад
         </button>

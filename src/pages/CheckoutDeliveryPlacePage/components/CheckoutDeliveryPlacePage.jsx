@@ -6,14 +6,14 @@ import { Navbar } from "@/modules/Navbar";
 import { DeliveryBlock } from "@/modules/DeliveryBlock";
 
 const CheckoutDeliveryPlacePage = () => {
-  const { setReceptionData } = useDelivery();
+  const { receptionData } = useDelivery();
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!setReceptionData) {
+    if (!receptionData?.street) {
       navigate(PATHS.CHECKOUT_RECEPTION);
     }
-  }, [setReceptionData]);
+  }, [receptionData]);
 
   return (
     <>

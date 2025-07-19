@@ -12,7 +12,7 @@ const MethodOfSendingBlock = () => {
       <p className={styles.checkoutBlock__header}>Способ отправки</p>
       <ProgressBar step={1} />
       <div className={styles.checkoutBlock__options}>
-        {deliveryForm.options?.map((option) => (
+        {deliveryForm?.options?.map((option) => (
           <DeliveryTypeCard key={option.id} option={option} />
         ))}
       </div>

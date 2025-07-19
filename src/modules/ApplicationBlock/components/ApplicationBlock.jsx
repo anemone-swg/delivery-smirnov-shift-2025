@@ -22,7 +22,7 @@ const ApplicationBlock = () => {
     <div className={styles.checkoutBlock}>
       <p className={styles.checkoutBlock__header}>Заявка отправлена</p>
       <p>
-        {paymentData === "SENDER"
+        {paymentData.value === "SENDER"
           ? "Вы можете оплатить ваш заказ в разделе профиль"
           : "Получатель оплатит заказ"}
       </p>
@@ -60,7 +60,7 @@ const ApplicationBlock = () => {
         <button
           className="whiteActionBtn"
           type="button"
-          onClick={() => navigate(-1)}
+          onClick={() => navigate(PATHS.CHECKOUT_VERIFICATION)}
         >
           Статус
         </button>

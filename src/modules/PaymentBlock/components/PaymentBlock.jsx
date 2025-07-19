@@ -7,11 +7,14 @@ import { ProgressBar } from "@/ui/ProgressBar";
 
 const PaymentBlock = () => {
   const { paymentData, setPaymentData } = useDelivery();
-  const [selectedPayer, setSelectedPayer] = useState(paymentData || "");
+  const [selectedPayer, setSelectedPayer] = useState(paymentData.value || "");
   const navigate = useNavigate();
 
   const handleContinue = () => {
-    setPaymentData(selectedPayer);
+    setPaymentData({
+      value: selectedPayer,
+      isCompleted: true,
+    });
     navigate(PATHS.CHECKOUT_VERIFICATION);
   };
 
@@ -48,7 +51,7 @@ const PaymentBlock = () => {
         <button
           className="whiteActionBtn"
           type="button"
-          onClick={() => navigate(-1)}
+          onClick={() => navigate(PATHS.CHECKOUT_DELIVERY)}
         >
           Назад
         </button>

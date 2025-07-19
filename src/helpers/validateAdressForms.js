@@ -38,12 +38,11 @@ export const validateAddressField = (
   required = false,
   isNote = false,
 ) => {
-  if (!value) {
-    if (required) {
-      toast.warning("Поле обязательно для заполнения.");
-      return false;
-    }
-    return true;
+  if (!value && !required) return true;
+
+  if (!value && required) {
+    toast.warning("Не заполнены обязательные поля.");
+    return false;
   }
 
   if (value.length < min || value.length > max) {
