@@ -9,6 +9,7 @@
 
   &__btnBlock {
     display: flex;
+    padding: 5px;
     min-width: 0;
     gap: 10px;
   }
@@ -20,5 +21,22 @@
     margin: 0;
     align-self: center;
     opacity: 0.5;
+  }
+
+  @media(max-width: 767px) {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    padding: 0;
+    justify-content: center;
+
+    &__btnBlock {
+      justify-content: space-around;
+      align-items: center;
+      gap: 0;
+      width: 100%;
+    }
   }
 }

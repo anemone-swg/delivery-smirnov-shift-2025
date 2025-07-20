@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import styles from "./MainDeliveryForm.module.scss";
-import Select from "react-select";
 import { FaBox } from "react-icons/fa";
 import { CiLocationArrow1 } from "react-icons/ci";
 import { IoLocationOutline } from "react-icons/io5";
@@ -12,6 +11,7 @@ import { getDeliveryPoints } from "../api/getDeliveryPoints.js";
 import { getDeliveryPackageTypes } from "../api/getDeliveryPackageTypes.js";
 import { useQuery } from "@tanstack/react-query";
 import { useDelivery } from "@/context/DeliveryContext.jsx";
+import { ResponsiveSelect } from "@/ui/ResponsiveSelect";
 
 const MainDeliveryForm = () => {
   const [fromCityForm, setFromCityForm] = useState("");
@@ -105,39 +105,37 @@ const MainDeliveryForm = () => {
         <div className={styles.deliveryForm__selects}>
           <label>
             <span>Город отправки:</span>
-            <Select
+            <ResponsiveSelect
               options={departureCitiesOptions}
               onChange={(selectedOption) =>
                 setFromCityForm(selectedOption.city)
               }
+              value={departureCitiesOptions.find(
+                (o) => o.city === fromCityForm,
+              )}
               placeholder="Выберите город"
-              classNamePrefix="customSelect"
-              isSearchable={false}
-              menuPlacement="top"
             />
           </label>
 
           <label>
             <span>Город назначения:</span>
-            <Select
+            <ResponsiveSelect
               options={destinationCitiesOptions}
               onChange={(selectedOption) => setToCityForm(selectedOption.city)}
+              value={destinationCitiesOptions.find(
+                (o) => o.city === toCityForm,
+              )}
               placeholder="Выберите город"
-              classNamePrefix="customSelect"
-              isSearchable={false}
-              menuPlacement="top"
             />
           </label>
 
           <label>
             <span>Размер посылки:</span>
-            <Select
+            <ResponsiveSelect
               options={packageOptions}
               onChange={(selectedOption) => setPackageSize(selectedOption.size)}
+              value={packageOptions.find((o) => o.size === packageSize)}
               placeholder="Выберите размер"
-              classNamePrefix="customSelect"
-              isSearchable={false}
-              menuPlacement="top"
             />
           </label>
         </div>
