@@ -4,11 +4,14 @@ import { useNavigate } from "react-router-dom";
 import PATHS from "@/constants/paths.js";
 import styles from "./PaymentBlock.module.scss";
 import { ProgressBar } from "@/ui/ProgressBar";
+import { useMediaQuery } from "react-responsive";
+import { FormTitle } from "@/components/FormTitle";
 
 const PaymentBlock = () => {
   const { paymentData, setPaymentData } = useDelivery();
   const [selectedPayer, setSelectedPayer] = useState(paymentData.value || "");
   const navigate = useNavigate();
+  const isMobile = useMediaQuery({ maxWidth: 767 });
 
   const handleContinue = () => {
     setPaymentData({
@@ -20,7 +23,7 @@ const PaymentBlock = () => {
 
   return (
     <div className={styles.checkoutBlock}>
-      <p className={styles.checkoutBlock__header}>Оплата доставки</p>
+      <FormTitle title={"Оплата доставки"} route={PATHS.CHECKOUT_DELIVERY} />
       <ProgressBar step={6} />
 
       <div className={styles.checkoutBlock__form}>
@@ -48,13 +51,15 @@ const PaymentBlock = () => {
       </div>
 
       <div className={styles.checkoutBlock__buttons}>
-        <button
-          className="whiteActionBtn"
-          type="button"
-          onClick={() => navigate(PATHS.CHECKOUT_DELIVERY)}
-        >
-          Назад
-        </button>
+        {!isMobile && (
+          <button
+            className="whiteActionBtn"
+            type="button"
+            onClick={() => navigate(PATHS.CHECKOUT_DELIVERY)}
+          >
+            Назад
+          </button>
+        )}
         <button
           className="blueActionBtn"
           type="button"

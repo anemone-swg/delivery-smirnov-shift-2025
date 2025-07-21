@@ -4,10 +4,12 @@ import { useNavigate } from "react-router-dom";
 import PATHS from "@/constants/paths.js";
 import { Navbar } from "@/modules/Navbar";
 import { PaymentBlock } from "@/modules/PaymentBlock";
+import { useMediaQuery } from "react-responsive";
 
 const CheckoutPaymentPage = () => {
   const { deliveryData } = useDelivery();
   const navigate = useNavigate();
+  const isMobile = useMediaQuery({ maxWidth: 767 });
 
   useEffect(() => {
     if (!deliveryData?.street) {
@@ -17,7 +19,7 @@ const CheckoutPaymentPage = () => {
 
   return (
     <>
-      <Navbar />
+      {!isMobile && <Navbar />}
       <PaymentBlock />
     </>
   );

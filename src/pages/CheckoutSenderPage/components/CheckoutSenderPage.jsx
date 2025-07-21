@@ -4,10 +4,12 @@ import PATHS from "@/constants/paths.js";
 import { Navbar } from "@/modules/Navbar";
 import { useDelivery } from "@/context/DeliveryContext.jsx";
 import { SenderBlock } from "@/modules/SenderBlock";
+import { useMediaQuery } from "react-responsive";
 
 const CheckoutSenderPage = () => {
   const { recipientData } = useDelivery();
   const navigate = useNavigate();
+  const isMobile = useMediaQuery({ maxWidth: 767 });
 
   useEffect(() => {
     if (!recipientData?.lastName) {
@@ -17,7 +19,7 @@ const CheckoutSenderPage = () => {
 
   return (
     <>
-      <Navbar />
+      {!isMobile && <Navbar />}
       <SenderBlock />
     </>
   );

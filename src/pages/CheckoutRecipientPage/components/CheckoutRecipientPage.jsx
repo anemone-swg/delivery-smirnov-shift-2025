@@ -4,10 +4,12 @@ import { useNavigate } from "react-router-dom";
 import PATHS from "@/constants/paths.js";
 import { Navbar } from "@/modules/Navbar";
 import { RecipientBlock } from "@/modules/RecipientBlock";
+import { useMediaQuery } from "react-responsive";
 
 const CheckoutRecipientPage = () => {
   const { selectedOption } = useDelivery();
   const navigate = useNavigate();
+  const isMobile = useMediaQuery({ maxWidth: 767 });
 
   useEffect(() => {
     if (!selectedOption) {
@@ -17,7 +19,7 @@ const CheckoutRecipientPage = () => {
 
   return (
     <>
-      <Navbar />
+      {!isMobile && <Navbar />}
       <RecipientBlock />
     </>
   );

@@ -8,10 +8,13 @@ import {
   hasMixedAlphabetsOfAddressForm,
   validateAddressField,
 } from "@/helpers/validateAdressForms.js";
+import { useMediaQuery } from "react-responsive";
+import { FormTitle } from "@/components/FormTitle";
 
 const DeliveryBlock = () => {
   const { deliveryData, setDeliveryData } = useDelivery();
   const navigate = useNavigate();
+  const isMobile = useMediaQuery({ maxWidth: 767 });
 
   const [formState, setFormState] = useState(() => ({
     street: deliveryData?.street || "",
@@ -50,7 +53,7 @@ const DeliveryBlock = () => {
 
   return (
     <div className={styles.checkoutBlock}>
-      <p className={styles.checkoutBlock__header}>Куда доставить</p>
+      <FormTitle title={"Куда доставить"} route={PATHS.CHECKOUT_RECEPTION} />
       <ProgressBar step={5} />
 
       <div className={styles.checkoutBlock__form}>
@@ -105,13 +108,15 @@ const DeliveryBlock = () => {
       </div>
 
       <div className={styles.checkoutBlock__buttons}>
-        <button
-          className="whiteActionBtn"
-          type="button"
-          onClick={() => navigate(PATHS.CHECKOUT_RECEPTION)}
-        >
-          Назад
-        </button>
+        {!isMobile && (
+          <button
+            className="whiteActionBtn"
+            type="button"
+            onClick={() => navigate(PATHS.CHECKOUT_RECEPTION)}
+          >
+            Назад
+          </button>
+        )}
         <button
           className="blueActionBtn"
           type="button"

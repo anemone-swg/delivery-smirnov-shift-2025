@@ -3,9 +3,13 @@ import { useNavigate } from "react-router-dom";
 import { useDelivery } from "@/context/DeliveryContext.jsx";
 import PATHS from "@/constants/paths.js";
 import styles from "./ApplicationBlock.module.scss";
+import { IoClose } from "react-icons/io5";
+import { FormTitle } from "@/components/FormTitle";
+import { useMediaQuery } from "react-responsive";
 
 const ApplicationBlock = () => {
   const navigate = useNavigate();
+  const isMobile = useMediaQuery({ maxWidth: 767 });
   const { selectedOption, deliveryData, paymentData, resetDeliveryData } =
     useDelivery();
 
@@ -20,7 +24,11 @@ const ApplicationBlock = () => {
 
   return (
     <div className={styles.checkoutBlock}>
-      <p className={styles.checkoutBlock__header}>Заявка отправлена</p>
+      <FormTitle
+        title={"Заявка отправлена"}
+        icon={IoClose}
+        onClick={handleContinue}
+      />
       <p>
         {paymentData.value === "SENDER"
           ? "Вы можете оплатить ваш заказ в разделе профиль"
@@ -39,12 +47,10 @@ const ApplicationBlock = () => {
         <div className={styles.checkoutBlock__info}>
           <span>Адрес доставки</span>
           <span>
-            {/*ул. {deliveryData.street}, д. {deliveryData.houseNumber}*/}
-            {/*{deliveryData.apartmentNumber*/}
-            {/*  ? `, кв. ${deliveryData.apartmentNumber}`*/}
-            {/*  : ""}*/}
-            {deliveryData.street} {deliveryData.houseNumber},{" "}
-            {deliveryData.apartmentNumber}
+            {deliveryData.street} {deliveryData.houseNumber}
+            {deliveryData.apartmentNumber
+              ? `, ${deliveryData.apartmentNumber}`
+              : ""}
           </span>
         </div>
         <div className={styles.checkoutBlock__info}>
@@ -58,19 +64,22 @@ const ApplicationBlock = () => {
 
       <div className={styles.checkoutBlock__buttons}>
         <button
-          className="whiteActionBtn"
+          className={!isMobile ? "whiteActionBtn" : "blueActionBtn"}
           type="button"
           onClick={() => navigate(PATHS.CHECKOUT_VERIFICATION)}
         >
           Статус
         </button>
-        <button
-          className="blueActionBtn"
-          type="button"
-          onClick={handleContinue}
-        >
-          На главную
-        </button>
+
+        {!isMobile && (
+          <button
+            className="blueActionBtn"
+            type="button"
+            onClick={handleContinue}
+          >
+            На главную
+          </button>
+        )}
       </div>
     </div>
   );

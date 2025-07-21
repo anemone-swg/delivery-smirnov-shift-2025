@@ -4,10 +4,12 @@ import { useNavigate } from "react-router-dom";
 import { useDelivery } from "@/context/DeliveryContext.jsx";
 import { Navbar } from "@/modules/Navbar";
 import { DeliveryBlock } from "@/modules/DeliveryBlock";
+import { useMediaQuery } from "react-responsive";
 
 const CheckoutDeliveryPlacePage = () => {
   const { receptionData } = useDelivery();
   const navigate = useNavigate();
+  const isMobile = useMediaQuery({ maxWidth: 767 });
 
   useEffect(() => {
     if (!receptionData?.street) {
@@ -17,7 +19,7 @@ const CheckoutDeliveryPlacePage = () => {
 
   return (
     <>
-      <Navbar />
+      {!isMobile && <Navbar />}
       <DeliveryBlock />
     </>
   );

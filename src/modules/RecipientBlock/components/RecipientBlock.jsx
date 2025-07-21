@@ -9,10 +9,13 @@ import {
   validatePhone,
 } from "@/helpers/validateFullNameForms.js";
 import PATHS from "@/constants/paths.js";
+import { useMediaQuery } from "react-responsive";
+import { FormTitle } from "@/components/FormTitle/index.js";
 
 const RecipientBlock = () => {
   const { recipientData, setRecipientData } = useDelivery();
   const navigate = useNavigate();
+  const isMobile = useMediaQuery({ maxWidth: 767 });
 
   const [formState, setFormState] = useState(() => ({
     lastName: recipientData?.lastName || "",
@@ -48,7 +51,7 @@ const RecipientBlock = () => {
 
   return (
     <div className={styles.checkoutBlock}>
-      <p className={styles.checkoutBlock__header}>Получатель</p>
+      <FormTitle title={"Получатель"} route={PATHS.CHECKOUT_METHOD} />
       <ProgressBar step={2} />
 
       <div className={styles.checkoutBlock__form}>
@@ -93,13 +96,15 @@ const RecipientBlock = () => {
       </div>
 
       <div className={styles.checkoutBlock__buttons}>
-        <button
-          className="whiteActionBtn"
-          type="button"
-          onClick={() => navigate(PATHS.CHECKOUT_METHOD)}
-        >
-          Назад
-        </button>
+        {!isMobile && (
+          <button
+            className="whiteActionBtn"
+            type="button"
+            onClick={() => navigate(PATHS.CHECKOUT_METHOD)}
+          >
+            Назад
+          </button>
+        )}
         <button
           className="blueActionBtn"
           type="button"

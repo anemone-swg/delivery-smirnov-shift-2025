@@ -3,10 +3,6 @@
 .checkoutBlock {
   @include checkoutBlock;
 
-  &__header {
-    @include checkoutBlock__header;
-  }
-
   &__form {
     @include checkoutBlock__form;
   }

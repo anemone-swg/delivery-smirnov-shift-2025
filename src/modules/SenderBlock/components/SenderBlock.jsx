@@ -9,10 +9,13 @@ import {
   validateFullNameField,
   validatePhone,
 } from "@/helpers/validateFullNameForms.js";
+import { FormTitle } from "@/components/FormTitle";
+import { useMediaQuery } from "react-responsive";
 
 const SenderBlock = () => {
   const { senderData, setSenderData } = useDelivery();
   const navigate = useNavigate();
+  const isMobile = useMediaQuery({ maxWidth: 767 });
 
   const [formState, setFormState] = useState(() => ({
     lastName: senderData?.lastName || "",
@@ -48,7 +51,7 @@ const SenderBlock = () => {
 
   return (
     <div className={styles.checkoutBlock}>
-      <p className={styles.checkoutBlock__header}>Отправитель</p>
+      <FormTitle title={"Отправитель"} route={PATHS.CHECKOUT_RECIPIENT} />
       <ProgressBar step={3} />
 
       <div className={styles.checkoutBlock__form}>
@@ -93,13 +96,15 @@ const SenderBlock = () => {
       </div>
 
       <div className={styles.checkoutBlock__buttons}>
-        <button
-          className="whiteActionBtn"
-          type="button"
-          onClick={() => navigate(PATHS.CHECKOUT_RECIPIENT)}
-        >
-          Назад
-        </button>
+        {!isMobile && (
+          <button
+            className="whiteActionBtn"
+            type="button"
+            onClick={() => navigate(PATHS.CHECKOUT_RECIPIENT)}
+          >
+            Назад
+          </button>
+        )}
         <button
           className="blueActionBtn"
           type="button"

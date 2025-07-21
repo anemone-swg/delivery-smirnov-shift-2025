@@ -5,9 +5,12 @@ import { ProgressBar } from "@/ui/ProgressBar";
 import styles from "./VerificationBlock.module.scss";
 import { useDelivery } from "@/context/DeliveryContext.jsx";
 import getWorkingDaysText from "@/helpers/getWorkingDaysText.js";
+import { useMediaQuery } from "react-responsive";
+import { FormTitle } from "@/components/FormTitle";
 
 const VerificationBlock = () => {
   const navigate = useNavigate();
+  const isMobile = useMediaQuery({ maxWidth: 767 });
   const {
     packageType,
     fromCity,
@@ -69,7 +72,10 @@ const VerificationBlock = () => {
 
   return (
     <div className={styles.checkoutBlock}>
-      <p className={styles.checkoutBlock__header}>Проверка данных заказа</p>
+      <FormTitle
+        title={"Проверка данных заказа"}
+        route={PATHS.CHECKOUT_PAYMENT}
+      />
       <ProgressBar step={7} />
 
       <div className={styles.checkoutBlock__form}>
@@ -108,11 +114,10 @@ const VerificationBlock = () => {
           <div className={styles.checkoutBlock__sectionInfo}>
             <p>Адрес</p>
             <p>
-              {receptionData.street} {receptionData.houseNumber},{" "}
-              {receptionData.apartmentNumber}
-              {/*{receptionData.apartmentNumber*/}
-              {/*  ? `, кв. ${receptionData.apartmentNumber}`*/}
-              {/*  : ""}*/}
+              {receptionData.street} {receptionData.houseNumber}
+              {receptionData.apartmentNumber
+                ? `, ${receptionData.apartmentNumber}`
+                : ""}
             </p>
           </div>
           <div className={styles.checkoutBlock__sectionInfo}>
@@ -126,11 +131,10 @@ const VerificationBlock = () => {
           <div className={styles.checkoutBlock__sectionInfo}>
             <p>Адрес</p>
             <p>
-              {deliveryData.street} {deliveryData.houseNumber},{" "}
-              {deliveryData.apartmentNumber}
-              {/*{deliveryData.apartmentNumber*/}
-              {/*  ? `, кв. ${deliveryData.apartmentNumber}`*/}
-              {/*  : ""}*/}
+              {deliveryData.street} {deliveryData.houseNumber}
+              {deliveryData.apartmentNumber
+                ? `, ${deliveryData.apartmentNumber}`
+                : ""}
             </p>
           </div>
           <div className={styles.checkoutBlock__sectionInfo}>
@@ -150,13 +154,15 @@ const VerificationBlock = () => {
       </div>
 
       <div className={styles.checkoutBlock__buttons}>
-        <button
-          className="whiteActionBtn"
-          type="button"
-          onClick={() => navigate(PATHS.CHECKOUT_PAYMENT)}
-        >
-          Назад
-        </button>
+        {!isMobile && (
+          <button
+            className="whiteActionBtn"
+            type="button"
+            onClick={() => navigate(PATHS.CHECKOUT_PAYMENT)}
+          >
+            Назад
+          </button>
+        )}
         <button
           className="blueActionBtn"
           type="button"
