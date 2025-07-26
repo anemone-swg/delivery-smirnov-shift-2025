@@ -4,16 +4,16 @@ const specialChars = "`‘\\-";
 const cyrillic = /[а-яё]/i;
 const latin = /[a-z]/i;
 
-const hasMixedAlphabets = (str) => {
+const hasMixedAlphabets = (str: string) => {
   const hasCyr = cyrillic.test(str);
   const hasLat = latin.test(str);
   return !(hasCyr && hasLat);
 };
 
 export const hasMixedAlphabetsOfFullNameForm = (
-  lastName,
-  firstName,
-  middleName,
+  lastName: string,
+  firstName: string,
+  middleName: string,
 ) => {
   const fullName = `${lastName} ${firstName} ${middleName}`.trim();
 
@@ -26,9 +26,9 @@ export const hasMixedAlphabetsOfFullNameForm = (
 };
 
 export const validateFullNameField = (
-  value,
-  min,
-  max,
+  value: string,
+  min: number,
+  max: number,
   noStartsOrEndsWithSpecial = false,
   required = true,
 ) => {
@@ -76,7 +76,7 @@ export const validateFullNameField = (
   return true;
 };
 
-export const validatePhone = (phone) => {
+export const validatePhone = (phone: string) => {
   const phonePattern = /^\+7\d{10}$/;
   if (!phonePattern.test(phone)) {
     toast.warning("Неверный формат телефона. Введите в формате +7XXXXXXXXXX");

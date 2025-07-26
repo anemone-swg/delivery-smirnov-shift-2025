@@ -3,14 +3,14 @@ import styles from "./MainDeliveryForm.module.scss";
 import { FaBox } from "react-icons/fa";
 import { CiLocationArrow1 } from "react-icons/ci";
 import { IoLocationOutline } from "react-icons/io5";
-import { postDeliveryCalc } from "../api/postDeliveryCalc.js";
+import { postDeliveryCalc } from "../api/postDeliveryCalc.ts";
 import { useNavigate } from "react-router-dom";
-import PATHS from "@/constants/paths.js";
+import PATHS from "@/constants/paths.ts";
 import { toast } from "react-toastify";
-import { getDeliveryPoints } from "../api/getDeliveryPoints.js";
-import { getDeliveryPackageTypes } from "../api/getDeliveryPackageTypes.js";
+import { getDeliveryPoints } from "../api/getDeliveryPoints.ts";
+import { getDeliveryPackageTypes } from "../api/getDeliveryPackageTypes.ts";
 import { useQuery } from "@tanstack/react-query";
-import { useDelivery } from "@/context/DeliveryContext.jsx";
+import { useDelivery } from "@/context/DeliveryContext.tsx";
 import { ResponsiveSelect } from "@/ui/ResponsiveSelect";
 
 const MainDeliveryForm = () => {

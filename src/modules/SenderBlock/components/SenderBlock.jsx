@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import styles from "./SenderBlock.module.scss";
 import { ProgressBar } from "@/ui/ProgressBar/index.js";
-import { useDelivery } from "@/context/DeliveryContext.jsx";
+import { useDelivery } from "@/context/DeliveryContext.tsx";
 import { useNavigate } from "react-router-dom";
-import PATHS from "@/constants/paths.js";
+import PATHS from "@/constants/paths.ts";
 import {
   hasMixedAlphabetsOfFullNameForm,
   validateFullNameField,

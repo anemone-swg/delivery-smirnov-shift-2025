@@ -1,13 +1,13 @@
 import React, { useState } from "react";
-import { useDelivery } from "@/context/DeliveryContext.jsx";
+import { useDelivery } from "@/context/DeliveryContext.tsx";
 import { useNavigate } from "react-router-dom";
-import PATHS from "@/constants/paths.js";
+import PATHS from "@/constants/paths.ts";
 import styles from "./ReceptionBlock.module.scss";
 import { ProgressBar } from "@/ui/ProgressBar";
 import {
   hasMixedAlphabetsOfAddressForm,
   validateAddressField,
-} from "@/helpers/validateAdressForms.js";
+} from "@/helpers/validateAdressForms.ts";
 import { useMediaQuery } from "react-responsive";
 import { FormTitle } from "@/components/FormTitle";
 

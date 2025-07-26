@@ -9,9 +9,9 @@ import { CheckoutDeliveryPlacePage } from "@/pages/CheckoutDeliveryPlacePage";
 import { CheckoutPaymentPage } from "@/pages/CheckoutPaymentPage";
 import { CheckoutDataVerificationPage } from "@/pages/CheckoutDataVerificationPage";
 import { CheckoutSendingApplicationPage } from "@/pages/CheckoutSendingApplicationPage";
-import PATHS from "@/constants/paths.js";
+import PATHS from "@/constants/paths";
 import { ToastContainer } from "react-toastify";
-import { useTheme } from "@/context/ThemeContext.jsx";
+import { useTheme } from "@/context/ThemeContext";
 
 const App = () => {
   const { theme } = useTheme();

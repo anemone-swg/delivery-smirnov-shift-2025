@@ -8,6 +8,6 @@ const PATHS = {
   CHECKOUT_PAYMENT: "/checkout/payment",
   CHECKOUT_VERIFICATION: "/checkout/verification",
   CHECKOUT_SENDING: "/checkout/sending",
-};
+} as const;
 
 export default PATHS;

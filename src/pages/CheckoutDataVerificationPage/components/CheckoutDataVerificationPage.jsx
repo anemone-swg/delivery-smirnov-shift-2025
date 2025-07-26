@@ -1,9 +1,9 @@
 import React, { useEffect } from "react";
-import { useDelivery } from "@/context/DeliveryContext.jsx";
+import { useDelivery } from "@/context/DeliveryContext.tsx";
 import { useNavigate } from "react-router-dom";
 import { Navbar } from "@/modules/Navbar";
 import { VerificationBlock } from "@/modules/VerificationBlock";
-import PATHS from "@/constants/paths.js";
+import PATHS from "@/constants/paths.ts";
 import { useMediaQuery } from "react-responsive";
 
 const CheckoutDataVerificationPage = () => {

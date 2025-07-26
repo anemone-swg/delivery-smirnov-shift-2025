@@ -1,7 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { useDelivery } from "@/context/DeliveryContext.jsx";
-import PATHS from "@/constants/paths.js";
+import { useDelivery } from "@/context/DeliveryContext.tsx";
+import PATHS from "@/constants/paths.ts";
 import styles from "./ApplicationBlock.module.scss";
 import { IoClose } from "react-icons/io5";
 import { FormTitle } from "@/components/FormTitle";

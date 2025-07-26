@@ -1,7 +1,7 @@
 import React from "react";
 import styles from "@/modules/Navbar/components/Navbar.module.scss";
 import { NavbarBtn } from "@/ui/NavbarBtn/index.js";
-import PATHS from "@/constants/paths.js";
+import PATHS from "@/constants/paths.ts";
 import { TbTruckDelivery } from "react-icons/tb";
 import { FaRegClock, FaRegUser } from "react-icons/fa";
 import { IoMdExit } from "react-icons/io";

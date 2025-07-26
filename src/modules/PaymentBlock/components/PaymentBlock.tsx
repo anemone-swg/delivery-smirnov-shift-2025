@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { useDelivery } from "@/context/DeliveryContext.jsx";
+import { PayerType, useDelivery } from "@/context/DeliveryContext";
 import { useNavigate } from "react-router-dom";
-import PATHS from "@/constants/paths.js";
+import PATHS from "@/constants/paths";
 import styles from "./PaymentBlock.module.scss";
 import { ProgressBar } from "@/ui/ProgressBar";
 import { useMediaQuery } from "react-responsive";
@@ -9,7 +9,9 @@ import { FormTitle } from "@/components/FormTitle";
 
 const PaymentBlock = () => {
   const { paymentData, setPaymentData } = useDelivery();
-  const [selectedPayer, setSelectedPayer] = useState(paymentData.value || "");
+  const [selectedPayer, setSelectedPayer] = useState<PayerType>(
+    paymentData.value,
+  );
   const navigate = useNavigate();
   const isMobile = useMediaQuery({ maxWidth: 767 });
 
@@ -33,7 +35,7 @@ const PaymentBlock = () => {
             name="payer"
             value="RECEIVER"
             checked={selectedPayer === "RECEIVER"}
-            onChange={(e) => setSelectedPayer(e.target.value)}
+            onChange={(e) => setSelectedPayer(e.target.value as PayerType)}
           />
           Получатель
         </label>
@@ -44,7 +46,7 @@ const PaymentBlock = () => {
             name="payer"
             value="SENDER"
             checked={selectedPayer === "SENDER"}
-            onChange={(e) => setSelectedPayer(e.target.value)}
+            onChange={(e) => setSelectedPayer(e.target.value as PayerType)}
           />
           Отправитель
         </label>

@@ -2,13 +2,13 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./RecipientBlock.module.scss";
 import { ProgressBar } from "@/ui/ProgressBar";
-import { useDelivery } from "@/context/DeliveryContext";
+import { useDelivery } from "@/context/DeliveryContext.js";
 import {
   hasMixedAlphabetsOfFullNameForm,
   validateFullNameField,
   validatePhone,
 } from "@/helpers/validateFullNameForms.js";
-import PATHS from "@/constants/paths.js";
+import PATHS from "@/constants/paths.ts";
 import { useMediaQuery } from "react-responsive";
 import { FormTitle } from "@/components/FormTitle/index.js";
 

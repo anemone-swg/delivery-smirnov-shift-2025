@@ -4,22 +4,22 @@ const specialChars = "`‘'/:;\\-_,.# ";
 const cyrillic = /[а-яё]/i;
 const latin = /[a-z]/i;
 
-const hasMixedAlphabets = (str) => {
+const hasMixedAlphabets = (str: string) => {
   const hasCyr = cyrillic.test(str);
   const hasLat = latin.test(str);
   return !(hasCyr && hasLat);
 };
 
-const startsOrEndsWithSpecial = (str) => {
+const startsOrEndsWithSpecial = (str: string) => {
   return (
     specialChars.includes(str[0]) || specialChars.includes(str[str.length - 1])
   );
 };
 
 export const hasMixedAlphabetsOfAddressForm = (
-  street,
-  houseNumber,
-  apartmentNumber,
+  street: string,
+  houseNumber: string,
+  apartmentNumber: string,
 ) => {
   const fullAddress = `${street} ${houseNumber} ${apartmentNumber}`.trim();
 
@@ -32,9 +32,9 @@ export const hasMixedAlphabetsOfAddressForm = (
 };
 
 export const validateAddressField = (
-  value,
-  min,
-  max,
+  value: string,
+  min: number,
+  max: number,
   required = false,
   isNote = false,
 ) => {

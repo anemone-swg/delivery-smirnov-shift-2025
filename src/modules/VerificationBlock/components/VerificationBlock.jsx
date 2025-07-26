@@ -1,10 +1,10 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import PATHS from "@/constants/paths.js";
+import PATHS from "@/constants/paths.ts";
 import { ProgressBar } from "@/ui/ProgressBar";
 import styles from "./VerificationBlock.module.scss";
-import { useDelivery } from "@/context/DeliveryContext.jsx";
-import getWorkingDaysText from "@/helpers/getWorkingDaysText.js";
+import { useDelivery } from "@/context/DeliveryContext.tsx";
+import getWorkingDaysText from "@/helpers/getWorkingDaysText.ts";
 import { useMediaQuery } from "react-responsive";
 import { FormTitle } from "@/components/FormTitle";
 

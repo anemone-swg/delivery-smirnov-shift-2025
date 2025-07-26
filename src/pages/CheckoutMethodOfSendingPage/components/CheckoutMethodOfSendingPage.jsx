@@ -2,8 +2,8 @@ import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Navbar } from "@/modules/Navbar";
 import { MethodOfSendingBlock } from "@/modules/MethodOfSendingBlock";
-import PATHS from "@/constants/paths.js";
-import { useDelivery } from "@/context/DeliveryContext.jsx";
+import PATHS from "@/constants/paths.ts";
+import { useDelivery } from "@/context/DeliveryContext.tsx";
 import { useMediaQuery } from "react-responsive";
 
 const CheckoutMethodOfSendingPage = () => {

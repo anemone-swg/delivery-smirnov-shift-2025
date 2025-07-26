@@ -1,12 +1,16 @@
-import axios from "axios";
+import axios, { AxiosError, AxiosResponse } from "axios";
 
 const axiosInstance = axios.create({
   baseURL: "https://shift-intensive.ru",
 });
 
+interface ErrorResponse {
+  reason: string;
+}
+
 axiosInstance.interceptors.response.use(
-  (response) => response,
-  (error) => {
+  (response: AxiosResponse) => response,
+  (error: AxiosError<ErrorResponse>) => {
     if (!error.response) {
       console.error("Сетевая ошибка:", error.message);
     } else {

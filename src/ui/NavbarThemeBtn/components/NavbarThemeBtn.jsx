@@ -1,5 +1,5 @@
 import React from "react";
-import { useTheme } from "@/context/ThemeContext.jsx";
+import { useTheme } from "@/context/ThemeContext.tsx";
 import { FaRegMoon, FaRegSun } from "react-icons/fa";
 import styles from "@/styles/modules/NavbarBtns.module.scss";
 

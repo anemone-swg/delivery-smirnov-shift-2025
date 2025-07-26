@@ -1,4 +1,4 @@
-const getWorkingDaysText = (days) => {
+const getWorkingDaysText = (days: number) => {
   const mod10 = days % 10;
   const mod100 = days % 100;
 
