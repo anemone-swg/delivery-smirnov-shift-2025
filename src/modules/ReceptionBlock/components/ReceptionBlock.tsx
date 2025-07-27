@@ -1,13 +1,13 @@
 import React, { useState } from "react";
-import { useDelivery } from "@/context/DeliveryContext.tsx";
+import { useDelivery } from "@/context/DeliveryContext";
 import { useNavigate } from "react-router-dom";
-import PATHS from "@/constants/paths.ts";
+import PATHS from "@/constants/paths";
 import styles from "./ReceptionBlock.module.scss";
 import { ProgressBar } from "@/ui/ProgressBar";
 import {
   hasMixedAlphabetsOfAddressForm,
   validateAddressField,
-} from "@/helpers/validateAdressForms.ts";
+} from "@/helpers/validateAdressForms";
 import { useMediaQuery } from "react-responsive";
 import { FormTitle } from "@/components/FormTitle";
 
@@ -23,7 +23,7 @@ const ReceptionBlock = () => {
     note: receptionData?.note || "",
   }));
 
-  const handleChange = (event) => {
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
     setFormState((prev) => ({ ...prev, [name]: value }));
   };

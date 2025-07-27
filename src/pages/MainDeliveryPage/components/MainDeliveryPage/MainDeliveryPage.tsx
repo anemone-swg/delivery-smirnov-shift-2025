@@ -1,6 +1,6 @@
 import React from "react";
 import { Navbar } from "@/modules/Navbar";
-import MainDeliveryPageMainBlock from "../MainDeliveryPageMainBlock/MainDeliveryPageMainBlock.jsx";
+import MainDeliveryPageMainBlock from "../MainDeliveryPageMainBlock/MainDeliveryPageMainBlock";
 
 const MainDeliveryPage = () => {
   return (

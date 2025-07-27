@@ -3,20 +3,33 @@ import styles from "./MainDeliveryForm.module.scss";
 import { FaBox } from "react-icons/fa";
 import { CiLocationArrow1 } from "react-icons/ci";
 import { IoLocationOutline } from "react-icons/io5";
-import { postDeliveryCalc } from "../api/postDeliveryCalc.ts";
+import { postDeliveryCalc } from "../api/postDeliveryCalc";
 import { useNavigate } from "react-router-dom";
-import PATHS from "@/constants/paths.ts";
+import PATHS from "@/constants/paths";
 import { toast } from "react-toastify";
-import { getDeliveryPoints } from "../api/getDeliveryPoints.ts";
-import { getDeliveryPackageTypes } from "../api/getDeliveryPackageTypes.ts";
+import { getDeliveryPoints } from "../api/getDeliveryPoints";
+import { getDeliveryPackageTypes } from "../api/getDeliveryPackageTypes";
 import { useQuery } from "@tanstack/react-query";
-import { useDelivery } from "@/context/DeliveryContext.tsx";
+import { useDelivery } from "@/context/DeliveryContext";
 import { ResponsiveSelect } from "@/ui/ResponsiveSelect";
+import type { DeliveryCalcRequest, Package, Point } from "@/types/delivery";
+
+interface CityOption {
+  value: string;
+  label: React.JSX.Element;
+  city: Point;
+}
+
+interface PackageOption {
+  value: string;
+  label: React.JSX.Element;
+  size: Package;
+}
 
 const MainDeliveryForm = () => {
-  const [fromCityForm, setFromCityForm] = useState("");
-  const [toCityForm, setToCityForm] = useState("");
-  const [packageSize, setPackageSize] = useState("");
+  const [fromCityForm, setFromCityForm] = useState<Point | null>(null);
+  const [toCityForm, setToCityForm] = useState<Point | null>(null);
+  const [packageSize, setPackageSize] = useState<Package | null>(null);
   const { setPackageType, setDeliveryForm, setToCity, setFromCity } =
     useDelivery();
   const navigate = useNavigate();
@@ -33,7 +46,7 @@ const MainDeliveryForm = () => {
     staleTime: 100_000,
   });
 
-  const departureCitiesOptions = cities.map((city) => ({
+  const departureCitiesOptions: CityOption[] = cities.map((city) => ({
     value: city.name,
     label: (
       <div className={styles.deliveryForm__selectValue}>
@@ -44,7 +57,7 @@ const MainDeliveryForm = () => {
     city,
   }));
 
-  const destinationCitiesOptions = cities.map((city) => ({
+  const destinationCitiesOptions: CityOption[] = cities.map((city) => ({
     value: city.name,
     label: (
       <div className={styles.deliveryForm__selectValue}>
@@ -55,7 +68,7 @@ const MainDeliveryForm = () => {
     city,
   }));
 
-  const packageOptions = packageSizes.map((size) => ({
+  const packageOptions: PackageOption[] = packageSizes.map((size) => ({
     value: size.name,
     label: (
       <div className={styles.deliveryForm__selectValue}>
@@ -66,13 +79,13 @@ const MainDeliveryForm = () => {
     size,
   }));
 
-  const handleSubmit = async (event) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (!fromCityForm || !toCityForm || !packageSize) {
       toast.warning("Не все поля заполнены.");
       return;
     }
-    const data = {
+    const data: DeliveryCalcRequest = {
       package: {
         length: packageSize.length,
         width: packageSize.width,
@@ -93,7 +106,7 @@ const MainDeliveryForm = () => {
       setToCity(toCityForm);
       setFromCity(fromCityForm);
       setPackageType(packageSize);
-      setDeliveryForm(res);
+      setDeliveryForm(res ?? null);
       navigate(PATHS.CHECKOUT_METHOD);
     });
   };
@@ -107,12 +120,13 @@ const MainDeliveryForm = () => {
             <span>Город отправки:</span>
             <ResponsiveSelect
               options={departureCitiesOptions}
-              onChange={(selectedOption) =>
+              onChange={(selectedOption: CityOption) =>
                 setFromCityForm(selectedOption.city)
               }
-              value={departureCitiesOptions.find(
-                (o) => o.city === fromCityForm,
-              )}
+              value={
+                departureCitiesOptions.find((o) => o.city === fromCityForm) ||
+                null
+              }
               placeholder="Выберите город"
             />
           </label>
@@ -121,10 +135,13 @@ const MainDeliveryForm = () => {
             <span>Город назначения:</span>
             <ResponsiveSelect
               options={destinationCitiesOptions}
-              onChange={(selectedOption) => setToCityForm(selectedOption.city)}
-              value={destinationCitiesOptions.find(
-                (o) => o.city === toCityForm,
-              )}
+              onChange={(selectedOption: CityOption) =>
+                setToCityForm(selectedOption.city)
+              }
+              value={
+                destinationCitiesOptions.find((o) => o.city === toCityForm) ||
+                null
+              }
               placeholder="Выберите город"
             />
           </label>
@@ -133,8 +150,10 @@ const MainDeliveryForm = () => {
             <span>Размер посылки:</span>
             <ResponsiveSelect
               options={packageOptions}
-              onChange={(selectedOption) => setPackageSize(selectedOption.size)}
-              value={packageOptions.find((o) => o.size === packageSize)}
+              onChange={(selectedOption: PackageOption) =>
+                setPackageSize(selectedOption.size)
+              }
+              value={packageOptions.find((o) => o.size === packageSize) || null}
               placeholder="Выберите размер"
             />
           </label>

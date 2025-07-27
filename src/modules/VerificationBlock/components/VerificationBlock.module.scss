@@ -4,8 +4,8 @@
   @include checkoutBlock;
 
   &__form {
-    @include checkoutBlock__form;
     width: max-content;
+    @include checkoutBlock__form;
   }
 
   &__buttons {

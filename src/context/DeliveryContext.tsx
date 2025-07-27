@@ -7,6 +7,7 @@ import React, {
   useEffect,
   useState,
 } from "react";
+import type { DeliveryOrderRequest } from "@/types/delivery";
 
 const STORAGE_KEY = "deliveryData";
 
@@ -81,8 +82,8 @@ interface DeliveryContextType {
   setDeliveryData: Dispatch<SetStateAction<DeliveryAddress>>;
   paymentData: PaymentData;
   setPaymentData: Dispatch<SetStateAction<PaymentData>>;
-  deliveryOrder: Record<string, unknown> | null;
-  setDeliveryOrder: Dispatch<SetStateAction<Record<string, unknown> | null>>;
+  deliveryOrder: DeliveryOrderRequest | null;
+  setDeliveryOrder: Dispatch<SetStateAction<DeliveryOrderRequest | null>>;
   resetDeliveryData: () => void;
 }
 
@@ -97,7 +98,7 @@ interface InitialDeliveryData {
   receptionData: Address;
   deliveryData: DeliveryAddress;
   paymentData: PaymentData;
-  deliveryOrder: unknown;
+  deliveryOrder: DeliveryOrderRequest | null;
 }
 
 const DeliveryContext = createContext<DeliveryContextType | undefined>(
@@ -213,10 +214,8 @@ export const DeliveryProvider = ({ children }: DeliveryProviderProps) => {
   const [paymentData, setPaymentData] = useState<PaymentData>(
     initialData.paymentData,
   );
-  const [deliveryOrder, setDeliveryOrder] = useState<Record<
-    string,
-    unknown
-  > | null>(initialData.deliveryOrder as Record<string, unknown> | null);
+  const [deliveryOrder, setDeliveryOrder] =
+    useState<DeliveryOrderRequest | null>(initialData.deliveryOrder);
 
   useEffect(() => {
     const dataToStore = {

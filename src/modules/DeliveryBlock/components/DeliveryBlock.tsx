@@ -1,13 +1,13 @@
 import React, { useState } from "react";
-import { useDelivery } from "@/context/DeliveryContext.tsx";
+import { useDelivery } from "@/context/DeliveryContext";
 import { useNavigate } from "react-router-dom";
-import PATHS from "@/constants/paths.ts";
+import PATHS from "@/constants/paths";
 import styles from "./DeliveryBlock.module.scss";
 import { ProgressBar } from "@/ui/ProgressBar";
 import {
   hasMixedAlphabetsOfAddressForm,
   validateAddressField,
-} from "@/helpers/validateAdressForms.ts";
+} from "@/helpers/validateAdressForms";
 import { useMediaQuery } from "react-responsive";
 import { FormTitle } from "@/components/FormTitle";
 
@@ -21,14 +21,14 @@ const DeliveryBlock = () => {
     houseNumber: deliveryData?.houseNumber || "",
     apartmentNumber: deliveryData?.apartmentNumber || "",
     note: deliveryData?.note || "",
-    leaveAtDoor: deliveryData?.leaveAtDoor || "",
+    leaveAtDoor: deliveryData?.leaveAtDoor || false,
   }));
 
-  const handleCheckboxChange = (event) => {
+  const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setFormState((prev) => ({ ...prev, leaveAtDoor: event.target.checked }));
   };
 
-  const handleChange = (event) => {
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
     setFormState((prev) => ({ ...prev, [name]: value }));
   };

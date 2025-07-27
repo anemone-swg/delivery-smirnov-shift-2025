@@ -4,11 +4,11 @@
   @include checkoutBlock;
 
   &__form {
-    @include checkoutBlock__form;
     width: max-content;
     border: 1px solid var(--border-light);
     border-radius: 15px;
     padding: 10px;
+    @include checkoutBlock__form;
   }
 
   &__buttons {
@@ -24,5 +24,4 @@
       font-weight: 300;
     }
   }
-
 }

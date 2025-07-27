@@ -1,8 +1,15 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 import styles from "@/styles/modules/NavbarBtns.module.scss";
+import { IconType } from "react-icons";
 
-const NavbarBtn = ({ to, label, icon }) => (
+interface NavbarBtnProps {
+  to: string;
+  label: string;
+  icon: IconType;
+}
+
+const NavbarBtn = ({ to, label, icon: Icon }: NavbarBtnProps) => (
   <NavLink
     to={to}
     className={({ isActive }) =>
@@ -11,7 +18,7 @@ const NavbarBtn = ({ to, label, icon }) => (
         : styles.navbarBtn
     }
   >
-    {icon && <span className={styles.navbarBtn__icon}>{icon}</span>}
+    <span className={styles.navbarBtn__icon}>{<Icon />}</span>
     <span className={styles.navbarBtn__label}>{label}</span>
   </NavLink>
 );

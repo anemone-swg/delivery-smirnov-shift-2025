@@ -3,8 +3,21 @@ import styles from "./FormTitle.module.scss";
 import { useNavigate } from "react-router-dom";
 import { useMediaQuery } from "react-responsive";
 import { IoIosArrowBack } from "react-icons/io";
+import { IconType } from "react-icons";
 
-const FormTitle = ({ title, icon: Icon = IoIosArrowBack, route, onClick }) => {
+interface FormTitleProps {
+  title: string;
+  icon?: IconType;
+  route?: string;
+  onClick?: () => void;
+}
+
+const FormTitle = ({
+  title,
+  icon: Icon = IoIosArrowBack,
+  route,
+  onClick,
+}: FormTitleProps) => {
   const isMobile = useMediaQuery({ maxWidth: 767 });
   const navigate = useNavigate();
 

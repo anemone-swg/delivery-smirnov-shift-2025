@@ -1,12 +1,13 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import PATHS from "@/constants/paths.ts";
+import PATHS from "@/constants/paths";
 import { ProgressBar } from "@/ui/ProgressBar";
 import styles from "./VerificationBlock.module.scss";
-import { useDelivery } from "@/context/DeliveryContext.tsx";
-import getWorkingDaysText from "@/helpers/getWorkingDaysText.ts";
+import { useDelivery } from "@/context/DeliveryContext";
+import getWorkingDaysText from "@/helpers/getWorkingDaysText";
 import { useMediaQuery } from "react-responsive";
 import { FormTitle } from "@/components/FormTitle";
+import type { DeliveryOrderRequest } from "@/types/delivery";
 
 const VerificationBlock = () => {
   const navigate = useNavigate();
@@ -25,7 +26,11 @@ const VerificationBlock = () => {
   } = useDelivery();
 
   const handleContinue = () => {
-    const data = {
+    if (!packageType || !selectedOption || !fromCity || !toCity) {
+      return;
+    }
+
+    const data: DeliveryOrderRequest = {
       packageId: packageType.id,
       optionType: selectedOption.type,
       senderPointId: fromCity.id,
@@ -36,9 +41,9 @@ const VerificationBlock = () => {
         comment: receptionData.note,
       },
       sender: {
-        firstname: senderData.firstName,
-        lastname: senderData.lastName,
-        middlename: senderData.middleName,
+        firstName: senderData.firstName,
+        lastName: senderData.lastName,
+        middleName: senderData.middleName,
         phone: senderData.phone,
       },
       receiverPointId: toCity.id,
@@ -50,9 +55,9 @@ const VerificationBlock = () => {
         isNonContact: deliveryData.leaveAtDoor,
       },
       receiver: {
-        firstname: recipientData.firstName,
-        lastname: recipientData.lastName,
-        middlename: recipientData.middleName,
+        firstName: recipientData.firstName,
+        lastName: recipientData.lastName,
+        middleName: recipientData.middleName,
         phone: recipientData.phone,
       },
       payer: paymentData.value,
@@ -145,12 +150,14 @@ const VerificationBlock = () => {
       </div>
 
       <div className={styles.checkoutBlock__additionalInfo}>
-        <strong>Итого: {selectedOption.price} ₽</strong>
+        <strong>Итого: {selectedOption?.price} ₽</strong>
         <p>
-          Тариф: {selectedOption.name}{" "}
+          Тариф: {selectedOption?.name}{" "}
           {deliveryData.leaveAtDoor ? "до двери" : ""}
         </p>
-        <p>Срок: {getWorkingDaysText(selectedOption.days)}</p>
+        {selectedOption && (
+          <p>Срок: {getWorkingDaysText(selectedOption.days)}</p>
+        )}
       </div>
 
       <div className={styles.checkoutBlock__buttons}>

@@ -1,7 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { useDelivery } from "@/context/DeliveryContext.tsx";
-import PATHS from "@/constants/paths.ts";
+import { useDelivery } from "@/context/DeliveryContext";
+import PATHS from "@/constants/paths";
 import styles from "./ApplicationBlock.module.scss";
 import { IoClose } from "react-icons/io5";
 import { FormTitle } from "@/components/FormTitle";
@@ -55,7 +55,7 @@ const ApplicationBlock = () => {
         </div>
         <div className={styles.checkoutBlock__info}>
           <span>Тип доставки</span>
-          <span>{selectedOption.name}</span>
+          <span>{selectedOption?.name}</span>
         </div>
         <div className={styles.checkoutBlock__info}>
           <span>Вся информация была продублирована в SMS</span>

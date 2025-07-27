@@ -1,12 +1,6 @@
 import axiosInstance from "@/api/axiosInstance";
 import { AxiosResponse } from "axios";
-
-interface Point {
-  id: string;
-  name: string;
-  latitude: number;
-  longitude: number;
-}
+import type { Point } from "@/types/delivery";
 
 interface DeliveryPointResponse {
   success: boolean;

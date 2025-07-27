@@ -1,30 +1,30 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import styles from "./RecipientBlock.module.scss";
+import styles from "./SenderBlock.module.scss";
 import { ProgressBar } from "@/ui/ProgressBar";
-import { useDelivery } from "@/context/DeliveryContext.js";
+import { useDelivery } from "@/context/DeliveryContext";
+import { useNavigate } from "react-router-dom";
+import PATHS from "@/constants/paths";
 import {
   hasMixedAlphabetsOfFullNameForm,
   validateFullNameField,
   validatePhone,
-} from "@/helpers/validateFullNameForms.js";
-import PATHS from "@/constants/paths.ts";
+} from "@/helpers/validateFullNameForms";
+import { FormTitle } from "@/components/FormTitle";
 import { useMediaQuery } from "react-responsive";
-import { FormTitle } from "@/components/FormTitle/index.js";
 
-const RecipientBlock = () => {
-  const { recipientData, setRecipientData } = useDelivery();
+const SenderBlock = () => {
+  const { senderData, setSenderData } = useDelivery();
   const navigate = useNavigate();
   const isMobile = useMediaQuery({ maxWidth: 767 });
 
   const [formState, setFormState] = useState(() => ({
-    lastName: recipientData?.lastName || "",
-    firstName: recipientData?.firstName || "",
-    middleName: recipientData?.middleName || "",
-    phone: recipientData?.phone || "",
+    lastName: senderData?.lastName || "",
+    firstName: senderData?.firstName || "",
+    middleName: senderData?.middleName || "",
+    phone: senderData?.phone || "",
   }));
 
-  const handleChange = (event) => {
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
     setFormState((prev) => ({ ...prev, [name]: value }));
   };
@@ -45,14 +45,14 @@ const RecipientBlock = () => {
 
     if (!validatePhone(phone)) return;
 
-    setRecipientData(formState);
-    navigate(PATHS.CHECKOUT_SENDER);
+    setSenderData(formState);
+    navigate(PATHS.CHECKOUT_RECEPTION);
   };
 
   return (
     <div className={styles.checkoutBlock}>
-      <FormTitle title={"Получатель"} route={PATHS.CHECKOUT_METHOD} />
-      <ProgressBar step={2} />
+      <FormTitle title={"Отправитель"} route={PATHS.CHECKOUT_RECIPIENT} />
+      <ProgressBar step={3} />
 
       <div className={styles.checkoutBlock__form}>
         <input
@@ -66,8 +66,8 @@ const RecipientBlock = () => {
         />
         <input
           className="formInput"
-          type="text"
           maxLength={60}
+          type="text"
           name="firstName"
           placeholder="Имя"
           value={formState.firstName}
@@ -75,8 +75,8 @@ const RecipientBlock = () => {
         />
         <input
           className="formInput"
-          type="text"
           maxLength={60}
+          type="text"
           name="middleName"
           placeholder="Отчество (при наличии)"
           value={formState.middleName}
@@ -100,7 +100,7 @@ const RecipientBlock = () => {
           <button
             className="whiteActionBtn"
             type="button"
-            onClick={() => navigate(PATHS.CHECKOUT_METHOD)}
+            onClick={() => navigate(PATHS.CHECKOUT_RECIPIENT)}
           >
             Назад
           </button>
@@ -117,4 +117,4 @@ const RecipientBlock = () => {
   );
 };
 
-export default RecipientBlock;
+export default SenderBlock;

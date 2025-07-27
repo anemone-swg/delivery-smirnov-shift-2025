@@ -1,14 +1,6 @@
 import axiosInstance from "@/api/axiosInstance";
 import { AxiosResponse } from "axios";
-
-interface Package {
-  id: string;
-  name: string;
-  length: number;
-  width: number;
-  weight: number;
-  height: number;
-}
+import type { Package } from "@/types/delivery";
 
 interface PackageTypeResponse {
   success: boolean;

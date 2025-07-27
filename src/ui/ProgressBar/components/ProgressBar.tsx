@@ -1,7 +1,10 @@
-import React from "react";
 import styles from "./ProgressBar.module.scss";
 
-const ProgressBar = ({ step }) => {
+interface ProgressBarProps {
+  step: number;
+}
+
+const ProgressBar = ({ step }: ProgressBarProps) => {
   const totalSteps = 7;
   const progressPercentage = (step / totalSteps) * 100;
 

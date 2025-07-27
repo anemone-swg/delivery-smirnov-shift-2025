@@ -1,5 +1,6 @@
 import axiosInstance from "@/api/axiosInstance";
 import { AxiosResponse } from "axios";
+import type { DeliveryCalcRequest } from "@/types/delivery";
 
 type OptionType = "DEFAULT" | "EXPRESS";
 
@@ -17,24 +18,7 @@ interface DeliveryCalcResponse {
   options?: Option[];
 }
 
-interface DeliveryCalcBody {
-  package: {
-    length: number;
-    width: number;
-    weight: number;
-    height: number;
-  };
-  senderPoint: {
-    latitude: number;
-    longitude: number;
-  };
-  receiverPoint: {
-    latitude: number;
-    longitude: number;
-  };
-}
-
-export const postDeliveryCalc = async (data: DeliveryCalcBody) => {
+export const postDeliveryCalc = async (data: DeliveryCalcRequest) => {
   const response: AxiosResponse<DeliveryCalcResponse> =
     await axiosInstance.post(`/api/delivery/calc`, data);
   return response.data.options;

@@ -4,11 +4,24 @@ import Select from "react-select";
 import styles from "./ResponsiveSelect.module.scss";
 import { IoClose } from "react-icons/io5";
 
-const ResponsiveSelect = ({ options, onChange, placeholder, value }) => {
+interface ResponsiveSelectProps<T extends { label: React.ReactNode }> {
+  options: T[];
+  value: T | null;
+  // eslint-disable-next-line no-unused-vars
+  onChange: (selected: T) => void;
+  placeholder: string;
+}
+
+const ResponsiveSelect = <T extends { label: React.ReactNode }>({
+  options,
+  onChange,
+  placeholder,
+  value,
+}: ResponsiveSelectProps<T>) => {
   const isMobile = useMediaQuery({ maxWidth: 767 });
   const [isModalOpen, setModalOpen] = useState(false);
 
-  const handleMobileSelect = (selectedOption) => {
+  const handleMobileSelect = (selectedOption: T) => {
     onChange(selectedOption);
     setModalOpen(false);
   };
@@ -18,7 +31,7 @@ const ResponsiveSelect = ({ options, onChange, placeholder, value }) => {
       {!isMobile && (
         <Select
           options={options}
-          onChange={onChange}
+          onChange={(newValue) => newValue && onChange(newValue)}
           value={value}
           placeholder={placeholder}
           classNamePrefix="customSelect"

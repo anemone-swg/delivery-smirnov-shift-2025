@@ -1,9 +1,9 @@
 import React, { useEffect } from "react";
-import { useDelivery } from "@/context/DeliveryContext.tsx";
+import { useDelivery } from "@/context/DeliveryContext";
 import { useNavigate } from "react-router-dom";
 import { Navbar } from "@/modules/Navbar";
 import { VerificationBlock } from "@/modules/VerificationBlock";
-import PATHS from "@/constants/paths.ts";
+import PATHS from "@/constants/paths";
 import { useMediaQuery } from "react-responsive";
 
 const CheckoutDataVerificationPage = () => {
@@ -17,7 +17,7 @@ const CheckoutDataVerificationPage = () => {
     }
   }, [paymentData]);
 
-  if (!paymentData || paymentData.isCompleted === false) {
+  if (!paymentData || !paymentData.isCompleted) {
     return <div>Загрузка...</div>;
   }
 

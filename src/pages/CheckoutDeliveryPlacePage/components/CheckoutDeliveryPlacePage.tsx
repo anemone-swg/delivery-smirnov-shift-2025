@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
-import PATHS from "@/constants/paths.ts";
+import PATHS from "@/constants/paths";
 import { useNavigate } from "react-router-dom";
-import { useDelivery } from "@/context/DeliveryContext.tsx";
+import { useDelivery } from "@/context/DeliveryContext";
 import { Navbar } from "@/modules/Navbar";
 import { DeliveryBlock } from "@/modules/DeliveryBlock";
 import { useMediaQuery } from "react-responsive";
