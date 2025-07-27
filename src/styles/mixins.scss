@@ -3,13 +3,10 @@
   align-items: center;
   flex-direction: column;
   padding: 50px 20%;
-}
 
-@mixin checkoutBlock__header {
-  font-size: 1.5rem;
-  margin: 0 0 15px 0;
-  font-weight: bold;
-  user-select: none;
+  @media(max-width: 767px) {
+    padding: 10px;
+  }
 }
 
 @mixin checkoutBlock__form {
@@ -19,6 +16,11 @@
   min-width: 400px;
   gap: 15px;
   margin: 30px 0;
+
+  @media(max-width: 767px) {
+    min-width: 200px;
+    width: 100%;
+  }
 }
 
 @mixin checkoutBlock__buttons {
@@ -26,4 +28,15 @@
   justify-content: space-between;
   max-width: 400px;
   min-width: 400px;
+
+  @media(max-width: 767px) {
+    justify-content: center;
+    max-width: unset;
+    min-width: unset;
+    width: 100%;
+
+    button {
+      width: 100%;
+    }
+  }
 }

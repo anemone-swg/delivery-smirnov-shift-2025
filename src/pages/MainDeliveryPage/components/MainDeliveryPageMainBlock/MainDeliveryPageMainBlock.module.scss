@@ -8,4 +8,8 @@ body {
   flex-direction: column;
   background: var(--bg-color-secondary);
   padding: 50px 20%;
+
+  @media(max-width: 767px) {
+    padding: 50px 10px 113px 10px;
+  }
 }

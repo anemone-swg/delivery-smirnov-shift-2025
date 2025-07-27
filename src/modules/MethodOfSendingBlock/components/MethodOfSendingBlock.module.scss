@@ -7,10 +7,6 @@ body {
 .checkoutBlock {
   @include checkoutBlock;
 
-  &__header {
-    @include checkoutBlock__header;
-  }
-
   &__options {
     margin-top: 30px;
     display: flex;

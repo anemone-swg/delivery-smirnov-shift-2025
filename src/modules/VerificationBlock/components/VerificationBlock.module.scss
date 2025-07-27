@@ -3,13 +3,9 @@
 .checkoutBlock {
   @include checkoutBlock;
 
-  &__header {
-    @include checkoutBlock__header;
-  }
-
   &__form {
-    @include checkoutBlock__form;
     width: max-content;
+    @include checkoutBlock__form;
   }
 
   &__buttons {
@@ -24,6 +20,12 @@
     gap: 100px;
     border-radius: 15px;
     background: var(--bg-color-secondary);
+
+    @media(max-width: 767px) {
+      flex-direction: column;
+      gap: 20px;
+      align-items: unset;
+    }
   }
 
   &__sectionName {
@@ -34,6 +36,10 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+
+    @media(max-width: 767px) {
+      align-items: unset;
+    }
 
     p:first-of-type {
       font-weight: 300;
