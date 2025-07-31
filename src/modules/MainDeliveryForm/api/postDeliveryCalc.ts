@@ -1,21 +1,11 @@
 import axiosInstance from "@/api/axiosInstance";
 import { AxiosResponse } from "axios";
-import type { DeliveryCalcRequest } from "@/types/delivery";
-
-type OptionType = "DEFAULT" | "EXPRESS";
-
-interface Option {
-  id: string;
-  price: number;
-  days: number;
-  name: string;
-  type: OptionType;
-}
+import { DeliveryCalcRequest, DeliveryOptions } from "@/types/delivery";
 
 interface DeliveryCalcResponse {
   success: boolean;
   reason?: string;
-  options?: Option[];
+  options?: DeliveryOptions;
 }
 
 export const postDeliveryCalc = async (data: DeliveryCalcRequest) => {

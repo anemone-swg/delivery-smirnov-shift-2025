@@ -7,63 +7,23 @@ import React, {
   useEffect,
   useState,
 } from "react";
-import type { DeliveryOrderRequest } from "@/types/delivery";
+import type {
+  Address,
+  City,
+  DeliveryOption,
+  DeliveryOptions,
+  DeliveryOrderRequest,
+  Package,
+  Payment,
+  Person,
+  ReceiverAddress,
+} from "@/types/delivery";
 
 const STORAGE_KEY = "deliveryData";
 
-type OptionType = "DEFAULT" | "EXPRESS";
-export type PayerType = "RECEIVER" | "SENDER";
-
-interface PersonData {
-  lastName: string;
-  firstName: string;
-  middleName: string;
-  phone: string;
-}
-
-interface Address {
-  street: string;
-  houseNumber: string;
-  apartmentNumber: string;
-  note: string;
-}
-
-interface DeliveryAddress extends Address {
-  leaveAtDoor: boolean;
-}
-
-interface PaymentData {
-  value: PayerType;
-  isCompleted: boolean;
-}
-
-interface PackageType {
-  id: string;
-  name: string;
-  length: number;
-  width: number;
-  height: number;
-  weight: number;
-}
-
-interface City {
-  id: string;
-  name: string;
-}
-
-type DeliveryOptions = DeliveryOption[];
-
-export interface DeliveryOption {
-  id: string;
-  price: number;
-  days: number;
-  name: string;
-  type: OptionType;
-}
-
 interface DeliveryContextType {
-  packageType: PackageType | null;
-  setPackageType: Dispatch<SetStateAction<PackageType | null>>;
+  packageType: Package | null;
+  setPackageType: Dispatch<SetStateAction<Package | null>>;
   fromCity: City | null;
   setFromCity: Dispatch<SetStateAction<City | null>>;
   toCity: City | null;
@@ -72,32 +32,32 @@ interface DeliveryContextType {
   setDeliveryForm: Dispatch<SetStateAction<DeliveryOptions | null>>;
   selectedOption: DeliveryOption | null;
   setSelectedOption: Dispatch<SetStateAction<DeliveryOption | null>>;
-  recipientData: PersonData;
-  setRecipientData: Dispatch<SetStateAction<PersonData>>;
-  senderData: PersonData;
-  setSenderData: Dispatch<SetStateAction<PersonData>>;
+  recipientData: Person;
+  setRecipientData: Dispatch<SetStateAction<Person>>;
+  senderData: Person;
+  setSenderData: Dispatch<SetStateAction<Person>>;
   receptionData: Address;
   setReceptionData: Dispatch<SetStateAction<Address>>;
-  deliveryData: DeliveryAddress;
-  setDeliveryData: Dispatch<SetStateAction<DeliveryAddress>>;
-  paymentData: PaymentData;
-  setPaymentData: Dispatch<SetStateAction<PaymentData>>;
+  deliveryData: ReceiverAddress;
+  setDeliveryData: Dispatch<SetStateAction<ReceiverAddress>>;
+  paymentData: Payment;
+  setPaymentData: Dispatch<SetStateAction<Payment>>;
   deliveryOrder: DeliveryOrderRequest | null;
   setDeliveryOrder: Dispatch<SetStateAction<DeliveryOrderRequest | null>>;
   resetDeliveryData: () => void;
 }
 
 interface InitialDeliveryData {
-  packageType: PackageType | null;
+  packageType: Package | null;
   fromCity: City | null;
   toCity: City | null;
   deliveryForm: DeliveryOptions | null;
   selectedOption: DeliveryOption | null;
-  recipientData: PersonData;
-  senderData: PersonData;
+  recipientData: Person;
+  senderData: Person;
   receptionData: Address;
-  deliveryData: DeliveryAddress;
-  paymentData: PaymentData;
+  deliveryData: ReceiverAddress;
+  paymentData: Payment;
   deliveryOrder: DeliveryOrderRequest | null;
 }
 
@@ -132,16 +92,16 @@ export const DeliveryProvider = ({ children }: DeliveryProviderProps) => {
     setSenderData({ lastName: "", firstName: "", middleName: "", phone: "" });
     setReceptionData({
       street: "",
-      houseNumber: "",
-      apartmentNumber: "",
-      note: "",
+      house: "",
+      apartment: "",
+      comment: "",
     });
     setDeliveryData({
       street: "",
-      houseNumber: "",
-      apartmentNumber: "",
-      note: "",
-      leaveAtDoor: false,
+      house: "",
+      apartment: "",
+      comment: "",
+      isNonContact: false,
     });
     setPaymentData({
       value: "SENDER",
@@ -170,16 +130,16 @@ export const DeliveryProvider = ({ children }: DeliveryProviderProps) => {
     },
     receptionData: {
       street: "",
-      houseNumber: "",
-      apartmentNumber: "",
-      note: "",
+      house: "",
+      apartment: "",
+      comment: "",
     },
     deliveryData: {
       street: "",
-      houseNumber: "",
-      apartmentNumber: "",
-      note: "",
-      leaveAtDoor: false,
+      house: "",
+      apartment: "",
+      comment: "",
+      isNonContact: false,
     },
     paymentData: {
       value: "SENDER",
@@ -188,7 +148,7 @@ export const DeliveryProvider = ({ children }: DeliveryProviderProps) => {
     deliveryOrder: null,
   };
 
-  const [packageType, setPackageType] = useState<PackageType | null>(
+  const [packageType, setPackageType] = useState<Package | null>(
     initialData.packageType,
   );
   const [fromCity, setFromCity] = useState<City | null>(initialData.fromCity);
@@ -199,19 +159,17 @@ export const DeliveryProvider = ({ children }: DeliveryProviderProps) => {
   const [selectedOption, setSelectedOption] = useState<DeliveryOption | null>(
     initialData.selectedOption,
   );
-  const [recipientData, setRecipientData] = useState<PersonData>(
+  const [recipientData, setRecipientData] = useState<Person>(
     initialData.recipientData,
   );
-  const [senderData, setSenderData] = useState<PersonData>(
-    initialData.senderData,
-  );
+  const [senderData, setSenderData] = useState<Person>(initialData.senderData);
   const [receptionData, setReceptionData] = useState<Address>(
     initialData.receptionData,
   );
-  const [deliveryData, setDeliveryData] = useState<DeliveryAddress>(
+  const [deliveryData, setDeliveryData] = useState<ReceiverAddress>(
     initialData.deliveryData,
   );
-  const [paymentData, setPaymentData] = useState<PaymentData>(
+  const [paymentData, setPaymentData] = useState<Payment>(
     initialData.paymentData,
   );
   const [deliveryOrder, setDeliveryOrder] =

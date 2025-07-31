@@ -18,9 +18,9 @@ const ReceptionBlock = () => {
 
   const [formState, setFormState] = useState(() => ({
     street: receptionData?.street || "",
-    houseNumber: receptionData?.houseNumber || "",
-    apartmentNumber: receptionData?.apartmentNumber || "",
-    note: receptionData?.note || "",
+    house: receptionData?.house || "",
+    apartment: receptionData?.apartment || "",
+    comment: receptionData?.comment || "",
   }));
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -29,18 +29,17 @@ const ReceptionBlock = () => {
   };
 
   const handleContinue = () => {
-    const { street, houseNumber, apartmentNumber, note } = formState;
+    const { street, house, apartment, comment } = formState;
     if (
       !validateAddressField(street, 1, 100, true) ||
-      !validateAddressField(houseNumber, 1, 100, true) ||
-      !validateAddressField(apartmentNumber, 0, 100, false) ||
-      !validateAddressField(note, 1, 300, false, true)
+      !validateAddressField(house, 1, 100, true) ||
+      !validateAddressField(apartment, 0, 100, false) ||
+      !validateAddressField(comment, 1, 300, false, true)
     ) {
       return;
     }
 
-    if (!hasMixedAlphabetsOfAddressForm(street, houseNumber, apartmentNumber))
-      return;
+    if (!hasMixedAlphabetsOfAddressForm(street, house, apartment)) return;
 
     setReceptionData(formState);
     navigate(PATHS.CHECKOUT_DELIVERY);
@@ -65,27 +64,27 @@ const ReceptionBlock = () => {
           className="formInput"
           maxLength={100}
           type="text"
-          name="houseNumber"
+          name="house"
           placeholder="Номер дома"
-          value={formState.houseNumber}
+          value={formState.house}
           onChange={handleChange}
         />
         <input
           className="formInput"
           maxLength={100}
           type="text"
-          name="apartmentNumber"
+          name="apartment"
           placeholder="Номер квартиры"
-          value={formState.apartmentNumber}
+          value={formState.apartment}
           onChange={handleChange}
         />
         <input
           className="formInput"
           maxLength={300}
           type="text"
-          name="note"
+          name="comment"
           placeholder="Заметка для курьера"
-          value={formState.note}
+          value={formState.comment}
           onChange={handleChange}
         />
       </div>

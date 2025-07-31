@@ -36,9 +36,9 @@ const VerificationBlock = () => {
       senderPointId: fromCity.id,
       senderAddress: {
         street: receptionData.street,
-        house: receptionData.houseNumber,
-        apartment: receptionData.apartmentNumber,
-        comment: receptionData.note,
+        house: receptionData.house,
+        apartment: receptionData.apartment,
+        comment: receptionData.comment,
       },
       sender: {
         firstName: senderData.firstName,
@@ -49,10 +49,10 @@ const VerificationBlock = () => {
       receiverPointId: toCity.id,
       receiverAddress: {
         street: deliveryData.street,
-        house: deliveryData.houseNumber,
-        apartment: deliveryData.apartmentNumber,
-        comment: deliveryData.note,
-        isNonContact: deliveryData.leaveAtDoor,
+        house: deliveryData.house,
+        apartment: deliveryData.apartment,
+        comment: deliveryData.comment,
+        isNonContact: deliveryData.isNonContact,
       },
       receiver: {
         firstName: recipientData.firstName,
@@ -119,15 +119,13 @@ const VerificationBlock = () => {
           <div className={styles.checkoutBlock__sectionInfo}>
             <p>Адрес</p>
             <p>
-              {receptionData.street} {receptionData.houseNumber}
-              {receptionData.apartmentNumber
-                ? `, ${receptionData.apartmentNumber}`
-                : ""}
+              {receptionData.street} {receptionData.house}
+              {receptionData.apartment ? `, ${receptionData.apartment}` : ""}
             </p>
           </div>
           <div className={styles.checkoutBlock__sectionInfo}>
             <p>Заметка</p>
-            <p>{receptionData.note || "—"}</p>
+            <p>{receptionData.comment || "—"}</p>
           </div>
         </div>
 
@@ -136,15 +134,13 @@ const VerificationBlock = () => {
           <div className={styles.checkoutBlock__sectionInfo}>
             <p>Адрес</p>
             <p>
-              {deliveryData.street} {deliveryData.houseNumber}
-              {deliveryData.apartmentNumber
-                ? `, ${deliveryData.apartmentNumber}`
-                : ""}
+              {deliveryData.street} {deliveryData.house}
+              {deliveryData.apartment ? `, ${deliveryData.apartment}` : ""}
             </p>
           </div>
           <div className={styles.checkoutBlock__sectionInfo}>
             <p>Заметка</p>
-            <p>{deliveryData.note || "—"}</p>
+            <p>{deliveryData.comment || "—"}</p>
           </div>
         </div>
       </div>
@@ -153,7 +149,7 @@ const VerificationBlock = () => {
         <strong>Итого: {selectedOption?.price} ₽</strong>
         <p>
           Тариф: {selectedOption?.name}{" "}
-          {deliveryData.leaveAtDoor ? "до двери" : ""}
+          {deliveryData.isNonContact ? "до двери" : ""}
         </p>
         {selectedOption && (
           <p>Срок: {getWorkingDaysText(selectedOption.days)}</p>

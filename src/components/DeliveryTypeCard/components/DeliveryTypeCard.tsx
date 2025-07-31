@@ -3,8 +3,9 @@ import { FaTrainSubway } from "react-icons/fa6";
 import { FaPlane } from "react-icons/fa";
 import getWorkingDaysText from "@/helpers/getWorkingDaysText";
 import { useNavigate } from "react-router-dom";
-import { DeliveryOption, useDelivery } from "@/context/DeliveryContext";
+import { useDelivery } from "@/context/DeliveryContext";
 import PATHS from "@/constants/paths";
+import type { DeliveryOption } from "@/types/delivery";
 
 interface DeliveryTypeCardProps {
   option: DeliveryOption;

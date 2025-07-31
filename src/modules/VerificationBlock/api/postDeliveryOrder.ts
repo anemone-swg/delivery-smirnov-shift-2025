@@ -2,10 +2,10 @@ import axiosInstance from "@/api/axiosInstance";
 import { AxiosResponse } from "axios";
 import type {
   Address,
-  DeliveryOption,
   DeliveryOrderRequest,
+  OptionType,
   Package,
-  Payer,
+  PayerType,
   Person,
   Point,
   ReceiverAddress,
@@ -20,14 +20,14 @@ interface DeliveryOrderResponse {
     _id: string;
     price: number;
     package: Package;
-    option: DeliveryOption;
+    option: OptionType;
     senderPoint: Point;
     senderAddress: Address;
     sender: Person;
     receiverPoint: Point;
     receiverAddress: ReceiverAddress;
     receiver: Person;
-    payer: Payer;
+    payer: PayerType;
     status: Status;
     cancellable: boolean;
   };

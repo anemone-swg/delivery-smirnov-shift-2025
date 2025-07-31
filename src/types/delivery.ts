@@ -7,6 +7,11 @@ export interface Package {
   weight: number;
 }
 
+export interface City {
+  id: string;
+  name: string;
+}
+
 export interface Point {
   id: string;
   name: string;
@@ -14,8 +19,8 @@ export interface Point {
   longitude: number;
 }
 
-export type DeliveryOption = "DEFAULT" | "EXPRESS";
-export type Payer = "RECEIVER" | "SENDER";
+export type OptionType = "DEFAULT" | "EXPRESS";
+export type PayerType = "RECEIVER" | "SENDER";
 
 export interface Address {
   street: string;
@@ -35,16 +40,31 @@ export interface Person {
   phone: string;
 }
 
+export interface Payment {
+  value: PayerType;
+  isCompleted: boolean;
+}
+
+export interface DeliveryOption {
+  id: string;
+  price: number;
+  days: number;
+  name: string;
+  type: OptionType;
+}
+
+export type DeliveryOptions = DeliveryOption[];
+
 export interface DeliveryOrderRequest {
   packageId: string;
-  optionType: DeliveryOption;
+  optionType: OptionType;
   senderPointId: string;
   senderAddress: Address;
   sender: Person;
   receiverPointId: string;
   receiverAddress: ReceiverAddress;
   receiver: Person;
-  payer: Payer;
+  payer: PayerType;
 }
 
 export interface DeliveryCalcRequest {

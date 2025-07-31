@@ -18,10 +18,10 @@ const startsOrEndsWithSpecial = (str: string) => {
 
 export const hasMixedAlphabetsOfAddressForm = (
   street: string,
-  houseNumber: string,
-  apartmentNumber: string,
+  house: string,
+  apartment: string,
 ) => {
-  const fullAddress = `${street} ${houseNumber} ${apartmentNumber}`.trim();
+  const fullAddress = `${street} ${house} ${apartment}`.trim();
 
   if (!hasMixedAlphabets(fullAddress)) {
     toast.warning("Значения заданы с использованием разных алфавитов.");

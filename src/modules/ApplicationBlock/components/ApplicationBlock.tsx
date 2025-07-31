@@ -47,10 +47,8 @@ const ApplicationBlock = () => {
         <div className={styles.checkoutBlock__info}>
           <span>Адрес доставки</span>
           <span>
-            {deliveryData.street} {deliveryData.houseNumber}
-            {deliveryData.apartmentNumber
-              ? `, ${deliveryData.apartmentNumber}`
-              : ""}
+            {deliveryData.street} {deliveryData.house}
+            {deliveryData.apartment ? `, ${deliveryData.apartment}` : ""}
           </span>
         </div>
         <div className={styles.checkoutBlock__info}>
