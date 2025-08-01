@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./RecipientBlock.module.scss";
 import { ProgressBar } from "@/ui/ProgressBar";
-import { useDelivery } from "@/context/DeliveryContext.js";
 import {
   hasMixedAlphabetsOfFullNameForm,
   validateFullNameField,
@@ -10,18 +9,22 @@ import {
 } from "@/helpers/validateFullNameForms";
 import PATHS from "@/constants/paths";
 import { useMediaQuery } from "react-responsive";
-import { FormTitle } from "@/components/FormTitle/index.js";
+import { FormTitle } from "@/components/FormTitle";
+import { recipientBlockActions } from "../store/slice";
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
+import { selectRecipientData } from "../store/selectors";
 
 const RecipientBlock = () => {
-  const { recipientData, setRecipientData } = useDelivery();
   const navigate = useNavigate();
   const isMobile = useMediaQuery({ maxWidth: 767 });
+  const recipientData = useAppSelector(selectRecipientData);
+  const dispatch = useAppDispatch();
 
   const [formState, setFormState] = useState(() => ({
-    lastName: recipientData?.lastName || "",
-    firstName: recipientData?.firstName || "",
-    middleName: recipientData?.middleName || "",
-    phone: recipientData?.phone || "",
+    lastName: recipientData?.lastName,
+    firstName: recipientData?.firstName,
+    middleName: recipientData?.middleName,
+    phone: recipientData?.phone,
   }));
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -45,7 +48,7 @@ const RecipientBlock = () => {
 
     if (!validatePhone(phone)) return;
 
-    setRecipientData(formState);
+    dispatch(recipientBlockActions.setRecipientData(formState));
     navigate(PATHS.CHECKOUT_SENDER);
   };
 

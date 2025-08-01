@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import styles from "./MainDeliveryForm.module.scss";
 import { FaBox } from "react-icons/fa";
 import { CiLocationArrow1 } from "react-icons/ci";
@@ -10,9 +10,15 @@ import { toast } from "react-toastify";
 import { getDeliveryPoints } from "../api/getDeliveryPoints";
 import { getDeliveryPackageTypes } from "../api/getDeliveryPackageTypes";
 import { useQuery } from "@tanstack/react-query";
-import { useDelivery } from "@/context/DeliveryContext";
 import { ResponsiveSelect } from "@/ui/ResponsiveSelect";
 import type { DeliveryCalcRequest, Package, Point } from "@/types/delivery";
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
+import {
+  selectFromCity,
+  selectPackageType,
+  selectToCity,
+} from "../store/selectors";
+import { mainDeliveryFormActions } from "../store/slice";
 
 interface CityOption {
   value: string;
@@ -27,11 +33,12 @@ interface PackageOption {
 }
 
 const MainDeliveryForm = () => {
-  const [fromCityForm, setFromCityForm] = useState<Point | null>(null);
-  const [toCityForm, setToCityForm] = useState<Point | null>(null);
-  const [packageSize, setPackageSize] = useState<Package | null>(null);
-  const { setPackageType, setDeliveryForm, setToCity, setFromCity } =
-    useDelivery();
+  const dispatch = useAppDispatch();
+  const packageSizeForm = useAppSelector(selectPackageType);
+  const fromCityForm = useAppSelector(selectFromCity);
+  const toCityForm = useAppSelector(selectToCity);
+  // const { setPackageType, setDeliveryForm, setToCity, setFromCity } =
+  //   useDelivery();
   const navigate = useNavigate();
 
   const { data: cities = [] } = useQuery({
@@ -81,16 +88,16 @@ const MainDeliveryForm = () => {
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    if (!fromCityForm || !toCityForm || !packageSize) {
+    if (!fromCityForm || !toCityForm || !packageSizeForm) {
       toast.warning("Не все поля заполнены.");
       return;
     }
     const data: DeliveryCalcRequest = {
       package: {
-        length: packageSize.length,
-        width: packageSize.width,
-        height: packageSize.height,
-        weight: packageSize.weight,
+        length: packageSizeForm.length,
+        width: packageSizeForm.width,
+        height: packageSizeForm.height,
+        weight: packageSizeForm.weight,
       },
       senderPoint: {
         latitude: fromCityForm.latitude,
@@ -103,10 +110,11 @@ const MainDeliveryForm = () => {
     };
 
     postDeliveryCalc(data).then((res) => {
-      setToCity(toCityForm);
-      setFromCity(fromCityForm);
-      setPackageType(packageSize);
-      setDeliveryForm(res ?? null);
+      // setToCity(toCityForm);
+      // setFromCity(fromCityForm);
+      // setPackageType(packageSizeForm);
+      // setDeliveryForm(res ?? null);
+      dispatch(mainDeliveryFormActions.setDeliveryForm(res));
       navigate(PATHS.CHECKOUT_METHOD);
     });
   };
@@ -121,7 +129,10 @@ const MainDeliveryForm = () => {
             <ResponsiveSelect
               options={departureCitiesOptions}
               onChange={(selectedOption: CityOption) =>
-                setFromCityForm(selectedOption.city)
+                // setFromCityForm(selectedOption.city)
+                dispatch(
+                  mainDeliveryFormActions.setFromCity(selectedOption.city),
+                )
               }
               value={
                 departureCitiesOptions.find((o) => o.city === fromCityForm) ||
@@ -136,7 +147,8 @@ const MainDeliveryForm = () => {
             <ResponsiveSelect
               options={destinationCitiesOptions}
               onChange={(selectedOption: CityOption) =>
-                setToCityForm(selectedOption.city)
+                // setToCityForm(selectedOption.city)
+                dispatch(mainDeliveryFormActions.setToCity(selectedOption.city))
               }
               value={
                 destinationCitiesOptions.find((o) => o.city === toCityForm) ||
@@ -151,9 +163,14 @@ const MainDeliveryForm = () => {
             <ResponsiveSelect
               options={packageOptions}
               onChange={(selectedOption: PackageOption) =>
-                setPackageSize(selectedOption.size)
+                // setPackageSize(selectedOption.size)
+                dispatch(
+                  mainDeliveryFormActions.setPackageType(selectedOption.size),
+                )
               }
-              value={packageOptions.find((o) => o.size === packageSize) || null}
+              value={
+                packageOptions.find((o) => o.size === packageSizeForm) || null
+              }
               placeholder="Выберите размер"
             />
           </label>

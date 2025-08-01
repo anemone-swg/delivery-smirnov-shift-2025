@@ -1,13 +1,14 @@
-import styles from "@/modules/MethodOfSendingBlock/components/MethodOfSendingBlock.module.scss";
+import styles from "./MethodOfSendingBlock.module.scss";
 import { DeliveryTypeCard } from "@/components/DeliveryTypeCard";
 import { ProgressBar } from "@/ui/ProgressBar";
-import { useDelivery } from "@/context/DeliveryContext";
 import { IoClose } from "react-icons/io5";
 import PATHS from "@/constants/paths";
 import { FormTitle } from "@/components/FormTitle";
+import { useAppSelector } from "@/store/hooks";
+import { selectDeliveryForm } from "@/modules/MainDeliveryForm";
 
 const MethodOfSendingBlock = () => {
-  const { deliveryForm } = useDelivery();
+  const deliveryForm = useAppSelector(selectDeliveryForm);
 
   return (
     <div className={styles.checkoutBlock}>

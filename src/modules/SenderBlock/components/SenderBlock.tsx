@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import styles from "./SenderBlock.module.scss";
 import { ProgressBar } from "@/ui/ProgressBar";
-import { useDelivery } from "@/context/DeliveryContext";
 import { useNavigate } from "react-router-dom";
 import PATHS from "@/constants/paths";
 import {
@@ -11,17 +10,21 @@ import {
 } from "@/helpers/validateFullNameForms";
 import { FormTitle } from "@/components/FormTitle";
 import { useMediaQuery } from "react-responsive";
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
+import { selectSenderData } from "@/modules/SenderBlock";
+import { senderBlockActions } from "../store/slice";
 
 const SenderBlock = () => {
-  const { senderData, setSenderData } = useDelivery();
+  const senderData = useAppSelector(selectSenderData);
   const navigate = useNavigate();
   const isMobile = useMediaQuery({ maxWidth: 767 });
+  const dispatch = useAppDispatch();
 
   const [formState, setFormState] = useState(() => ({
-    lastName: senderData?.lastName || "",
-    firstName: senderData?.firstName || "",
-    middleName: senderData?.middleName || "",
-    phone: senderData?.phone || "",
+    lastName: senderData?.lastName,
+    firstName: senderData?.firstName,
+    middleName: senderData?.middleName,
+    phone: senderData?.phone,
   }));
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -45,7 +48,7 @@ const SenderBlock = () => {
 
     if (!validatePhone(phone)) return;
 
-    setSenderData(formState);
+    dispatch(senderBlockActions.setSenderData(formState));
     navigate(PATHS.CHECKOUT_RECEPTION);
   };
 

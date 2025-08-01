@@ -3,9 +3,10 @@ import { FaTrainSubway } from "react-icons/fa6";
 import { FaPlane } from "react-icons/fa";
 import getWorkingDaysText from "@/helpers/getWorkingDaysText";
 import { useNavigate } from "react-router-dom";
-import { useDelivery } from "@/context/DeliveryContext";
 import PATHS from "@/constants/paths";
 import type { DeliveryOption } from "@/types/delivery";
+import { deliveryTypeCardActions } from "../store/slice";
+import { useAppDispatch } from "@/store/hooks";
 
 interface DeliveryTypeCardProps {
   option: DeliveryOption;
@@ -13,11 +14,11 @@ interface DeliveryTypeCardProps {
 
 const DeliveryTypeCard = ({ option }: DeliveryTypeCardProps) => {
   const { name, type, price, days } = option;
-  const { setSelectedOption } = useDelivery();
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
 
   const handleClick = () => {
-    setSelectedOption(option);
+    dispatch(deliveryTypeCardActions.setSelectedOption(option));
     navigate(PATHS.CHECKOUT_RECIPIENT);
   };
 
