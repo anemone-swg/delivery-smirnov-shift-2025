@@ -4,11 +4,11 @@ import {
   OptionType,
 } from "@/types/delivery";
 
-interface DeliveryCalcResponse {
-  success: boolean;
-  reason?: string;
-  options?: DeliveryOptions;
-}
+// interface DeliveryCalcResponse {
+//   success: boolean;
+//   reason?: string;
+//   options?: DeliveryOptions;
+// }
 
 const mockDeliveryOptions: DeliveryOptions = [
   {

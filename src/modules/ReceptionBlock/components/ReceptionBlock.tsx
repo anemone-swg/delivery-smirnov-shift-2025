@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { useDelivery } from "@/context/DeliveryContext";
 import { useNavigate } from "react-router-dom";
 import PATHS from "@/constants/paths";
 import styles from "./ReceptionBlock.module.scss";
@@ -10,17 +9,21 @@ import {
 } from "@/helpers/validateAdressForms";
 import { useMediaQuery } from "react-responsive";
 import { FormTitle } from "@/components/FormTitle";
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
+import { selectReceptionData } from "../store/selectors";
+import { receptionBlockActions } from "../store/slice";
 
 const ReceptionBlock = () => {
-  const { receptionData, setReceptionData } = useDelivery();
+  const receptionData = useAppSelector(selectReceptionData);
   const navigate = useNavigate();
   const isMobile = useMediaQuery({ maxWidth: 767 });
+  const dispatch = useAppDispatch();
 
   const [formState, setFormState] = useState(() => ({
-    street: receptionData?.street || "",
-    house: receptionData?.house || "",
-    apartment: receptionData?.apartment || "",
-    comment: receptionData?.comment || "",
+    street: receptionData?.street,
+    house: receptionData?.house,
+    apartment: receptionData?.apartment,
+    comment: receptionData?.comment,
   }));
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -41,7 +44,7 @@ const ReceptionBlock = () => {
 
     if (!hasMixedAlphabetsOfAddressForm(street, house, apartment)) return;
 
-    setReceptionData(formState);
+    dispatch(receptionBlockActions.setReceptionData(formState));
     navigate(PATHS.CHECKOUT_DELIVERY);
   };
 

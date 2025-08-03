@@ -3,27 +3,49 @@ import { useNavigate } from "react-router-dom";
 import PATHS from "@/constants/paths";
 import { ProgressBar } from "@/ui/ProgressBar";
 import styles from "./VerificationBlock.module.scss";
-import { useDelivery } from "@/context/DeliveryContext";
 import getWorkingDaysText from "@/helpers/getWorkingDaysText";
 import { useMediaQuery } from "react-responsive";
 import { FormTitle } from "@/components/FormTitle";
 import type { DeliveryOrderRequest } from "@/types/delivery";
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
+import { verificationBlockActions } from "../store/slice";
+import {
+  selectFromCity,
+  selectPackageType,
+  selectToCity,
+} from "@/modules/MainDeliveryForm";
+import { selectReceptionData } from "@/modules/ReceptionBlock";
+import { selectSenderData } from "@/modules/SenderBlock";
+import { selectDeliveryData } from "@/modules/DeliveryBlock";
+import { selectSelectedOption } from "@/components/DeliveryTypeCard";
+import { selectPaymentData } from "@/modules/PaymentBlock";
+import { selectRecipientData } from "@/modules/RecipientBlock";
 
 const VerificationBlock = () => {
   const navigate = useNavigate();
   const isMobile = useMediaQuery({ maxWidth: 767 });
+  const dispatch = useAppDispatch();
   const {
     packageType,
-    fromCity,
     toCity,
+    fromCity,
     recipientData,
     senderData,
     receptionData,
     deliveryData,
     selectedOption,
-    setDeliveryOrder,
     paymentData,
-  } = useDelivery();
+  } = useAppSelector((state) => ({
+    packageType: selectPackageType(state),
+    toCity: selectToCity(state),
+    fromCity: selectFromCity(state),
+    recipientData: selectRecipientData(state),
+    senderData: selectSenderData(state),
+    receptionData: selectReceptionData(state),
+    deliveryData: selectDeliveryData(state),
+    selectedOption: selectSelectedOption(state),
+    paymentData: selectPaymentData(state),
+  }));
 
   const handleContinue = () => {
     if (!packageType || !selectedOption || !fromCity || !toCity) {
@@ -63,15 +85,12 @@ const VerificationBlock = () => {
       payer: paymentData.value,
     };
 
-    // console.log(data);
-
     // postDeliveryOrder(data).then((res) => {
     //   setDeliveryOrder(res);
-    //   // console.log(deliveryOrder);
     //   navigate(PATHS.CHECKOUT_SENDING);
     // });
 
-    setDeliveryOrder(data);
+    dispatch(verificationBlockActions.setDeliveryOrder(data));
     navigate(PATHS.CHECKOUT_SENDING);
   };
 
@@ -151,7 +170,7 @@ const VerificationBlock = () => {
           Тариф: {selectedOption?.name}{" "}
           {deliveryData.isNonContact ? "до двери" : ""}
         </p>
-        {selectedOption && (
+        {selectedOption.days && (
           <p>Срок: {getWorkingDaysText(selectedOption.days)}</p>
         )}
       </div>

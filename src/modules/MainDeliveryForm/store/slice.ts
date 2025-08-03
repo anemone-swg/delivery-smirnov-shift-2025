@@ -31,6 +31,7 @@ export const mainDeliveryFormSlice = createSlice({
     setDeliveryForm(state, action: PayloadAction<DeliveryOptions | undefined>) {
       state.deliveryForm = action.payload;
     },
+    reset: () => initialState,
   },
 });
 

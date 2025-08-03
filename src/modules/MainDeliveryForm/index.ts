@@ -1,3 +1,9 @@
 export { default as MainDeliveryForm } from "./components/MainDeliveryForm";
 export { mainDeliveryFormReducer } from "./store/slice";
-export { selectDeliveryForm } from "./store/selectors";
+export {
+  selectDeliveryForm,
+  selectPackageType,
+  selectFromCity,
+  selectToCity,
+} from "./store/selectors";
+export { mainDeliveryFormActions } from "./store/slice";

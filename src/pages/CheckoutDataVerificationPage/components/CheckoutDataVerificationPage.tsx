@@ -1,13 +1,14 @@
 import React, { useEffect } from "react";
-import { useDelivery } from "@/context/DeliveryContext";
 import { useNavigate } from "react-router-dom";
 import { Navbar } from "@/modules/Navbar";
 import { VerificationBlock } from "@/modules/VerificationBlock";
 import PATHS from "@/constants/paths";
 import { useMediaQuery } from "react-responsive";
+import { selectPaymentData } from "@/modules/PaymentBlock";
+import { useAppSelector } from "@/store/hooks";
 
 const CheckoutDataVerificationPage = () => {
-  const { paymentData } = useDelivery();
+  const paymentData = useAppSelector(selectPaymentData);
   const navigate = useNavigate();
   const isMobile = useMediaQuery({ maxWidth: 767 });
 

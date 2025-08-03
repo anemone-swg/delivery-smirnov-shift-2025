@@ -14,12 +14,20 @@ import { mainDeliveryFormReducer } from "@/modules/MainDeliveryForm";
 import { deliveryTypeCardReducer } from "@/components/DeliveryTypeCard";
 import { recipientBlockReducer } from "@/modules/RecipientBlock";
 import { senderBlockReducer } from "@/modules/SenderBlock";
+import { receptionBlockReducer } from "@/modules/ReceptionBlock";
+import { deliveryBlockReducer } from "@/modules/DeliveryBlock";
+import { paymentBlockReducer } from "@/modules/PaymentBlock";
+import { verificationBlockReducer } from "@/modules/VerificationBlock";
 
 const rootReducer = combineReducers({
   mainDeliveryForm: mainDeliveryFormReducer,
   deliveryTypeCard: deliveryTypeCardReducer,
   recipientBlock: recipientBlockReducer,
   senderBlock: senderBlockReducer,
+  receptionBlock: receptionBlockReducer,
+  deliveryBlock: deliveryBlockReducer,
+  paymentBlock: paymentBlockReducer,
+  verificationBlock: verificationBlockReducer,
 });
 
 const persistConfig = {

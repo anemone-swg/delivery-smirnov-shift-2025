@@ -19,6 +19,7 @@ export const deliveryTypeCardSlice = createSlice({
     setSelectedOption(_state, action: PayloadAction<DeliveryTypeCardState>) {
       return action.payload;
     },
+    reset: () => initialState,
   },
 });
 

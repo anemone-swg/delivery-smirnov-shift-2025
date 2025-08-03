@@ -57,7 +57,7 @@ export type DeliveryOptions = DeliveryOption[];
 
 export interface DeliveryOrderRequest {
   packageId: string;
-  optionType: OptionType;
+  optionType: OptionType | null;
   senderPointId: string;
   senderAddress: Address;
   sender: Person;

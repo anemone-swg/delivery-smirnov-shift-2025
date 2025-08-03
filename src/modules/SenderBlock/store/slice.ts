@@ -17,6 +17,7 @@ export const senderBlockSlice = createSlice({
     setSenderData(_state, action: PayloadAction<SenderBlockState>) {
       return action.payload;
     },
+    reset: () => initialState,
   },
 });
 

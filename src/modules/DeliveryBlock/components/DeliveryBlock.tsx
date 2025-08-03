@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { useDelivery } from "@/context/DeliveryContext";
 import { useNavigate } from "react-router-dom";
 import PATHS from "@/constants/paths";
 import styles from "./DeliveryBlock.module.scss";
@@ -10,18 +9,22 @@ import {
 } from "@/helpers/validateAdressForms";
 import { useMediaQuery } from "react-responsive";
 import { FormTitle } from "@/components/FormTitle";
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
+import { selectDeliveryData } from "../store/selectors";
+import { deliveryBlockActions } from "../store/slice";
 
 const DeliveryBlock = () => {
-  const { deliveryData, setDeliveryData } = useDelivery();
+  const deliveryData = useAppSelector(selectDeliveryData);
   const navigate = useNavigate();
   const isMobile = useMediaQuery({ maxWidth: 767 });
+  const dispatch = useAppDispatch();
 
   const [formState, setFormState] = useState(() => ({
-    street: deliveryData?.street || "",
-    house: deliveryData?.house || "",
-    apartment: deliveryData?.apartment || "",
-    comment: deliveryData?.comment || "",
-    isNonContact: deliveryData?.isNonContact || false,
+    street: deliveryData?.street,
+    house: deliveryData?.house,
+    apartment: deliveryData?.apartment,
+    comment: deliveryData?.comment,
+    isNonContact: deliveryData?.isNonContact,
   }));
 
   const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -46,7 +49,7 @@ const DeliveryBlock = () => {
 
     if (!hasMixedAlphabetsOfAddressForm(street, house, apartment)) return;
 
-    setDeliveryData(formState);
+    dispatch(deliveryBlockActions.setDeliveryData(formState));
     navigate(PATHS.CHECKOUT_PAYMENT);
   };
 

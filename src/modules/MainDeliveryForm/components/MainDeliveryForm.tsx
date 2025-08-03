@@ -37,8 +37,6 @@ const MainDeliveryForm = () => {
   const packageSizeForm = useAppSelector(selectPackageType);
   const fromCityForm = useAppSelector(selectFromCity);
   const toCityForm = useAppSelector(selectToCity);
-  // const { setPackageType, setDeliveryForm, setToCity, setFromCity } =
-  //   useDelivery();
   const navigate = useNavigate();
 
   const { data: cities = [] } = useQuery({
