@@ -1,30 +1,34 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import { useMediaQuery } from "react-responsive";
 import Select from "react-select";
 import styles from "./ResponsiveSelect.module.scss";
 import { IoClose } from "react-icons/io5";
 
-interface ResponsiveSelectProps<T extends { label: React.ReactNode }> {
+interface ResponsiveSelectProps<
+  T extends { label: React.ReactNode; value: string },
+> {
   options: T[];
   value: T | null;
-  // eslint-disable-next-line no-unused-vars
   onChange: (selected: T) => void;
   placeholder: string;
 }
 
-const ResponsiveSelect = <T extends { label: React.ReactNode }>({
+function ResponsiveSelect<T extends { label: React.ReactNode; value: string }>({
   options,
   onChange,
   placeholder,
   value,
-}: ResponsiveSelectProps<T>) => {
+}: ResponsiveSelectProps<T>) {
   const isMobile = useMediaQuery({ maxWidth: 767 });
   const [isModalOpen, setModalOpen] = useState(false);
 
-  const handleMobileSelect = (selectedOption: T) => {
-    onChange(selectedOption);
-    setModalOpen(false);
-  };
+  const handleMobileSelect = useCallback(
+    (selectedOption: T) => {
+      onChange(selectedOption);
+      setModalOpen(false);
+    },
+    [onChange],
+  );
 
   return (
     <>
@@ -65,9 +69,9 @@ const ResponsiveSelect = <T extends { label: React.ReactNode }>({
                 </div>
 
                 <div className={styles.responsiveSelectModal__optionsList}>
-                  {options.map((option, index) => (
+                  {options.map((option) => (
                     <div
-                      key={index}
+                      key={option.value}
                       className={styles.responsiveSelectModal__optionItem}
                       onClick={() => handleMobileSelect(option)}
                     >
@@ -82,6 +86,6 @@ const ResponsiveSelect = <T extends { label: React.ReactNode }>({
       )}
     </>
   );
-};
+}
 
-export default ResponsiveSelect;
+export default React.memo(ResponsiveSelect) as typeof ResponsiveSelect;

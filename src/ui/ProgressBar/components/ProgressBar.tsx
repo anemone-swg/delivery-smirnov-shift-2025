@@ -1,4 +1,5 @@
 import styles from "./ProgressBar.module.scss";
+import React from "react";
 
 interface ProgressBarProps {
   step: number;
@@ -23,4 +24,4 @@ const ProgressBar = ({ step }: ProgressBarProps) => {
   );
 };
 
-export default ProgressBar;
+export default React.memo(ProgressBar);

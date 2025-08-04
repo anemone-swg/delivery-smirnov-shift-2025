@@ -44,4 +44,4 @@ const FormTitle = ({
   );
 };
 
-export default FormTitle;
+export default React.memo(FormTitle);

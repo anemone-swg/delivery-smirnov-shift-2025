@@ -7,7 +7,11 @@ import getWorkingDaysText from "@/helpers/getWorkingDaysText";
 import { useMediaQuery } from "react-responsive";
 import { FormTitle } from "@/components/FormTitle";
 import type { DeliveryOrderRequest } from "@/types/delivery";
-import { useAppDispatch, useAppSelector } from "@/store/hooks";
+import {
+  createAppSelector,
+  useAppDispatch,
+  useAppSelector,
+} from "@/store/hooks";
 import { verificationBlockActions } from "../store/slice";
 import {
   selectFromCity,
@@ -20,6 +24,41 @@ import { selectDeliveryData } from "@/modules/DeliveryBlock";
 import { selectSelectedOption } from "@/components/DeliveryTypeCard";
 import { selectPaymentData } from "@/modules/PaymentBlock";
 import { selectRecipientData } from "@/modules/RecipientBlock";
+
+const selectVerificationData = createAppSelector(
+  [
+    selectPackageType,
+    selectToCity,
+    selectFromCity,
+    selectRecipientData,
+    selectSenderData,
+    selectReceptionData,
+    selectDeliveryData,
+    selectSelectedOption,
+    selectPaymentData,
+  ],
+  (
+    packageType,
+    toCity,
+    fromCity,
+    recipientData,
+    senderData,
+    receptionData,
+    deliveryData,
+    selectedOption,
+    paymentData,
+  ) => ({
+    packageType,
+    toCity,
+    fromCity,
+    recipientData,
+    senderData,
+    receptionData,
+    deliveryData,
+    selectedOption,
+    paymentData,
+  }),
+);
 
 const VerificationBlock = () => {
   const navigate = useNavigate();
@@ -35,17 +74,7 @@ const VerificationBlock = () => {
     deliveryData,
     selectedOption,
     paymentData,
-  } = useAppSelector((state) => ({
-    packageType: selectPackageType(state),
-    toCity: selectToCity(state),
-    fromCity: selectFromCity(state),
-    recipientData: selectRecipientData(state),
-    senderData: selectSenderData(state),
-    receptionData: selectReceptionData(state),
-    deliveryData: selectDeliveryData(state),
-    selectedOption: selectSelectedOption(state),
-    paymentData: selectPaymentData(state),
-  }));
+  } = useAppSelector(selectVerificationData);
 
   const handleContinue = () => {
     if (!packageType || !selectedOption || !fromCity || !toCity) {

@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./RecipientBlock.module.scss";
-import { ProgressBar } from "@/ui/ProgressBar";
 import {
   hasMixedAlphabetsOfFullNameForm,
   validateFullNameField,
@@ -13,6 +12,7 @@ import { FormTitle } from "@/components/FormTitle";
 import { recipientBlockActions } from "../store/slice";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { selectRecipientData } from "../store/selectors";
+import { ProgressBar } from "@/ui/ProgressBar";
 
 const RecipientBlock = () => {
   const navigate = useNavigate();

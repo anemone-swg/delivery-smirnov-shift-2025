@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import styles from "./MainDeliveryForm.module.scss";
 import { FaBox } from "react-icons/fa";
 import { CiLocationArrow1 } from "react-icons/ci";
@@ -51,38 +51,44 @@ const MainDeliveryForm = () => {
     staleTime: 100_000,
   });
 
-  const departureCitiesOptions: CityOption[] = cities.map((city) => ({
-    value: city.name,
-    label: (
-      <div className={styles.deliveryForm__selectValue}>
-        <IoLocationOutline />
-        {city.name}
-      </div>
-    ),
-    city,
-  }));
+  const departureCitiesOptions: CityOption[] = useMemo(() => {
+    return cities.map((city) => ({
+      value: city.name,
+      label: (
+        <div className={styles.deliveryForm__selectValue}>
+          <IoLocationOutline />
+          {city.name}
+        </div>
+      ),
+      city,
+    }));
+  }, [cities]);
 
-  const destinationCitiesOptions: CityOption[] = cities.map((city) => ({
-    value: city.name,
-    label: (
-      <div className={styles.deliveryForm__selectValue}>
-        <CiLocationArrow1 />
-        {city.name}
-      </div>
-    ),
-    city,
-  }));
+  const destinationCitiesOptions: CityOption[] = useMemo(() => {
+    return cities.map((city) => ({
+      value: city.name,
+      label: (
+        <div className={styles.deliveryForm__selectValue}>
+          <CiLocationArrow1 />
+          {city.name}
+        </div>
+      ),
+      city,
+    }));
+  }, [cities]);
 
-  const packageOptions: PackageOption[] = packageSizes.map((size) => ({
-    value: size.name,
-    label: (
-      <div className={styles.deliveryForm__selectValue}>
-        <FaBox />
-        {size.name}
-      </div>
-    ),
-    size,
-  }));
+  const packageOptions: PackageOption[] = useMemo(() => {
+    return packageSizes.map((size) => ({
+      value: size.name,
+      label: (
+        <div className={styles.deliveryForm__selectValue}>
+          <FaBox />
+          {size.name}
+        </div>
+      ),
+      size,
+    }));
+  }, [packageSizes]);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -108,10 +114,6 @@ const MainDeliveryForm = () => {
     };
 
     postDeliveryCalc(data).then((res) => {
-      // setToCity(toCityForm);
-      // setFromCity(fromCityForm);
-      // setPackageType(packageSizeForm);
-      // setDeliveryForm(res ?? null);
       dispatch(mainDeliveryFormActions.setDeliveryForm(res));
       navigate(PATHS.CHECKOUT_METHOD);
     });
@@ -127,7 +129,6 @@ const MainDeliveryForm = () => {
             <ResponsiveSelect
               options={departureCitiesOptions}
               onChange={(selectedOption: CityOption) =>
-                // setFromCityForm(selectedOption.city)
                 dispatch(
                   mainDeliveryFormActions.setFromCity(selectedOption.city),
                 )
@@ -145,7 +146,6 @@ const MainDeliveryForm = () => {
             <ResponsiveSelect
               options={destinationCitiesOptions}
               onChange={(selectedOption: CityOption) =>
-                // setToCityForm(selectedOption.city)
                 dispatch(mainDeliveryFormActions.setToCity(selectedOption.city))
               }
               value={
@@ -161,7 +161,6 @@ const MainDeliveryForm = () => {
             <ResponsiveSelect
               options={packageOptions}
               onChange={(selectedOption: PackageOption) =>
-                // setPackageSize(selectedOption.size)
                 dispatch(
                   mainDeliveryFormActions.setPackageType(selectedOption.size),
                 )
