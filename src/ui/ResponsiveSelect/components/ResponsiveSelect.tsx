@@ -1,24 +1,43 @@
-import React, { useCallback, useState } from "react";
+import React, { JSX, useCallback, useState } from "react";
 import { useMediaQuery } from "react-responsive";
 import Select from "react-select";
 import styles from "./ResponsiveSelect.module.scss";
 import { IoClose } from "react-icons/io5";
 
-interface ResponsiveSelectProps<
+/**
+ * Props компонента ResponsiveSelect.
+ *
+ * @template T - Тип объекта опции.
+ * @property {T[]} options - Массив объектов для отображения.
+ * @property {T | null} value - Текущая выбранная опция.
+ * @property {(selected: T) => void} onChange - Действие при выборе опции.
+ * @property {string} placeholder - Текст плейсхолдера для селекта.
+ */
+export interface ResponsiveSelectProps<
   T extends { label: React.ReactNode; value: string },
 > {
   options: T[];
   value: T | null;
+  // eslint-disable-next-line no-unused-vars
   onChange: (selected: T) => void;
   placeholder: string;
 }
 
+/**
+ * Компонент селекта с адаптивным отображением.
+ * Отображает обычный селект на пк и модальное окно с опциями на мобильных устройствах.
+ *
+ * @component
+ * @template T - Тип объекта опции, содержащий поля `label` и `value`.
+ * @param {ResponsiveSelectProps<T>} props - Свойства компонента.
+ * @returns {JSX.Element} Селект с адаптивным отображением.
+ */
 function ResponsiveSelect<T extends { label: React.ReactNode; value: string }>({
   options,
   onChange,
   placeholder,
   value,
-}: ResponsiveSelectProps<T>) {
+}: ResponsiveSelectProps<T>): JSX.Element {
   const isMobile = useMediaQuery({ maxWidth: 767 });
   const [isModalOpen, setModalOpen] = useState(false);
 

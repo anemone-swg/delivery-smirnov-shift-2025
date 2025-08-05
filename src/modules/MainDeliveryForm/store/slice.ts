@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import type { DeliveryOptions, Package, Point } from "@/types/delivery";
 
-interface MainDeliveryFormState {
+export interface MainDeliveryFormState {
   packageType: Package | null;
   fromCity: Point | null;
   toCity: Point | null;

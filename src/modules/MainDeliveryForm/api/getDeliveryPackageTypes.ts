@@ -1,10 +1,10 @@
 import type { Package } from "@/types/delivery";
 
-interface PackageTypeResponse {
-  success: boolean;
-  reason?: string;
-  packages?: Package[];
-}
+// interface PackageTypeResponse {
+//   success: boolean;
+//   reason?: string;
+//   packages?: Package[];
+// }
 
 // export const getDeliveryPackageTypes = async () => {
 //   const response: AxiosResponse<PackageTypeResponse> = await axiosInstance.get(
@@ -46,6 +46,6 @@ export const getDeliveryPackageTypes = async (): Promise<
   return new Promise((resolve) => {
     setTimeout(() => {
       resolve(mockPackages);
-    }, 300); // имитация задержки
+    }, 300);
   });
 };

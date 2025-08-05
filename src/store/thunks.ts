@@ -8,6 +8,7 @@ import { receptionBlockActions } from "@/modules/ReceptionBlock";
 import { recipientBlockActions } from "@/modules/RecipientBlock";
 import { verificationBlockActions } from "@/modules/VerificationBlock";
 
+/**Thunk для сброса данных с формы после завершения оформления заказа. */
 export const resetDeliveryData = createAsyncThunk(
   "app/resetAllData",
   async (_, { dispatch }) => {

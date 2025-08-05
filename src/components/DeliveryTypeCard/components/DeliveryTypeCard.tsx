@@ -7,12 +7,24 @@ import PATHS from "@/constants/paths";
 import type { DeliveryOption } from "@/types/delivery";
 import { deliveryTypeCardActions } from "../store/slice";
 import { useAppDispatch } from "@/store/hooks";
+import { JSX } from "react";
 
-interface DeliveryTypeCardProps {
+/**
+ * Props компонента DeliveryTypeCard.
+ * @property {DeliveryOption} option - Опция доставки
+ * */
+export interface DeliveryTypeCardProps {
   option: DeliveryOption;
 }
 
-const DeliveryTypeCard = ({ option }: DeliveryTypeCardProps) => {
+/**
+ * React-компонент, отображающий карточку опции доставки.
+ * При клике выбирает данную опцию и переходит к шагу выбора получателя.
+ *
+ * @param {DeliveryTypeCardProps} props - Свойства компонента
+ * @returns {JSX.Element} JSX-элемент карточки доставки
+ */
+const DeliveryTypeCard = ({ option }: DeliveryTypeCardProps): JSX.Element => {
   const { name, type, price, days } = option;
   const navigate = useNavigate();
   const dispatch = useAppDispatch();

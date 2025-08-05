@@ -38,7 +38,7 @@ const MainDeliveryForm = () => {
   const fromCityForm = useAppSelector(selectFromCity);
   const toCityForm = useAppSelector(selectToCity);
   const navigate = useNavigate();
-
+ 
   const { data: cities = [] } = useQuery({
     queryKey: ["deliveryPoints"],
     queryFn: getDeliveryPoints,
