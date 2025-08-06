@@ -20,41 +20,41 @@
   &__labelText {
     position: relative;
     display: inline-flex;
-    align-items: center;
     gap: 4px;
+    align-items: center;
     user-select: none;
   }
 
   &__tooltipIcon {
     display: inline-block;
-    background-color: var(--bg-color-secondary);
-    border-radius: 50%;
     width: 16px;
     height: 16px;
     line-height: 16px;
     text-align: center;
     cursor: pointer;
+    background-color: var(--bg-color-secondary);
+    border-radius: 50%;
   }
 
   &__tooltipText {
-    visibility: hidden;
-    opacity: 0;
-    width: 240px;
-    background-color: var(--bg-color-secondary);
-    text-align: left;
-    border-radius: 6px;
-    padding: 10px;
     position: absolute;
     top: 22px;
     left: 0;
     z-index: 1;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    visibility: hidden;
+    width: 240px;
+    padding: 10px;
+    text-align: left;
+    background-color: var(--bg-color-secondary);
+    border-radius: 6px;
+    box-shadow: 0 0 10px rgb(0 0 0 / 10%);
+    opacity: 0%;
     transition: opacity 0.2s ease;
   }
 
   &__tooltipIcon:hover + &__tooltipText,
   &__tooltipIcon:focus + &__tooltipText {
     visibility: visible;
-    opacity: 1;
+    opacity: 100%;
   }
 }

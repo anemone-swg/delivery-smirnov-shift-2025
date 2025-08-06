@@ -1,25 +1,19 @@
 :root {
-  --background-color-primary: #FFFFFF;
+  --background-color-primary: #FFF;
   --background-color-secondary: #F3F4F6;
   --background-color-dark-primary: #141C24;
   --background-color-dark-secondary: #344051;
-
   --font-main: "Roboto", "Arial";
-  --font-color-invert: #FFFFFF;
+  --font-color-invert: #FFF;
   --font-color-primary: #141C24;
   --font-color-brand: #1975FF;
-
   --action-button-hover: #125ce6;
-
   --progress-fill: #2ecc71;
-
   --border-light: #CED2DA;
-
-  --type-card-shadow-light: rgba(0, 0, 0, 0.1);
-  --type-card-shadow-dark: rgba(0, 0, 0, 0.9);
-
-  --scrollbar-thumb-light: rgba(0, 0, 0, 0.3);
-  --scrollbar-thumb-light-hover: rgba(0, 0, 0, 0.5);
-  --scrollbar-thumb-dark: rgba(255, 255, 255, 0.3);
-  --scrollbar-thumb-dark-hover: rgba(255, 255, 255, 0.5);
+  --type-card-shadow-light: rgb(0 0 0 / 10%);
+  --type-card-shadow-dark: rgb(0 0 0 / 90%);
+  --scrollbar-thumb-light: rgb(0 0 0 / 30%);
+  --scrollbar-thumb-light-hover: rgb(0 0 0 / 50%);
+  --scrollbar-thumb-dark: rgb(255 255 255 / 30%);
+  --scrollbar-thumb-dark-hover: rgb(255 255 255 / 50%);
 }

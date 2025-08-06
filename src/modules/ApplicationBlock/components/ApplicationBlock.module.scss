@@ -5,9 +5,10 @@
 
   &__form {
     width: max-content;
+    padding: 10px;
     border: 1px solid var(--border-light);
     border-radius: 15px;
-    padding: 10px;
+
     @include checkoutBlock__form;
   }
 

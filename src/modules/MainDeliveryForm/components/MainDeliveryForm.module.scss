@@ -1,13 +1,13 @@
 .deliveryForm {
-  background-color: var(--bg-color);
-  margin: 50px 0;
-  border-radius: 15px;
-  padding: 15px;
   max-width: 912px;
+  padding: 15px;
+  margin: 50px 0;
+  background-color: var(--bg-color);
+  border-radius: 15px;
 
   &__formTitle {
+    margin: 0 0 15px;
     font-size: 1.5rem;
-    margin: 0 0 15px 0;
   }
 
   &__form {
@@ -18,9 +18,9 @@
 
   &__selects {
     display: flex;
+    gap: 10px;
     align-items: center;
     justify-content: space-between;
-    gap: 10px;
   }
 
   &__formBtn {
@@ -31,8 +31,8 @@
 
   &__selectValue {
     display: flex;
-    align-items: center;
     gap: 8px;
+    align-items: center;
   }
 
   & label {
@@ -41,14 +41,14 @@
     font-weight: 500;
 
     span {
-      margin: 0 0 5px 0;
+      margin: 0 0 5px;
     }
   }
 
   :global(.customSelect__control) {
     width: 280px;
-    background: var(--bg-color);
     color: var(--font-color);
+    background: var(--bg-color);
   }
 
   :global(.customSelect__control *) {
@@ -56,11 +56,11 @@
   }
 
   :global(.customSelect__menu) {
-    background: var(--bg-color);
     color: var(--font-color);
+    background: var(--bg-color);
   }
 
-  @media(max-width: 1000px) {
+  @media(width <= 1000px) {
     &__formTitle {
       text-align: center;
     }

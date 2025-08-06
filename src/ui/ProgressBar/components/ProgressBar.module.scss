@@ -1,16 +1,16 @@
 .progressBar {
-  font-size: 1rem;
   margin-bottom: 5px;
+  font-size: 1rem;
   user-select: none;
 
   &__line {
     width: 50%;
     height: 8px;
+    overflow: hidden;
     background-color: var(--bg-color-secondary);
     border-radius: 5px;
-    overflow: hidden;
 
-    @media(max-width: 767px) {
+    @media(width <= 767px) {
       width: 100%;
     }
   }
