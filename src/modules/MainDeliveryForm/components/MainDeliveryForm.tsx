@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React, { useMemo, useState } from "react";
 import styles from "./MainDeliveryForm.module.scss";
 import { FaBox } from "react-icons/fa";
 import { CiLocationArrow1 } from "react-icons/ci";
@@ -19,6 +19,7 @@ import {
   selectToCity,
 } from "../store/selectors";
 import { mainDeliveryFormActions } from "../store/slice";
+import { Loader } from "@/ui/Loader";
 
 interface CityOption {
   value: string;
@@ -38,18 +39,20 @@ const MainDeliveryForm = () => {
   const fromCityForm = useAppSelector(selectFromCity);
   const toCityForm = useAppSelector(selectToCity);
   const navigate = useNavigate();
- 
-  const { data: cities = [] } = useQuery({
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const { data: cities = [], isLoading: isCitiesLoading } = useQuery({
     queryKey: ["deliveryPoints"],
     queryFn: getDeliveryPoints,
     staleTime: 100_000,
   });
 
-  const { data: packageSizes = [] } = useQuery({
-    queryKey: ["packageTypes"],
-    queryFn: getDeliveryPackageTypes,
-    staleTime: 100_000,
-  });
+  const { data: packageSizes = [], isLoading: isPackageSizesLoading } =
+    useQuery({
+      queryKey: ["packageTypes"],
+      queryFn: getDeliveryPackageTypes,
+      staleTime: 100_000,
+    });
 
   const departureCitiesOptions: CityOption[] = useMemo(() => {
     return cities.map((city) => ({
@@ -96,6 +99,7 @@ const MainDeliveryForm = () => {
       toast.warning("Не все поля заполнены.");
       return;
     }
+    setIsSubmitting(true);
     const data: DeliveryCalcRequest = {
       package: {
         length: packageSizeForm.length,
@@ -113,11 +117,17 @@ const MainDeliveryForm = () => {
       },
     };
 
-    postDeliveryCalc(data).then((res) => {
-      dispatch(mainDeliveryFormActions.setDeliveryForm(res));
-      navigate(PATHS.CHECKOUT_METHOD);
-    });
+    postDeliveryCalc(data)
+      .then((res) => {
+        dispatch(mainDeliveryFormActions.setDeliveryForm(res));
+        navigate(PATHS.CHECKOUT_METHOD);
+      })
+      .finally(() => setIsSubmitting(false));
   };
+
+  if (isCitiesLoading || isPackageSizesLoading || isSubmitting) {
+    return <Loader />;
+  }
 
   return (
     <div className={styles.deliveryForm}>

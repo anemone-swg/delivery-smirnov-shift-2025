@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { Suspense, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import PATHS from "@/constants/paths";
 import { Navbar } from "@/modules/Navbar";
@@ -6,6 +6,7 @@ import { ApplicationBlock } from "@/modules/ApplicationBlock";
 import { useMediaQuery } from "react-responsive";
 import { useAppSelector } from "@/store/hooks";
 import { selectDeliveryOrder } from "@/modules/VerificationBlock";
+import { Loader } from "@/ui/Loader";
 
 const CheckoutSendingApplicationPage = () => {
   const deliveryOrder = useAppSelector(selectDeliveryOrder);
@@ -25,7 +26,9 @@ const CheckoutSendingApplicationPage = () => {
   return (
     <>
       {!isMobile && <Navbar />}
-      <ApplicationBlock />
+      <Suspense fallback={<Loader />}>
+        <ApplicationBlock />
+      </Suspense>
     </>
   );
 };

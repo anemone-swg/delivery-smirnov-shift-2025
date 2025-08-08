@@ -4,7 +4,9 @@
 
 ## Основные технологии:
 
-React, Axios, Vite, Eslint, Prettier
+- React, TypeScript, SCSS
+- Axios, Redux
+- Vite, Eslint, Stylelint, Prettier, TypeDoc, Babel, PostCSS
 
 ## Запуск:
 
