@@ -3,13 +3,9 @@ import styles from "./MainDeliveryForm.module.scss";
 import { FaBox } from "react-icons/fa";
 import { CiLocationArrow1 } from "react-icons/ci";
 import { IoLocationOutline } from "react-icons/io5";
-import { postDeliveryCalc } from "../api/postDeliveryCalc";
 import { useNavigate } from "react-router-dom";
 import PATHS from "@/constants/paths";
 import { toast } from "react-toastify";
-import { getDeliveryPoints } from "../api/getDeliveryPoints";
-import { getDeliveryPackageTypes } from "../api/getDeliveryPackageTypes";
-import { useQuery } from "@tanstack/react-query";
 import { ResponsiveSelect } from "@/ui/ResponsiveSelect";
 import type { DeliveryCalcRequest, Package, Point } from "@/types/delivery";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
@@ -20,6 +16,11 @@ import {
 } from "../store/selectors";
 import { mainDeliveryFormActions } from "../store/slice";
 import { Loader } from "@/ui/Loader";
+import {
+  useGetDeliveryPackageTypesQuery,
+  useGetDeliveryPointsQuery,
+  usePostDeliveryCalcMutation,
+} from "../api/api";
 
 interface CityOption {
   value: string;
@@ -41,18 +42,30 @@ const MainDeliveryForm = () => {
   const navigate = useNavigate();
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const { data: cities = [], isLoading: isCitiesLoading } = useQuery({
-    queryKey: ["deliveryPoints"],
-    queryFn: getDeliveryPoints,
-    staleTime: 100_000,
-  });
+  // const { data: cities = [], isLoading: isCitiesLoading } = useQuery({
+  //   queryKey: ["deliveryPoints"],
+  //   queryFn: getDeliveryPoints,
+  //   staleTime: 100_000,
+  // });
+
+  const { data: cities = [], isLoading: isCitiesLoading } =
+    useGetDeliveryPointsQuery(undefined, {
+      pollingInterval: 100_000,
+    });
+
+  // const { data: packageSizes = [], isLoading: isPackageSizesLoading } =
+  //   useQuery({
+  //     queryKey: ["packageTypes"],
+  //     queryFn: getDeliveryPackageTypes,
+  //     staleTime: 100_000,
+  //   });
 
   const { data: packageSizes = [], isLoading: isPackageSizesLoading } =
-    useQuery({
-      queryKey: ["packageTypes"],
-      queryFn: getDeliveryPackageTypes,
-      staleTime: 100_000,
+    useGetDeliveryPackageTypesQuery(undefined, {
+      pollingInterval: 100_000,
     });
+
+  const [postDeliveryCalc] = usePostDeliveryCalcMutation();
 
   const departureCitiesOptions: CityOption[] = useMemo(() => {
     return cities.map((city) => ({
@@ -118,6 +131,7 @@ const MainDeliveryForm = () => {
     };
 
     postDeliveryCalc(data)
+      .unwrap()
       .then((res) => {
         dispatch(mainDeliveryFormActions.setDeliveryForm(res));
         navigate(PATHS.CHECKOUT_METHOD);

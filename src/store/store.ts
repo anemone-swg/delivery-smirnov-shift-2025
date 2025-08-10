@@ -18,6 +18,7 @@ import { receptionBlockReducer } from "@/modules/ReceptionBlock";
 import { deliveryBlockReducer } from "@/modules/DeliveryBlock";
 import { paymentBlockReducer } from "@/modules/PaymentBlock";
 import { verificationBlockReducer } from "@/modules/VerificationBlock";
+import { baseApi } from "@/api/rtkApi";
 
 const rootReducer = combineReducers({
   mainDeliveryForm: mainDeliveryFormReducer,
@@ -28,11 +29,13 @@ const rootReducer = combineReducers({
   deliveryBlock: deliveryBlockReducer,
   paymentBlock: paymentBlockReducer,
   verificationBlock: verificationBlockReducer,
+  [baseApi.reducerPath]: baseApi.reducer,
 });
 
 const persistConfig = {
   key: "root",
   storage,
+  blacklist: [baseApi.reducerPath],
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
@@ -44,7 +47,7 @@ export const store = configureStore({
       serializableCheck: {
         ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
       },
-    }),
+    }).concat(baseApi.middleware),
 });
 
 export const persistor = persistStore(store);

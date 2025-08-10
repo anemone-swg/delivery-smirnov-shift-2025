@@ -4,12 +4,6 @@ import {
   OptionType,
 } from "@/types/delivery";
 
-// interface DeliveryCalcResponse {
-//   success: boolean;
-//   reason?: string;
-//   options?: DeliveryOptions;
-// }
-
 const mockDeliveryOptions: DeliveryOptions = [
   {
     id: "opt1",

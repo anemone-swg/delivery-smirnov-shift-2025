@@ -151,3 +151,9 @@ export interface DeliveryCalcRequest {
     longitude: number;
   };
 }
+
+export interface DeliveryCalcResponse {
+  success: boolean;
+  reason?: string;
+  options?: DeliveryOptions;
+}
