@@ -1,1 +1,1 @@
-export { default as ApplicationBlock } from "./components/ApplicationBlock";
+export { ApplicationBlockAsync as ApplicationBlock } from "./components/ApplicationBlock.async";

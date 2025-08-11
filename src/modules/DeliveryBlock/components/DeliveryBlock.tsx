@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { useDelivery } from "@/context/DeliveryContext";
 import { useNavigate } from "react-router-dom";
 import PATHS from "@/constants/paths";
 import styles from "./DeliveryBlock.module.scss";
@@ -10,22 +9,26 @@ import {
 } from "@/helpers/validateAdressForms";
 import { useMediaQuery } from "react-responsive";
 import { FormTitle } from "@/components/FormTitle";
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
+import { selectDeliveryData } from "../store/selectors";
+import { deliveryBlockActions } from "../store/slice";
 
 const DeliveryBlock = () => {
-  const { deliveryData, setDeliveryData } = useDelivery();
+  const deliveryData = useAppSelector(selectDeliveryData);
   const navigate = useNavigate();
   const isMobile = useMediaQuery({ maxWidth: 767 });
+  const dispatch = useAppDispatch();
 
   const [formState, setFormState] = useState(() => ({
-    street: deliveryData?.street || "",
-    houseNumber: deliveryData?.houseNumber || "",
-    apartmentNumber: deliveryData?.apartmentNumber || "",
-    note: deliveryData?.note || "",
-    leaveAtDoor: deliveryData?.leaveAtDoor || false,
+    street: deliveryData?.street,
+    house: deliveryData?.house,
+    apartment: deliveryData?.apartment,
+    comment: deliveryData?.comment,
+    isNonContact: deliveryData?.isNonContact,
   }));
 
   const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setFormState((prev) => ({ ...prev, leaveAtDoor: event.target.checked }));
+    setFormState((prev) => ({ ...prev, isNonContact: event.target.checked }));
   };
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -34,20 +37,19 @@ const DeliveryBlock = () => {
   };
 
   const handleContinue = () => {
-    const { street, houseNumber, apartmentNumber, note } = formState;
+    const { street, house, apartment, comment } = formState;
     if (
       !validateAddressField(street, 1, 100, true) ||
-      !validateAddressField(houseNumber, 1, 100, true) ||
-      !validateAddressField(apartmentNumber, 0, 100, false) ||
-      !validateAddressField(note, 1, 300, false, true)
+      !validateAddressField(house, 1, 100, true) ||
+      !validateAddressField(apartment, 0, 100, false) ||
+      !validateAddressField(comment, 1, 300, false, true)
     ) {
       return;
     }
 
-    if (!hasMixedAlphabetsOfAddressForm(street, houseNumber, apartmentNumber))
-      return;
+    if (!hasMixedAlphabetsOfAddressForm(street, house, apartment)) return;
 
-    setDeliveryData(formState);
+    dispatch(deliveryBlockActions.setDeliveryData(formState));
     navigate(PATHS.CHECKOUT_PAYMENT);
   };
 
@@ -68,32 +70,32 @@ const DeliveryBlock = () => {
         <input
           className="formInput"
           type="text"
-          name="houseNumber"
+          name="house"
           placeholder="Номер дома"
-          value={formState.houseNumber}
+          value={formState.house}
           onChange={handleChange}
         />
         <input
           className="formInput"
           type="text"
-          name="apartmentNumber"
+          name="apartment"
           placeholder="Номер квартиры"
-          value={formState.apartmentNumber}
+          value={formState.apartment}
           onChange={handleChange}
         />
         <input
           className="formInput"
           type="text"
-          name="note"
+          name="comment"
           placeholder="Заметка для курьера"
-          value={formState.note}
+          value={formState.comment}
           onChange={handleChange}
         />
 
         <label className={styles.checkoutBlock__checkboxLabel}>
           <input
             type="checkbox"
-            checked={formState.leaveAtDoor}
+            checked={formState.isNonContact}
             onChange={handleCheckboxChange}
           />
           <span className={styles.checkoutBlock__labelText}>

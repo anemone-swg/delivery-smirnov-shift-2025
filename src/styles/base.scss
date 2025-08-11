@@ -1,15 +1,16 @@
-.actionBtn {
+%actionBtn {
   padding: 8px 12px;
-  border-radius: 8px;
-  transition: background-color 0.2s ease;
   font-size: 16px;
   cursor: pointer;
+  border-radius: 8px;
+  transition: background-color 0.2s ease;
 }
 
 .blueActionBtn {
-  @extend .actionBtn;
-  border: none;
+  @extend %actionBtn;
+
   background-color: var(--font-color-brand);
+  border: none;
 
   &:hover {
     background-color: var(--action-button-hover);
@@ -17,9 +18,10 @@
 }
 
 .whiteActionBtn {
-  @extend .actionBtn;
-  border: 1px solid var(--border-light);
+  @extend %actionBtn;
+
   background-color: var(--bg-color);
+  border: 1px solid var(--border-light);
   transition: none;
 
   &:hover {

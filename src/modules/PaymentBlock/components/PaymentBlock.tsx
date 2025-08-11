@@ -1,25 +1,29 @@
 import React, { useState } from "react";
-import { PayerType, useDelivery } from "@/context/DeliveryContext";
 import { useNavigate } from "react-router-dom";
 import PATHS from "@/constants/paths";
 import styles from "./PaymentBlock.module.scss";
 import { ProgressBar } from "@/ui/ProgressBar";
 import { useMediaQuery } from "react-responsive";
 import { FormTitle } from "@/components/FormTitle";
+import type { PayerType } from "@/types/delivery";
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
+import { selectPaymentData } from "../store/selectors";
+import { paymentBlockActions } from "../store/slice";
 
 const PaymentBlock = () => {
-  const { paymentData, setPaymentData } = useDelivery();
-  const [selectedPayer, setSelectedPayer] = useState<PayerType>(
-    paymentData.value,
-  );
+  const paymentData = useAppSelector(selectPaymentData);
+  const [selectedPayer, setSelectedPayer] = useState(paymentData.value);
   const navigate = useNavigate();
   const isMobile = useMediaQuery({ maxWidth: 767 });
+  const dispatch = useAppDispatch();
 
   const handleContinue = () => {
-    setPaymentData({
-      value: selectedPayer,
-      isCompleted: true,
-    });
+    dispatch(
+      paymentBlockActions.setPaymentData({
+        value: selectedPayer,
+        isCompleted: true,
+      }),
+    );
     navigate(PATHS.CHECKOUT_VERIFICATION);
   };
 
@@ -27,7 +31,6 @@ const PaymentBlock = () => {
     <div className={styles.checkoutBlock}>
       <FormTitle title={"Оплата доставки"} route={PATHS.CHECKOUT_DELIVERY} />
       <ProgressBar step={6} />
-
       <div className={styles.checkoutBlock__form}>
         <label className={styles.checkoutBlock__radioLabel}>
           <input
@@ -51,7 +54,6 @@ const PaymentBlock = () => {
           Отправитель
         </label>
       </div>
-
       <div className={styles.checkoutBlock__buttons}>
         {!isMobile && (
           <button

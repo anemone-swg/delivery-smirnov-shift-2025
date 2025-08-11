@@ -1,25 +1,38 @@
-import axiosInstance from "@/api/axiosInstance";
-import { AxiosResponse } from "axios";
-import type { DeliveryCalcRequest } from "@/types/delivery";
+import {
+  DeliveryCalcRequest,
+  DeliveryOptions,
+  OptionType,
+} from "@/types/delivery";
 
-type OptionType = "DEFAULT" | "EXPRESS";
+const mockDeliveryOptions: DeliveryOptions = [
+  {
+    id: "opt1",
+    price: 500,
+    days: 2,
+    name: "Экспресс-доставка",
+    type: "EXPRESS" as OptionType,
+  },
+  {
+    id: "opt2",
+    price: 300,
+    days: 5,
+    name: "Стандартная доставка",
+    type: "DEFAULT" as OptionType,
+  },
+];
 
-interface Option {
-  id: string;
-  price: number;
-  days: number;
-  name: string;
-  type: OptionType;
-}
-
-interface DeliveryCalcResponse {
-  success: boolean;
-  reason?: string;
-  options?: Option[];
-}
-
-export const postDeliveryCalc = async (data: DeliveryCalcRequest) => {
-  const response: AxiosResponse<DeliveryCalcResponse> =
-    await axiosInstance.post(`/api/delivery/calc`, data);
-  return response.data.options;
+export const postDeliveryCalc = async (
+  data: DeliveryCalcRequest,
+): Promise<DeliveryOptions | undefined> => {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve(mockDeliveryOptions);
+    }, 300);
+  });
 };
+
+// export const postDeliveryCalc = async (data: DeliveryCalcRequest) => {
+//   const response: AxiosResponse<DeliveryCalcResponse> =
+//     await axiosInstance.post(`/api/delivery/calc`, data);
+//   return response.data.options;
+// };

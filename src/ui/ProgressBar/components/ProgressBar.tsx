@@ -1,10 +1,23 @@
 import styles from "./ProgressBar.module.scss";
+import React, { JSX } from "react";
 
-interface ProgressBarProps {
+/**
+ * Props компонента ProgressBar.
+ *
+ * @property {number} step - Текущий шаг прогресса.
+ */
+export interface ProgressBarProps {
   step: number;
 }
 
-const ProgressBar = ({ step }: ProgressBarProps) => {
+/**
+ * Компонент отображает индикатор прогресса с числом текущего шага и визуальной полосой.
+ *
+ * @component
+ * @param {ProgressBarProps} props - Props компонента.
+ * @returns {JSX.Element} Компонент прогресс-бара.
+ */
+const ProgressBar = ({ step }: ProgressBarProps): JSX.Element => {
   const totalSteps = 7;
   const progressPercentage = (step / totalSteps) * 100;
 
@@ -23,4 +36,4 @@ const ProgressBar = ({ step }: ProgressBarProps) => {
   );
 };
 
-export default ProgressBar;
+export default React.memo(ProgressBar) as typeof ProgressBar;

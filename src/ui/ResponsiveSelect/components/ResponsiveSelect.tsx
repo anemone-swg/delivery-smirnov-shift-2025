@@ -1,10 +1,21 @@
-import React, { useState } from "react";
+import React, { JSX, useCallback, useState } from "react";
 import { useMediaQuery } from "react-responsive";
 import Select from "react-select";
 import styles from "./ResponsiveSelect.module.scss";
 import { IoClose } from "react-icons/io5";
 
-interface ResponsiveSelectProps<T extends { label: React.ReactNode }> {
+/**
+ * Props компонента ResponsiveSelect.
+ *
+ * @template T - Тип объекта опции.
+ * @property {T[]} options - Массив объектов для отображения.
+ * @property {T | null} value - Текущая выбранная опция.
+ * @property {(selected: T) => void} onChange - Действие при выборе опции.
+ * @property {string} placeholder - Текст плейсхолдера для селекта.
+ */
+export interface ResponsiveSelectProps<
+  T extends { label: React.ReactNode; value: string },
+> {
   options: T[];
   value: T | null;
   // eslint-disable-next-line no-unused-vars
@@ -12,19 +23,31 @@ interface ResponsiveSelectProps<T extends { label: React.ReactNode }> {
   placeholder: string;
 }
 
-const ResponsiveSelect = <T extends { label: React.ReactNode }>({
+/**
+ * Компонент селекта с адаптивным отображением.
+ * Отображает обычный селект на пк и модальное окно с опциями на мобильных устройствах.
+ *
+ * @component
+ * @template T - Тип объекта опции, содержащий поля `label` и `value`.
+ * @param {ResponsiveSelectProps<T>} props - Свойства компонента.
+ * @returns {JSX.Element} Селект с адаптивным отображением.
+ */
+function ResponsiveSelect<T extends { label: React.ReactNode; value: string }>({
   options,
   onChange,
   placeholder,
   value,
-}: ResponsiveSelectProps<T>) => {
+}: ResponsiveSelectProps<T>): JSX.Element {
   const isMobile = useMediaQuery({ maxWidth: 767 });
   const [isModalOpen, setModalOpen] = useState(false);
 
-  const handleMobileSelect = (selectedOption: T) => {
-    onChange(selectedOption);
-    setModalOpen(false);
-  };
+  const handleMobileSelect = useCallback(
+    (selectedOption: T) => {
+      onChange(selectedOption);
+      setModalOpen(false);
+    },
+    [onChange],
+  );
 
   return (
     <>
@@ -65,9 +88,9 @@ const ResponsiveSelect = <T extends { label: React.ReactNode }>({
                 </div>
 
                 <div className={styles.responsiveSelectModal__optionsList}>
-                  {options.map((option, index) => (
+                  {options.map((option) => (
                     <div
-                      key={index}
+                      key={option.value}
                       className={styles.responsiveSelectModal__optionItem}
                       onClick={() => handleMobileSelect(option)}
                     >
@@ -82,6 +105,6 @@ const ResponsiveSelect = <T extends { label: React.ReactNode }>({
       )}
     </>
   );
-};
+}
 
-export default ResponsiveSelect;
+export default React.memo(ResponsiveSelect) as typeof ResponsiveSelect;

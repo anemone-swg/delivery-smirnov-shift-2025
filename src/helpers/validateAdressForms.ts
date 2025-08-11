@@ -4,7 +4,13 @@ const specialChars = "`‘'/:;\\-_,.# ";
 const cyrillic = /[а-яё]/i;
 const latin = /[a-z]/i;
 
-const hasMixedAlphabets = (str: string) => {
+/**
+ * Возвращает false, если значение задано с использованием двух алфавитов.
+ *
+ * @param {string} str - Улица/номер дома/номер квартиры
+ * @returns {boolean} True, если используется только один алфавит; иначе false
+ * */
+const hasMixedAlphabets = (str: string): boolean => {
   const hasCyr = cyrillic.test(str);
   const hasLat = latin.test(str);
   return !(hasCyr && hasLat);
@@ -16,12 +22,20 @@ const startsOrEndsWithSpecial = (str: string) => {
   );
 };
 
+/**
+ * Возвращает false, если значения во всей форме заданы с использованием двух алфавитов.
+ *
+ * @param street - улица
+ * @param house - номер дома
+ * @param apartment - номер квартиры
+ * @returns {boolean} True, если используется только один алфавит; иначе false
+ */
 export const hasMixedAlphabetsOfAddressForm = (
   street: string,
-  houseNumber: string,
-  apartmentNumber: string,
-) => {
-  const fullAddress = `${street} ${houseNumber} ${apartmentNumber}`.trim();
+  house: string,
+  apartment: string,
+): boolean => {
+  const fullAddress = `${street} ${house} ${apartment}`.trim();
 
   if (!hasMixedAlphabets(fullAddress)) {
     toast.warning("Значения заданы с использованием разных алфавитов.");
@@ -31,13 +45,23 @@ export const hasMixedAlphabetsOfAddressForm = (
   return true;
 };
 
+/**
+ * Проводит валидацию этапа формы. Вернет true в случае успеха.
+ *
+ * @param value - Улица/номер дома/номер квартиры
+ * @param min - Минимальное количество символов
+ * @param max - Максимальное количество символов
+ * @param [required=false] - Обязательное ли поле
+ * @param [isNote=false] - Заметка ли для курьера
+ * @returns {boolean} False, если валидация не пройдена. True в случае успеха
+ */
 export const validateAddressField = (
   value: string,
   min: number,
   max: number,
-  required = false,
-  isNote = false,
-) => {
+  required: boolean = false,
+  isNote: boolean = false,
+): boolean => {
   if (!value && !required) return true;
 
   if (!value && required) {

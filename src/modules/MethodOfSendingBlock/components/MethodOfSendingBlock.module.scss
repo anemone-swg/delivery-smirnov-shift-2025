@@ -8,10 +8,10 @@ body {
   @include checkoutBlock;
 
   &__options {
-    margin-top: 30px;
     display: flex;
-    justify-content: center;
     flex-wrap: wrap;
     gap: 20px;
+    justify-content: center;
+    margin-top: 30px;
   }
 }

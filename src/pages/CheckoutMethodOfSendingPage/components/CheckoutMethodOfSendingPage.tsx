@@ -3,13 +3,14 @@ import { useNavigate } from "react-router-dom";
 import { Navbar } from "@/modules/Navbar";
 import { MethodOfSendingBlock } from "@/modules/MethodOfSendingBlock";
 import PATHS from "@/constants/paths";
-import { useDelivery } from "@/context/DeliveryContext";
 import { useMediaQuery } from "react-responsive";
+import { useAppSelector } from "@/store/hooks";
+import { selectDeliveryForm } from "@/modules/MainDeliveryForm";
 
 const CheckoutMethodOfSendingPage = () => {
-  const { deliveryForm } = useDelivery();
   const navigate = useNavigate();
   const isMobile = useMediaQuery({ maxWidth: 767 });
+  const deliveryForm = useAppSelector(selectDeliveryForm);
 
   useEffect(() => {
     if (!deliveryForm) {

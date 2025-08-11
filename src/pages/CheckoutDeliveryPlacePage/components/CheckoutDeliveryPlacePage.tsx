@@ -1,13 +1,14 @@
 import React, { useEffect } from "react";
 import PATHS from "@/constants/paths";
 import { useNavigate } from "react-router-dom";
-import { useDelivery } from "@/context/DeliveryContext";
 import { Navbar } from "@/modules/Navbar";
 import { DeliveryBlock } from "@/modules/DeliveryBlock";
 import { useMediaQuery } from "react-responsive";
+import { useAppSelector } from "@/store/hooks";
+import { selectReceptionData } from "@/modules/ReceptionBlock";
 
 const CheckoutDeliveryPlacePage = () => {
-  const { receptionData } = useDelivery();
+  const receptionData = useAppSelector(selectReceptionData);
   const navigate = useNavigate();
   const isMobile = useMediaQuery({ maxWidth: 767 });
 

@@ -1,0 +1,55 @@
+{
+  "deliveryPoints": [
+    {
+      "id": 1,
+      "name": "Москва",
+      "latitude": 55.7558,
+      "longitude": 37.6173
+    },
+    {
+      "id": 2,
+      "name": "Санкт-Петербург",
+      "latitude": 59.9343,
+      "longitude": 30.3351
+    },
+    {
+      "id": 3,
+      "name": "Новосибирск",
+      "latitude": 55.0084,
+      "longitude": 82.9357
+    }
+  ],
+  "packageTypes": [
+    {
+      "id": 1,
+      "name": "Маленькая посылка",
+      "maxWeight": 2,
+      "maxSize": {
+        "length": 30,
+        "width": 20,
+        "height": 10
+      }
+    },
+    {
+      "id": 2,
+      "name": "Средняя посылка",
+      "maxWeight": 10,
+      "maxSize": {
+        "length": 60,
+        "width": 40,
+        "height": 30
+      }
+    },
+    {
+      "id": 3,
+      "name": "Большая посылка",
+      "maxWeight": 30,
+      "maxSize": {
+        "length": 100,
+        "width": 60,
+        "height": 50
+      }
+    }
+  ]
+}
+

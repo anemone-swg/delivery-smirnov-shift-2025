@@ -1,18 +1,26 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import styles from "./MainDeliveryForm.module.scss";
 import { FaBox } from "react-icons/fa";
 import { CiLocationArrow1 } from "react-icons/ci";
 import { IoLocationOutline } from "react-icons/io5";
-import { postDeliveryCalc } from "../api/postDeliveryCalc";
 import { useNavigate } from "react-router-dom";
 import PATHS from "@/constants/paths";
 import { toast } from "react-toastify";
-import { getDeliveryPoints } from "../api/getDeliveryPoints";
-import { getDeliveryPackageTypes } from "../api/getDeliveryPackageTypes";
-import { useQuery } from "@tanstack/react-query";
-import { useDelivery } from "@/context/DeliveryContext";
 import { ResponsiveSelect } from "@/ui/ResponsiveSelect";
 import type { DeliveryCalcRequest, Package, Point } from "@/types/delivery";
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
+import {
+  selectFromCity,
+  selectPackageType,
+  selectToCity,
+} from "../store/selectors";
+import { mainDeliveryFormActions } from "../store/slice";
+import { Loader } from "@/ui/Loader";
+import {
+  useGetDeliveryPackageTypesQuery,
+  useGetDeliveryPointsQuery,
+  usePostDeliveryCalcMutation,
+} from "../api/api";
 
 interface CityOption {
   value: string;
@@ -27,70 +35,90 @@ interface PackageOption {
 }
 
 const MainDeliveryForm = () => {
-  const [fromCityForm, setFromCityForm] = useState<Point | null>(null);
-  const [toCityForm, setToCityForm] = useState<Point | null>(null);
-  const [packageSize, setPackageSize] = useState<Package | null>(null);
-  const { setPackageType, setDeliveryForm, setToCity, setFromCity } =
-    useDelivery();
+  const dispatch = useAppDispatch();
+  const packageSizeForm = useAppSelector(selectPackageType);
+  const fromCityForm = useAppSelector(selectFromCity);
+  const toCityForm = useAppSelector(selectToCity);
   const navigate = useNavigate();
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const { data: cities = [] } = useQuery({
-    queryKey: ["deliveryPoints"],
-    queryFn: getDeliveryPoints,
-    staleTime: 100_000,
-  });
+  // const { data: cities = [], isLoading: isCitiesLoading } = useQuery({
+  //   queryKey: ["deliveryPoints"],
+  //   queryFn: getDeliveryPoints,
+  //   staleTime: 100_000,
+  // });
 
-  const { data: packageSizes = [] } = useQuery({
-    queryKey: ["packageTypes"],
-    queryFn: getDeliveryPackageTypes,
-    staleTime: 100_000,
-  });
+  const { data: cities = [], isLoading: isCitiesLoading } =
+    useGetDeliveryPointsQuery(undefined, {
+      pollingInterval: 100_000,
+    });
 
-  const departureCitiesOptions: CityOption[] = cities.map((city) => ({
-    value: city.name,
-    label: (
-      <div className={styles.deliveryForm__selectValue}>
-        <IoLocationOutline />
-        {city.name}
-      </div>
-    ),
-    city,
-  }));
+  // const { data: packageSizes = [], isLoading: isPackageSizesLoading } =
+  //   useQuery({
+  //     queryKey: ["packageTypes"],
+  //     queryFn: getDeliveryPackageTypes,
+  //     staleTime: 100_000,
+  //   });
 
-  const destinationCitiesOptions: CityOption[] = cities.map((city) => ({
-    value: city.name,
-    label: (
-      <div className={styles.deliveryForm__selectValue}>
-        <CiLocationArrow1 />
-        {city.name}
-      </div>
-    ),
-    city,
-  }));
+  const { data: packageSizes = [], isLoading: isPackageSizesLoading } =
+    useGetDeliveryPackageTypesQuery(undefined, {
+      pollingInterval: 100_000,
+    });
 
-  const packageOptions: PackageOption[] = packageSizes.map((size) => ({
-    value: size.name,
-    label: (
-      <div className={styles.deliveryForm__selectValue}>
-        <FaBox />
-        {size.name}
-      </div>
-    ),
-    size,
-  }));
+  const [postDeliveryCalc] = usePostDeliveryCalcMutation();
+
+  const departureCitiesOptions: CityOption[] = useMemo(() => {
+    return cities.map((city) => ({
+      value: city.name,
+      label: (
+        <div className={styles.deliveryForm__selectValue}>
+          <IoLocationOutline />
+          {city.name}
+        </div>
+      ),
+      city,
+    }));
+  }, [cities]);
+
+  const destinationCitiesOptions: CityOption[] = useMemo(() => {
+    return cities.map((city) => ({
+      value: city.name,
+      label: (
+        <div className={styles.deliveryForm__selectValue}>
+          <CiLocationArrow1 />
+          {city.name}
+        </div>
+      ),
+      city,
+    }));
+  }, [cities]);
+
+  const packageOptions: PackageOption[] = useMemo(() => {
+    return packageSizes.map((size) => ({
+      value: size.name,
+      label: (
+        <div className={styles.deliveryForm__selectValue}>
+          <FaBox />
+          {size.name}
+        </div>
+      ),
+      size,
+    }));
+  }, [packageSizes]);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    if (!fromCityForm || !toCityForm || !packageSize) {
+    if (!fromCityForm || !toCityForm || !packageSizeForm) {
       toast.warning("Не все поля заполнены.");
       return;
     }
+    setIsSubmitting(true);
     const data: DeliveryCalcRequest = {
       package: {
-        length: packageSize.length,
-        width: packageSize.width,
-        height: packageSize.height,
-        weight: packageSize.weight,
+        length: packageSizeForm.length,
+        width: packageSizeForm.width,
+        height: packageSizeForm.height,
+        weight: packageSizeForm.weight,
       },
       senderPoint: {
         latitude: fromCityForm.latitude,
@@ -102,14 +130,18 @@ const MainDeliveryForm = () => {
       },
     };
 
-    postDeliveryCalc(data).then((res) => {
-      setToCity(toCityForm);
-      setFromCity(fromCityForm);
-      setPackageType(packageSize);
-      setDeliveryForm(res ?? null);
-      navigate(PATHS.CHECKOUT_METHOD);
-    });
+    postDeliveryCalc(data)
+      .unwrap()
+      .then((res) => {
+        dispatch(mainDeliveryFormActions.setDeliveryForm(res));
+        navigate(PATHS.CHECKOUT_METHOD);
+      })
+      .finally(() => setIsSubmitting(false));
   };
+
+  if (isCitiesLoading || isPackageSizesLoading || isSubmitting) {
+    return <Loader />;
+  }
 
   return (
     <div className={styles.deliveryForm}>
@@ -121,7 +153,9 @@ const MainDeliveryForm = () => {
             <ResponsiveSelect
               options={departureCitiesOptions}
               onChange={(selectedOption: CityOption) =>
-                setFromCityForm(selectedOption.city)
+                dispatch(
+                  mainDeliveryFormActions.setFromCity(selectedOption.city),
+                )
               }
               value={
                 departureCitiesOptions.find((o) => o.city === fromCityForm) ||
@@ -136,7 +170,7 @@ const MainDeliveryForm = () => {
             <ResponsiveSelect
               options={destinationCitiesOptions}
               onChange={(selectedOption: CityOption) =>
-                setToCityForm(selectedOption.city)
+                dispatch(mainDeliveryFormActions.setToCity(selectedOption.city))
               }
               value={
                 destinationCitiesOptions.find((o) => o.city === toCityForm) ||
@@ -151,9 +185,13 @@ const MainDeliveryForm = () => {
             <ResponsiveSelect
               options={packageOptions}
               onChange={(selectedOption: PackageOption) =>
-                setPackageSize(selectedOption.size)
+                dispatch(
+                  mainDeliveryFormActions.setPackageType(selectedOption.size),
+                )
               }
-              value={packageOptions.find((o) => o.size === packageSize) || null}
+              value={
+                packageOptions.find((o) => o.size === packageSizeForm) || null
+              }
               placeholder="Выберите размер"
             />
           </label>

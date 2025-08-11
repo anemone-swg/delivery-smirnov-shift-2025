@@ -1,23 +1,37 @@
-import React from "react";
+import React, {JSX} from "react";
 import styles from "./FormTitle.module.scss";
-import { useNavigate } from "react-router-dom";
-import { useMediaQuery } from "react-responsive";
-import { IoIosArrowBack } from "react-icons/io";
-import { IconType } from "react-icons";
+import {useNavigate} from "react-router-dom";
+import {useMediaQuery} from "react-responsive";
+import {IoIosArrowBack} from "react-icons/io";
+import {IconType} from "react-icons";
 
-interface FormTitleProps {
+/**
+ * Props компонента FormTitle.
+ *
+ * @property {string} title - Заголовок формы.
+ * @property {IconType} [icon] - Иконка заголовка.
+ * @property {string} [route] - Маршрут навигации.
+ * @property {()=>void} [onClick] - Действие при клике.
+ * */
+export interface FormTitleProps {
   title: string;
   icon?: IconType;
   route?: string;
   onClick?: () => void;
 }
 
+/**
+ * React-компонент, отображающий заголовок формы.
+ *
+ * @param {FormTitleProps} props - Props компонента.
+ * @returns {JSX.Element} JSX-элемент заголовка формы.
+ * */
 const FormTitle = ({
   title,
   icon: Icon = IoIosArrowBack,
   route,
   onClick,
-}: FormTitleProps) => {
+}: FormTitleProps): JSX.Element => {
   const isMobile = useMediaQuery({ maxWidth: 767 });
   const navigate = useNavigate();
 
@@ -44,4 +58,4 @@ const FormTitle = ({
   );
 };
 
-export default FormTitle;
+export default React.memo(FormTitle) as typeof FormTitle;

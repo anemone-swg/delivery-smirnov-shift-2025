@@ -3,27 +3,78 @@ import { useNavigate } from "react-router-dom";
 import PATHS from "@/constants/paths";
 import { ProgressBar } from "@/ui/ProgressBar";
 import styles from "./VerificationBlock.module.scss";
-import { useDelivery } from "@/context/DeliveryContext";
 import getWorkingDaysText from "@/helpers/getWorkingDaysText";
 import { useMediaQuery } from "react-responsive";
 import { FormTitle } from "@/components/FormTitle";
 import type { DeliveryOrderRequest } from "@/types/delivery";
+import {
+  createAppSelector,
+  useAppDispatch,
+  useAppSelector,
+} from "@/store/hooks";
+import { verificationBlockActions } from "../store/slice";
+import {
+  selectFromCity,
+  selectPackageType,
+  selectToCity,
+} from "@/modules/MainDeliveryForm";
+import { selectReceptionData } from "@/modules/ReceptionBlock";
+import { selectSenderData } from "@/modules/SenderBlock";
+import { selectDeliveryData } from "@/modules/DeliveryBlock";
+import { selectSelectedOption } from "@/components/DeliveryTypeCard";
+import { selectPaymentData } from "@/modules/PaymentBlock";
+import { selectRecipientData } from "@/modules/RecipientBlock";
 
-const VerificationBlock = () => {
-  const navigate = useNavigate();
-  const isMobile = useMediaQuery({ maxWidth: 767 });
-  const {
+const selectVerificationData = createAppSelector(
+  [
+    selectPackageType,
+    selectToCity,
+    selectFromCity,
+    selectRecipientData,
+    selectSenderData,
+    selectReceptionData,
+    selectDeliveryData,
+    selectSelectedOption,
+    selectPaymentData,
+  ],
+  (
     packageType,
-    fromCity,
     toCity,
+    fromCity,
     recipientData,
     senderData,
     receptionData,
     deliveryData,
     selectedOption,
-    setDeliveryOrder,
     paymentData,
-  } = useDelivery();
+  ) => ({
+    packageType,
+    toCity,
+    fromCity,
+    recipientData,
+    senderData,
+    receptionData,
+    deliveryData,
+    selectedOption,
+    paymentData,
+  }),
+);
+
+const VerificationBlock = () => {
+  const navigate = useNavigate();
+  const isMobile = useMediaQuery({ maxWidth: 767 });
+  const dispatch = useAppDispatch();
+  const {
+    packageType,
+    toCity,
+    fromCity,
+    recipientData,
+    senderData,
+    receptionData,
+    deliveryData,
+    selectedOption,
+    paymentData,
+  } = useAppSelector(selectVerificationData);
 
   const handleContinue = () => {
     if (!packageType || !selectedOption || !fromCity || !toCity) {
@@ -36,9 +87,9 @@ const VerificationBlock = () => {
       senderPointId: fromCity.id,
       senderAddress: {
         street: receptionData.street,
-        house: receptionData.houseNumber,
-        apartment: receptionData.apartmentNumber,
-        comment: receptionData.note,
+        house: receptionData.house,
+        apartment: receptionData.apartment,
+        comment: receptionData.comment,
       },
       sender: {
         firstName: senderData.firstName,
@@ -49,10 +100,10 @@ const VerificationBlock = () => {
       receiverPointId: toCity.id,
       receiverAddress: {
         street: deliveryData.street,
-        house: deliveryData.houseNumber,
-        apartment: deliveryData.apartmentNumber,
-        comment: deliveryData.note,
-        isNonContact: deliveryData.leaveAtDoor,
+        house: deliveryData.house,
+        apartment: deliveryData.apartment,
+        comment: deliveryData.comment,
+        isNonContact: deliveryData.isNonContact,
       },
       receiver: {
         firstName: recipientData.firstName,
@@ -63,15 +114,12 @@ const VerificationBlock = () => {
       payer: paymentData.value,
     };
 
-    // console.log(data);
-
     // postDeliveryOrder(data).then((res) => {
     //   setDeliveryOrder(res);
-    //   // console.log(deliveryOrder);
     //   navigate(PATHS.CHECKOUT_SENDING);
     // });
 
-    setDeliveryOrder(data);
+    dispatch(verificationBlockActions.setDeliveryOrder(data));
     navigate(PATHS.CHECKOUT_SENDING);
   };
 
@@ -119,15 +167,13 @@ const VerificationBlock = () => {
           <div className={styles.checkoutBlock__sectionInfo}>
             <p>Адрес</p>
             <p>
-              {receptionData.street} {receptionData.houseNumber}
-              {receptionData.apartmentNumber
-                ? `, ${receptionData.apartmentNumber}`
-                : ""}
+              {receptionData.street} {receptionData.house}
+              {receptionData.apartment ? `, ${receptionData.apartment}` : ""}
             </p>
           </div>
           <div className={styles.checkoutBlock__sectionInfo}>
             <p>Заметка</p>
-            <p>{receptionData.note || "—"}</p>
+            <p>{receptionData.comment || "—"}</p>
           </div>
         </div>
 
@@ -136,15 +182,13 @@ const VerificationBlock = () => {
           <div className={styles.checkoutBlock__sectionInfo}>
             <p>Адрес</p>
             <p>
-              {deliveryData.street} {deliveryData.houseNumber}
-              {deliveryData.apartmentNumber
-                ? `, ${deliveryData.apartmentNumber}`
-                : ""}
+              {deliveryData.street} {deliveryData.house}
+              {deliveryData.apartment ? `, ${deliveryData.apartment}` : ""}
             </p>
           </div>
           <div className={styles.checkoutBlock__sectionInfo}>
             <p>Заметка</p>
-            <p>{deliveryData.note || "—"}</p>
+            <p>{deliveryData.comment || "—"}</p>
           </div>
         </div>
       </div>
@@ -153,9 +197,9 @@ const VerificationBlock = () => {
         <strong>Итого: {selectedOption?.price} ₽</strong>
         <p>
           Тариф: {selectedOption?.name}{" "}
-          {deliveryData.leaveAtDoor ? "до двери" : ""}
+          {deliveryData.isNonContact ? "до двери" : ""}
         </p>
-        {selectedOption && (
+        {selectedOption.days && (
           <p>Срок: {getWorkingDaysText(selectedOption.days)}</p>
         )}
       </div>

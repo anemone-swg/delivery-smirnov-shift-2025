@@ -13,6 +13,7 @@ import PATHS from "@/constants/paths";
 import { ToastContainer } from "react-toastify";
 import { useTheme } from "@/context/ThemeContext";
 
+/**Корневой компонент */
 const App = () => {
   const { theme } = useTheme();
 

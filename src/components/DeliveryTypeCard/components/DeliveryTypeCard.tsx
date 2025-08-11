@@ -3,20 +3,34 @@ import { FaTrainSubway } from "react-icons/fa6";
 import { FaPlane } from "react-icons/fa";
 import getWorkingDaysText from "@/helpers/getWorkingDaysText";
 import { useNavigate } from "react-router-dom";
-import { DeliveryOption, useDelivery } from "@/context/DeliveryContext";
 import PATHS from "@/constants/paths";
+import type { DeliveryOption } from "@/types/delivery";
+import { deliveryTypeCardActions } from "../store/slice";
+import { useAppDispatch } from "@/store/hooks";
+import { JSX } from "react";
 
-interface DeliveryTypeCardProps {
+/**
+ * Props компонента DeliveryTypeCard.
+ * @property {DeliveryOption} option - Опция доставки
+ * */
+export interface DeliveryTypeCardProps {
   option: DeliveryOption;
 }
 
-const DeliveryTypeCard = ({ option }: DeliveryTypeCardProps) => {
+/**
+ * React-компонент, отображающий карточку опции доставки.
+ * При клике выбирает данную опцию и переходит к шагу выбора получателя.
+ *
+ * @param {DeliveryTypeCardProps} props - Свойства компонента
+ * @returns {JSX.Element} JSX-элемент карточки доставки
+ */
+const DeliveryTypeCard = ({ option }: DeliveryTypeCardProps): JSX.Element => {
   const { name, type, price, days } = option;
-  const { setSelectedOption } = useDelivery();
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
 
   const handleClick = () => {
-    setSelectedOption(option);
+    dispatch(deliveryTypeCardActions.setSelectedOption(option));
     navigate(PATHS.CHECKOUT_RECIPIENT);
   };
 

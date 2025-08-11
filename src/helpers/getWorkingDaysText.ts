@@ -1,4 +1,17 @@
-const getWorkingDaysText = (days: number) => {
+/**
+ * Возвращает строку с правильно склонённым словом "рабочий день"
+ * в зависимости от количества дней.
+ *
+ * @param {number} days - Количество рабочих дней.
+ * @returns {string} Строка с числом и правильно склонённым словом.
+ *
+ * @example
+ * getWorkingDaysText(1); // "1 рабочий день"
+ * getWorkingDaysText(3); // "3 рабочих дня"
+ * getWorkingDaysText(7); // "7 рабочих дней"
+ */
+
+const getWorkingDaysText = (days: number): string => {
   const mod10 = days % 10;
   const mod100 = days % 100;
 
